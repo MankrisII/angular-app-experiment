@@ -1,0 +1,45 @@
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  margin : 0 -7px;
+}
+.orderBy{
+  text-align: right;
+}
+.housing-location-card{
+  box-sizing: border-box;
+  width: calc(33.3% - 14px);
+  margin: 7px;
+  background-color: var(--tercery-color);
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.housing-photo{
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  vertical-align: middle;
+}
+.details{
+  padding: 10px;
+  padding-bottom: 20px;
+}
+
+h2{
+  height: 25px;
+  font-size: 1.2em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+}
+
+.edit-btn{
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  margin: 0;
+}

@@ -1,1 +1,79 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('fonts.css');
+*{
+  --primary-color: rgb(86, 78, 194);
+  --secondary-color: rgb(204, 201, 245);
+  --tercery-color : rgb(242, 240, 252);
+  --quartery-color:rgb(253, 251, 255);
+  --font-normal:'sohne-400';
+  --font-bold:'sohne-700';
+  --font-light:'sohne';
+  margin : 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-normal);
+  font-size: 13px;
+}
+table, td, th, tr{
+  border: 0;
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+
+}
+input{
+  border: 1px solid rgb(203, 201, 201);
+  padding: 3px 20px 4px;
+  display: inline-block;
+}
+
+input[type="checkbox"]{
+  border: 1px solid var(--tercery-color);
+}
+
+.primary, .secondary{
+  border: 0;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 4px 20px 5px;
+  margin: 5px 0;
+  border-radius: 1000px;
+  display: inline-block;
+  text-decoration: none;
+}
+.secondary{
+  color: rgb(86, 78, 194);
+  background-color: rgb(204, 201, 245);
+}
+.primary:hover, .secondary:hover{
+  cursor: pointer; 
+}
+
+.primary.inactiv, .primary[disabled]{
+  background-color: rgb(124, 117, 223);
+  cursor:default;
+}
+
+.primary-left{
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  margin-right: 1px;
+}
+.primary-right {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.actionLink{
+  color: rgb(86, 78, 194);
+  cursor: pointer;
+  text-decoration: none;
+}
+.actionLink:hover {
+  color: rgb(70, 63, 161);
+  text-decoration: underline;
+}
+
+#app-container{
+  padding: 5px;
+}

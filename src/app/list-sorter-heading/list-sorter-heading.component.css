@@ -1,0 +1,25 @@
+a{
+  cursor: pointer;
+  position: relative;
+}
+
+
+a.active{
+  color: rgb(107, 85, 194);;
+}
+a.active::after{
+  content : "";
+  position: absolute;
+  right: -13px;
+  top : 5px;
+  width: 5px;
+  height: 5px;
+  rotate: -45deg;
+  border-left: 2px solid var(--primary-color);
+  border-bottom: 2px solid var(--primary-color);
+}
+
+a.active.DESC::after {
+  rotate: 135deg;
+  top: 8px;
+}

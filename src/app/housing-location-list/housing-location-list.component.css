@@ -1,0 +1,50 @@
+.housing-location-list {
+  width: 100%;
+  border: 0;
+  margin-top: 10px;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.housing-location-list th, .housing-location-list td{
+  padding: 5px;
+  border : 0;
+  border-bottom: 1px solid rgb(238, 238, 238);
+}
+.housing-location-list th {
+  padding-bottom: 12px;
+  padding-top: 15px;
+  background-color: var(--tercery-color)
+}
+.housing-location-list th:first-child,
+.housing-location-list td:first-child {
+  padding-left: 20px;
+}
+.housing-location-list th:last-child,
+.housing-location-list td:last-child {
+  padding-right: 20px;
+}
+
+.housing-location-list tr:nth-child(2n+1){
+  background-color: var(--quartery-color);
+  
+}
+
+th, td{
+  text-align: left;
+}
+
+td.photo img{
+  width: 75px;
+  height: 50px;
+  object-fit: cover;
+  vertical-align: middle;
+}
+
+td.available-units{
+  text-align: center;
+}
+
+th.actions, td.actions{
+  text-align: right;
+}
