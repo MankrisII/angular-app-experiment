@@ -23,8 +23,8 @@ table, td, th, tr{
 }
 input{
   border: 1px solid rgb(203, 201, 201);
-  padding: 3px 20px 4px;
   display: inline-block;
+  padding: 3px 5px;
 }
 
 input[type="checkbox"]{

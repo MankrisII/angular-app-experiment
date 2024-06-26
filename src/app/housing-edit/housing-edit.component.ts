@@ -1,44 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HousingService } from '../housing.service';
 import { HousingLocation } from '../HousingLocation';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Observable, debounceTime, distinctUntilChanged } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { NgClass, NgIf } from '@angular/common';
+import { fromEvent, map } from 'rxjs';
 
 @Component({
   selector: 'app-housing-edit',
   standalone: true,
-  imports: [ReactiveFormsModule,RouterLink],
-  template: `
-    <form [formGroup]="editForm" (ngSubmit)="submit()">
-    <label for="name">Name : </label>
-      <input type="text" id="name" formControlName="name">
-      <br/>  
-    <label for="photo">Photo : </label>
-      <input id="photo" type="text" formControlName="photo">
-      <br/>
-      <label for="city">City : </label>
-      <input type="text" id="city" formControlName="city">
-      <br/>
-      
-      <label for="state">State : </label>
-      <input type="text" id="state" formControlName="state">
-      <br/>
-      <label for="availableUnits">Available units : </label>
-      <input type="text" id="availableUnits" formControlName="availableUnits">
-      <br/>
-      <label for="wifi">Wifi : </label>
-      <input type="checkbox" id="wifi" formControlName="wifi">
-      <br/>
-      <label for="laundry">Laundry : </label>
-      <input type="checkbox" id="laundry" formControlName="laundry">
-      <br/>
-      <button class="primary" type="submit" [disabled]="!editForm.valid">submit</button>
-      <button class="secondary" type="button" [routerLink]="['']">discard</button>
-    </form>
-  `,
+  imports: [ReactiveFormsModule, RouterLink,NgIf,NgClass],
+  templateUrl : './housing-edit.component.html',
   styleUrl: './housing-edit.component.css'
 })
-export class HousingEditComponent {
+export class HousingEditComponent implements OnInit {
   param
   housingLocation: HousingLocation | undefined
   editForm = this.formBuilder.group({
@@ -51,21 +28,150 @@ export class HousingEditComponent {
     wifi: [false],
     laundry: [false]
   })
+  cityList: any = null
+  cityListSelectedId: number | null = null
+  cityListPreviousSelectedId: number | null = null
+  http: HttpClient
+  
 
   constructor(
     private route: ActivatedRoute,
     private housingService: HousingService,
     private formBuilder: FormBuilder,
-    private router : Router) {
-      
+    private router: Router,
+    http:HttpClient) {
+    
+    this.http = http
     this.param = route.snapshot.params
     this.housingLocation = housingService.getHousingLocationById(this.param['id']) 
     this.editForm.setValue(Object(this.housingLocation)) 
+  }
+  
+  ngOnInit(): void {
+    // TODO fix : pressing enter to choose city send news request     
     
+    // listening to typing in city input for autocomplete
+    fromEvent<KeyboardEvent>(document.getElementById('city')!, 'keyup').pipe(
+      debounceTime(500),
+      map(x => this.editForm.get('city')?.value),
+      distinctUntilChanged()
+    ).subscribe(nom => {
+      // console.log(nom, "nom")
+      
+      this.closeList()
+      this.http.get(`https://geo.api.gouv.fr/communes?nom=${nom}`).subscribe(response => {
+        console.log('city keyup response = ', response)
+        let cities: any = []
+        // decompose cities with multiple postals codes
+        for (let c of response as Iterable<any>) {
+          console.log("boucle", c.codesPostaux.join(','))
+          console.log(c.codesPostaux.length)
+          if (c.codesPostaux.length == 1) {
+            console.log('1 code postal')
+            cities.push({ nom: c.nom, codePostal: c.codesPostaux[0],selected:false });
+            
+          }
+          else {
+            for (let cp of c.codesPostaux) {
+              cities.push({ nom: c.nom, codePostal: cp ,selected:false}); 
+            }
+          }
+        }
+        console.log('cities', cities)
+        if (cities.length > 0) this.cityList = cities
+        else this.closeList()
+        // this.cityList = cities.length > 0 ? cities : null
+      }
+      )
+    })
+
+    // Listening click on document for closing autocomplete list
+    fromEvent(document, 'click').subscribe(
+      event => {
+        console.log('document click', event.target)
+        if (event.target != document.getElementById('city')) {
+          this.closeList()
+          
+        }
+      }
+    )
+
+    
+    fromEvent<KeyboardEvent>(document, 'keyup').subscribe(
+      event  => {
+        if (event.target == document.getElementById('city') && this.cityList != null) {
+          this.cityListPreviousSelectedId = this.cityListSelectedId
+          console.log(event)
+          // Listening keybordeEvent enter key on autocomplete list
+          if (event.code == "Enter") {
+            this.editForm.get('city')?.setValue(this.cityList[this.cityListSelectedId!].nom+" "+this.cityList[this.cityListSelectedId!].codePostal)
+            this.closeList()
+            return
+          }
+
+          // listening for keyup for navigate with keyboard in autocomplete list
+          if (event.code == "ArrowUp") {
+            console.log('arrowup')
+            if (this.cityListSelectedId == null || this.cityListSelectedId == 0) {
+              this.cityListSelectedId = this.cityList.length - 1
+            } else {
+              this.cityListSelectedId --
+            }
+          
+          } else if (event.code == 'ArrowDown') {
+            console.log('arrowdown')
+            if (this.cityListSelectedId == null || this.cityListSelectedId == this.cityList.length - 1) {
+              this.cityListSelectedId = 0
+            } else {
+              this.cityListSelectedId ++
+            }
+          }
+
+          if(this.cityListPreviousSelectedId != null)this.cityList[this.cityListPreviousSelectedId!].selected = false
+          this.cityList[this.cityListSelectedId!].selected = true
+          console.log("this.cityListSelectedId",this.cityListSelectedId)
+        }
+        
+        
+
+      }
+
+
+    )
+
   }
 
+  closeList() {
+    this.cityList = null
+    this.cityListSelectedId = null
+    this.cityListPreviousSelectedId = null
+  }
+  
+  cityClick(nom:string) {
+    console.log('cityClick',nom)
+    this.editForm.get('city')?.setValue(nom)
+    this.closeList()
+  }
+
+  onCityKeyUp(event:any) {
+    console.log('keyUp',event,)
+    console.log('keyUp city value =',this.editForm.get('city')?.value)
+  }
+  // onCityFocusOut(event: any) {
+  //   console.log("focusOut")
+  //   this.cityList = null
+  // }
+
+  // change(nom:any) {
+  //   console.log('change',nom)
+  //   this.http.get("https://geo.api.gouv.fr/communes?nom=${nom}").subscribe(reponse => {
+  //     console.log('change response =',Response)
+  //     }
+  //   )
+  // }
+
   submit() {
-    console.log(this.editForm.value)
+    console.log('submit',this.editForm.value)
     if (this.param['id'] !== undefined) {
       this.housingService.editHousingLocation(this.editForm.value as HousingLocation)
     } else {

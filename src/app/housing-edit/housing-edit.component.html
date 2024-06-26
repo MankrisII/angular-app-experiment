@@ -1,0 +1,69 @@
+<form [formGroup]="editForm"
+  (ngSubmit)="submit()">
+  <label for="name">
+    <p>Name :</p> 
+
+    <input type="text"
+    id="name"
+    formControlName="name">
+  </label>
+  <label for="photo">
+    <p>Photo : </p>
+    <input id="photo"
+    type="text"
+    formControlName="photo">
+  </label>
+  <label for="city">
+    <p>City : </p>
+    <div class="input-list-container">
+      <input type="text"
+      id="city"
+      formControlName="city"
+      
+      >
+      <ul id="city-list" class="list city-list" *ngIf="cityList">
+        @for(city of cityList;track city.code){
+          
+          <li [ngClass]="[city.selected ? 'selected':'']" (click)="cityClick(city.nom+' - '+city.codePostal)">{{city.nom}} - {{city.codePostal}}</li> 
+        }
+      
+      </ul>
+    </div>
+  </label>
+
+  <label for="state">
+    <p>State : </p>
+
+    <input type="text"
+    id="state"
+    formControlName="state">
+  </label>
+  <label for="availableUnits">
+    <p>Available units : </p>
+
+    <input type="text"
+    id="availableUnits"
+    formControlName="availableUnits">
+  </label>
+  
+  <label for="wifi">
+   <p> Wifi : </p>
+    <input type="checkbox"
+    id="wifi"
+    formControlName="wifi">
+  </label>
+  
+  <label for="laundry">
+    <p>Laundry : </p>
+    <input type="checkbox"
+    id="laundry"
+    formControlName="laundry">
+  </label>
+
+  <button class="primary"
+    type="submit"
+    [disabled]="!editForm.valid">submit</button>
+  <button class="secondary"
+    type="button"
+    [routerLink]="['']">discard</button>
+</form>
