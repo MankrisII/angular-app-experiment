@@ -19,7 +19,10 @@ export class CityInputComponent implements OnInit {
   http: HttpClient
   @Input() control!: FormControl
   timer: any
-  previousCityValue : any = ''
+  previousCityValue: any = ''
+  displayList:boolean = false
+  loading: boolean = false
+  noResult : boolean = false
 
   constructor(http: HttpClient) {
     this.http = http
@@ -33,7 +36,13 @@ export class CityInputComponent implements OnInit {
     this.cityInputElement?.addEventListener('keyup', (event) => {
       console.log('listener', event)
       
-      if ( this.cityList != null) {
+      // close city list on Escape Key press
+      if (event.code == "Escape") {
+        this.closeList()
+        return
+      }
+
+      if ( this.displayList && this.cityList != null) {
         this.cityListPreviousSelectedId = this.cityListSelectedId
 
         // On Enter key press, set city input value from selected item
@@ -41,12 +50,6 @@ export class CityInputComponent implements OnInit {
           this.control?.setValue(this.cityList[this.cityListSelectedId!].nom+" "+this.cityList[this.cityListSelectedId!].codePostal)
           this.closeList()
           this.previousCityValue = this.control.value
-          return
-        }
-        
-        // close city list on Escape Key press
-        if (event.code == "Escape") {
-          this.closeList()
           return
         }
         
@@ -72,9 +75,17 @@ export class CityInputComponent implements OnInit {
           return
         }
       }
+
+      if (event.code == 'ArrowDown') {
+        this.cityListSelectedId = 0
+        this.displayList = true
+        this.updateCityList()
+        return
+      }
     
       clearTimeout(this.timer)
       console.log('timer')
+      
 
       // request goe.api.gouv to get city
       // execution delayed after the last key pressed
@@ -82,8 +93,12 @@ export class CityInputComponent implements OnInit {
         // do nothing if city.value is still the same
         if (this.control.value == this.previousCityValue) return
         
+        this.displayList = true
+        this.loading = true
+        this.noResult = false
+
         this.previousCityValue = this.control.value
-        this.closeList()
+        // this.closeList()
 
         this.http.get(`https://geo.api.gouv.fr/communes?nom=${this.control.value}`).subscribe(response => {
           // console.log('city keyup response = ', response)
@@ -103,11 +118,25 @@ export class CityInputComponent implements OnInit {
             }
           }
           // console.log('cities', cities)
-          if (cities.length > 0) this.cityList = cities
-          else this.closeList()
+          this.loading = false
+          if (cities.length > 0) {
+            this.cityList = cities
+            
+          } else {
+            this.noResult = true
+            // this.closeList()
+            this.cityList = null
+            this.cityListSelectedId = null
+            this.cityListPreviousSelectedId = null
+          }
         }
         )
       },400)
+    })
+
+    this.cityInputElement?.addEventListener('focusout', (event) => {
+      // console.log('focus out')
+      this.closeList()
     })
 
   }
@@ -142,9 +171,14 @@ export class CityInputComponent implements OnInit {
   }
 
   closeList() {
-    this.cityList = null
+    console.log('closelist')
+    // this.cityList = null
+    this.cityList[this.cityListSelectedId!].selected = false
     this.cityListSelectedId = null
     this.cityListPreviousSelectedId = null
+    this.displayList = false
+    this.loading = false
+    this.noResult = false
   }
   
   cityClick(nom:string) {
