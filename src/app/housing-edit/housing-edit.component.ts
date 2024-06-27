@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HousingService } from '../housing.service';
 import { HousingLocation } from '../HousingLocation';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Observable, debounceTime, distinctUntilChanged } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { NgClass, NgIf } from '@angular/common';
 import { fromEvent, map } from 'rxjs';
@@ -46,12 +46,21 @@ export class HousingEditComponent implements OnInit {
     this.housingLocation = housingService.getHousingLocationById(this.param['id']) 
     this.editForm.setValue(Object(this.housingLocation)) 
   }
-  
+
   ngOnInit(): void {
-    // TODO fix : pressing enter to choose city send news request     
+    // TODO fix : pressing "Enter" key to choose city disable autocomplete
     
     // listening to typing in city input for autocomplete
     fromEvent<KeyboardEvent>(document.getElementById('city')!, 'keyup').pipe(
+      map(event => {
+        if (event.code == "Enter") {
+          throw 'stop event propagation'
+          // console.log('stop event propagation')
+          // return false
+        } 
+        return event
+      }),
+      catchError(() => of('caught error!')),
       debounceTime(500),
       map(x => this.editForm.get('city')?.value),
       distinctUntilChanged()
@@ -60,14 +69,14 @@ export class HousingEditComponent implements OnInit {
       
       this.closeList()
       this.http.get(`https://geo.api.gouv.fr/communes?nom=${nom}`).subscribe(response => {
-        console.log('city keyup response = ', response)
+        // console.log('city keyup response = ', response)
         let cities: any = []
         // decompose cities with multiple postals codes
         for (let c of response as Iterable<any>) {
-          console.log("boucle", c.codesPostaux.join(','))
-          console.log(c.codesPostaux.length)
+          // console.log("boucle", c.codesPostaux.join(','))
+          // console.log(c.codesPostaux.length)
           if (c.codesPostaux.length == 1) {
-            console.log('1 code postal')
+            // console.log('1 code postal')
             cities.push({ nom: c.nom, codePostal: c.codesPostaux[0],selected:false });
             
           }
@@ -77,7 +86,7 @@ export class HousingEditComponent implements OnInit {
             }
           }
         }
-        console.log('cities', cities)
+        // console.log('cities', cities)
         if (cities.length > 0) this.cityList = cities
         else this.closeList()
         // this.cityList = cities.length > 0 ? cities : null
@@ -108,7 +117,7 @@ export class HousingEditComponent implements OnInit {
             this.closeList()
             return
           }
-
+          
           // listening for keyup for navigate with keyboard in autocomplete list
           if (event.code == "ArrowUp") {
             console.log('arrowup')
@@ -117,6 +126,7 @@ export class HousingEditComponent implements OnInit {
             } else {
               this.cityListSelectedId --
             }
+            this.updateCityList()
           
           } else if (event.code == 'ArrowDown') {
             console.log('arrowdown')
@@ -125,20 +135,40 @@ export class HousingEditComponent implements OnInit {
             } else {
               this.cityListSelectedId ++
             }
+            this.updateCityList()
           }
-
-          if(this.cityListPreviousSelectedId != null)this.cityList[this.cityListPreviousSelectedId!].selected = false
-          this.cityList[this.cityListSelectedId!].selected = true
-          console.log("this.cityListSelectedId",this.cityListSelectedId)
         }
-        
-        
-
       }
-
-
     )
+  }
 
+  updateCityList() {
+    // console.log('updateCityList')
+    // change selected item
+    if(this.cityListPreviousSelectedId != null)this.cityList[this.cityListPreviousSelectedId!].selected = false
+    this.cityList[this.cityListSelectedId!].selected = true
+
+    // TODO fix : scrolling isn't accurate
+    // scroll cityList
+    let selectedY = 0
+    let selectedHeight = (document.getElementById('city-list')?.children[this.cityListSelectedId!] as HTMLElement).offsetHeight
+    let cityListHeight = (document.getElementById('city-list') as HTMLElement).offsetHeight
+    // console.log('selectedHeight', selectedHeight)
+    // console.log('cityListHeight',cityListHeight)
+    
+    for (let i = 0; i < this.cityListSelectedId! ; i++) {
+      selectedY += (document.getElementById('city-list')?.children[i]as HTMLElement).offsetHeight
+    }
+
+    // console.log('selectedY', selectedY)
+    if (selectedY - selectedHeight - (document.getElementById('city-list') as HTMLElement).scrollTop < 0) {
+      // scroll up
+      document.getElementById('city-list')?.scroll(0, selectedY)
+    } else if (selectedY + selectedHeight - (document.getElementById('city-list') as HTMLElement).scrollTop > cityListHeight) {
+      // scroll down
+      document.getElementById('city-list')?.scroll(0, selectedY - cityListHeight + selectedHeight)
+    }
+    // console.log("this.cityListSelectedId",this.cityListSelectedId)
   }
 
   closeList() {
