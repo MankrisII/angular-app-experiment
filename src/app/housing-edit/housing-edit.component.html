@@ -15,7 +15,7 @@
   </label>
   <label for="city">
     <p>City : </p>
-    <div class="input-list-container">
+    <!-- <div class="input-list-container">
       <input type="text"
       id="city"
       formControlName="city"
@@ -28,7 +28,8 @@
         }
       
       </ul>
-    </div>
+    </div> -->
+    <app-city-input [control]="editForm.controls['city']"></app-city-input>
   </label>
 
   <label for="state">

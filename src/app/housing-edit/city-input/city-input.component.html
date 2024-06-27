@@ -1,0 +1,16 @@
+<div class="input-list-container">
+  <input type="text"
+    id="city"
+    [formControl]="control">
+    
+  <ul id="city-list"
+    class="list city-list"
+    *ngIf="cityList">
+    @for(city of cityList;track city.code){
+
+    <li [ngClass]="[city.selected ? 'selected':'']"
+      (click)="cityClick(city.nom+' - '+city.codePostal)">{{city.nom}} - {{city.codePostal}}</li>
+    }
+
+  </ul>
+</div>
