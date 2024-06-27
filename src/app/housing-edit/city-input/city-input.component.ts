@@ -15,103 +15,101 @@ export class CityInputComponent implements OnInit {
   cityList: any = null
   cityListSelectedId: number | null = null
   cityListPreviousSelectedId: number | null = null
+  cityInputElement : HTMLElement | null = null
   http: HttpClient
-  @Input() control! : FormControl
+  @Input() control!: FormControl
+  timer: any
+  previousCityValue : any = ''
 
   constructor(http: HttpClient) {
     this.http = http
   }
 
   ngOnInit(): void {
-    fromEvent<KeyboardEvent>(document.getElementById('city')!, 'keyup').pipe(
-      map(event => {
-        if (event.code == "Enter") {
-          throw 'stop event propagation'
-          // console.log('stop event propagation')
-          // return false
-        } 
-        return event
-      }),
-      catchError(() => of('caught error!')),
-      debounceTime(500),
-      map(x => this.control?.value),
-      distinctUntilChanged()
-    ).subscribe(nom => {
-      // console.log(nom, "nom")
+
+    this.cityInputElement = document.getElementById('city')
+    
+
+    this.cityInputElement?.addEventListener('keyup', (event) => {
+      console.log('listener', event)
       
-      this.closeList()
-      this.http.get(`https://geo.api.gouv.fr/communes?nom=${nom}`).subscribe(response => {
-        // console.log('city keyup response = ', response)
-        let cities: any = []
-        // decompose cities with multiple postals codes
-        for (let c of response as Iterable<any>) {
-          // console.log("boucle", c.codesPostaux.join(','))
-          // console.log(c.codesPostaux.length)
-          if (c.codesPostaux.length == 1) {
-            // console.log('1 code postal')
-            cities.push({ nom: c.nom, codePostal: c.codesPostaux[0],selected:false });
-            
+      if ( this.cityList != null) {
+        this.cityListPreviousSelectedId = this.cityListSelectedId
+
+        // On Enter key press, set city input value from selected item
+        if (event.code == "Enter") {
+          this.control?.setValue(this.cityList[this.cityListSelectedId!].nom+" "+this.cityList[this.cityListSelectedId!].codePostal)
+          this.closeList()
+          this.previousCityValue = this.control.value
+          return
+        }
+        
+        // close city list on Escape Key press
+        if (event.code == "Escape") {
+          this.closeList()
+          return
+        }
+        
+        // listening for keyup to navigate with keyboard in autocomplete city list
+        if (event.code == "ArrowUp") {
+          console.log('arrowup')
+          if (this.cityListSelectedId == null || this.cityListSelectedId == 0) {
+            this.cityListSelectedId = this.cityList.length - 1
+          } else {
+            this.cityListSelectedId --
           }
-          else {
-            for (let cp of c.codesPostaux) {
-              cities.push({ nom: c.nom, codePostal: cp ,selected:false}); 
+          this.updateCityList()
+          return
+        
+        } else if (event.code == 'ArrowDown') {
+          console.log('arrowdown')
+          if (this.cityListSelectedId == null || this.cityListSelectedId == this.cityList.length - 1) {
+            this.cityListSelectedId = 0
+          } else {
+            this.cityListSelectedId ++
+          }
+          this.updateCityList()
+          return
+        }
+      }
+    
+      clearTimeout(this.timer)
+      console.log('timer')
+
+      // request goe.api.gouv to get city
+      // execution delayed after the last key pressed
+      this.timer = setTimeout(() => {
+        // do nothing if city.value is still the same
+        if (this.control.value == this.previousCityValue) return
+        
+        this.previousCityValue = this.control.value
+        this.closeList()
+
+        this.http.get(`https://geo.api.gouv.fr/communes?nom=${this.control.value}`).subscribe(response => {
+          // console.log('city keyup response = ', response)
+          let cities: any = []
+          // decompose cities with multiple postals codes
+          for (let c of response as Iterable<any>) {
+            // console.log("boucle", c.codesPostaux.join(','))
+            // console.log(c.codesPostaux.length)
+            if (c.codesPostaux.length == 1) {
+              // console.log('1 code postal')
+              cities.push({ nom: c.nom, codePostal: c.codesPostaux[0],selected:false });
+              
+            }else {
+              for (let cp of c.codesPostaux) {
+                cities.push({ nom: c.nom, codePostal: cp ,selected:false}); 
+              }
             }
           }
+          // console.log('cities', cities)
+          if (cities.length > 0) this.cityList = cities
+          else this.closeList()
         }
-        // console.log('cities', cities)
-        if (cities.length > 0) this.cityList = cities
-        else this.closeList()
-        // this.cityList = cities.length > 0 ? cities : null
-      }
-      )
+        )
+      },400)
     })
 
-    // Listening click on document for closing autocomplete list
-    fromEvent(document, 'click').subscribe(
-      event => {
-        console.log('document click', event.target)
-        if (event.target != document.getElementById('city')) {
-          this.closeList()
-          
-        }
-      }
-    )
-
-    
-    fromEvent<KeyboardEvent>(document, 'keyup').subscribe(
-      event  => {
-        if (event.target == document.getElementById('city') && this.cityList != null) {
-          this.cityListPreviousSelectedId = this.cityListSelectedId
-          console.log(event)
-          // Listening keybordeEvent enter key on autocomplete list
-          if (event.code == "Enter") {
-            this.control?.setValue(this.cityList[this.cityListSelectedId!].nom+" "+this.cityList[this.cityListSelectedId!].codePostal)
-            this.closeList()
-            return
-          }
-          
-          // listening for keyup for navigate with keyboard in autocomplete list
-          if (event.code == "ArrowUp") {
-            console.log('arrowup')
-            if (this.cityListSelectedId == null || this.cityListSelectedId == 0) {
-              this.cityListSelectedId = this.cityList.length - 1
-            } else {
-              this.cityListSelectedId --
-            }
-            this.updateCityList()
-          
-          } else if (event.code == 'ArrowDown') {
-            console.log('arrowdown')
-            if (this.cityListSelectedId == null || this.cityListSelectedId == this.cityList.length - 1) {
-              this.cityListSelectedId = 0
-            } else {
-              this.cityListSelectedId ++
-            }
-            this.updateCityList()
-          }
-        }
-      }
-    )
   }
 
   updateCityList() {
@@ -159,19 +157,5 @@ export class CityInputComponent implements OnInit {
     console.log('keyUp',event,)
     console.log('keyUp city value =',this.control?.value)
   }
-
-
-  // onCityFocusOut(event: any) {
-  //   console.log("focusOut")
-  //   this.cityList = null
-  // }
-
-  // change(nom:any) {
-  //   console.log('change',nom)
-  //   this.http.get("https://geo.api.gouv.fr/communes?nom=${nom}").subscribe(reponse => {
-  //     console.log('change response =',Response)
-  //     }
-  //   )
-  // }
 
 }
