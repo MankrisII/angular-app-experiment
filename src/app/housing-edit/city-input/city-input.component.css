@@ -8,7 +8,7 @@
   max-height: 200px;
   overflow: auto;
   background-color: #fff;
-  width: 100%;
+  width: 250px;
   z-index: 100;
   border: 1px solid var(--tercery-color);
   background-color: var(--quartery-color);
@@ -19,7 +19,11 @@
 
 .list li {
   cursor: pointer;
-  padding: 3px 5px;
+  padding: 7px 5px;
+  height: 32px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .list li:hover {

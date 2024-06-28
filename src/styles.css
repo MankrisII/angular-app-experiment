@@ -14,6 +14,12 @@
   font-family: var(--font-normal);
   font-size: 13px;
 }
+.d-b{
+  display: block;
+}
+.d-n{
+  display: none;
+}
 table, td, th, tr{
   border: 0;
   border: none;

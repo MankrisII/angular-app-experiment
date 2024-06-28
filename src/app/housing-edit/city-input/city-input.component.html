@@ -5,7 +5,7 @@
     
   <ul id="city-list"
     class="list city-list"
-    *ngIf="displayList">
+    [ngClass]="[displayList ? 'd-b':'d-n']">
     <li *ngIf="loading">Loading</li>
     <li *ngIf="noResult">No result</li>
     @for(city of cityList;track city.code){

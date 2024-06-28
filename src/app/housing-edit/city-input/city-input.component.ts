@@ -1,4 +1,4 @@
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass, NgIf, NgStyle } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -7,7 +7,7 @@ import { catchError, debounceTime, distinctUntilChanged, fromEvent ,map, of} fro
 @Component({
   selector: 'app-city-input',
   standalone: true,
-  imports: [NgClass,NgIf,ReactiveFormsModule],
+  imports: [NgClass,NgIf,ReactiveFormsModule,NgStyle],
   templateUrl: './city-input.component.html',
   styleUrl: './city-input.component.css'
 })
@@ -76,7 +76,7 @@ export class CityInputComponent implements OnInit {
         }
       }
 
-      if (event.code == 'ArrowDown') {
+      if (!this.displayList && this.cityList && event.code == 'ArrowDown') {
         this.cityListSelectedId = 0
         this.displayList = true
         this.updateCityList()
@@ -86,12 +86,18 @@ export class CityInputComponent implements OnInit {
       clearTimeout(this.timer)
       console.log('timer')
       
+      if (this.control.value == this.previousCityValue) return
+      
+      if (!this.displayList && !this.cityList) {
+        this.displayList = true
+        this.loading = true
+        this.noResult = false
+      }
 
       // request goe.api.gouv to get city
       // execution delayed after the last key pressed
       this.timer = setTimeout(() => {
         // do nothing if city.value is still the same
-        if (this.control.value == this.previousCityValue) return
         
         this.displayList = true
         this.loading = true
@@ -147,7 +153,6 @@ export class CityInputComponent implements OnInit {
     if(this.cityListPreviousSelectedId != null)this.cityList[this.cityListPreviousSelectedId!].selected = false
     this.cityList[this.cityListSelectedId!].selected = true
 
-    // TODO fix : scrolling isn't accurate
     // scroll cityList
     let selectedY = 0
     let selectedHeight = (document.getElementById('city-list')?.children[this.cityListSelectedId!] as HTMLElement).offsetHeight
@@ -172,8 +177,7 @@ export class CityInputComponent implements OnInit {
 
   closeList() {
     console.log('closelist')
-    // this.cityList = null
-    this.cityList[this.cityListSelectedId!].selected = false
+    if(this.cityListSelectedId) this.cityList[this.cityListSelectedId!].selected = false
     this.cityListSelectedId = null
     this.cityListPreviousSelectedId = null
     this.displayList = false
