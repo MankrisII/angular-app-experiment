@@ -102,6 +102,7 @@ export class CityInputComponent implements OnInit {
         this.displayList = true
         this.loading = true
         this.noResult = false
+        this.cityListSelectedId = null
 
         this.previousCityValue = this.control.value
         // this.closeList()
