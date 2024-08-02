@@ -22,53 +22,7 @@ import { FirebaseService } from '../firebase.service';
     NgStyle,
   ],
   styleUrl: './home.component.css',
-  template: `
-    <div id="form-container">
-      <form
-        id="searchForm"
-        #searchForm="ngForm"
-        (ngSubmit)="search(searchInput)"
-      >
-        <input
-          type="text"
-          name="searchInput"
-          [(ngModel)]="searchInput"
-          placeholder="Search by housing name"
-        />
-        <!-- two way databindig example with formControl -->
-        <!-- <p>{{searchInput}}</p> -->
-        <button class="primary primary-right" type="submit">Search</button>
-        <a
-          class="actionLink clearSearchButton"
-          (click)="clearSearch()"
-          [ngStyle]="{ display: searchInput != '' ? 'inline' : 'none' }"
-        ></a>
-        <!-- <a class="actionLink clearSearchButton" (click)="clearSearch()" ></a> -->
-      </form>
-    </div>
-    <a id="add-location-button" class="primary" [routerLink]="['edit']"
-      >Add location</a
-    >
-    <div style="float: right;">
-      <a
-        class="primary primary-left"
-        [ngClass]="displayType == 'list' ? 'inactiv' : ''"
-        (click)="display('list')"
-        >list</a
-      >
-      <a
-        class="primary primary-right"
-        [ngClass]="displayType == 'grid' ? 'inactiv' : ''"
-        (click)="display('grid')"
-        >grid</a
-      >
-    </div>
-    @if(this.customisationService.getDisplayType() == "grid"){
-    <app-housing-location-grid [housingList]="housingList" />
-    }@else {
-    <app-housing-location-list [housingList]="housingList" />
-    }
-  `,
+  templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit{
   housingList: HousingLocation[] = [];
