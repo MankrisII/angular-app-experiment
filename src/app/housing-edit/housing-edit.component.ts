@@ -40,7 +40,11 @@ export class HousingEditComponent implements OnInit {
     
     this.http = http
     this.param = route.snapshot.params
-    this.housingLocation = housingService.getHousingLocationById(this.param['id']) 
+    console.log('id', this.param['id']);
+    housingService.getHousingLocationById(this.param['id'])
+      .then(reponse => {
+        this.housingLocation = reponse
+    })
     this.editForm.setValue(Object(this.housingLocation)) 
   }
 

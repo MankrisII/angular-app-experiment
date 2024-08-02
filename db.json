@@ -1,6 +1,7 @@
 {
-  "locations" : [{
-      "id": 0,
+  "locations": [
+    {
+      "id": 1,
       "name": "Acme Fresh Start Housing",
       "city": "Chicago",
       "state": "IL",
@@ -10,7 +11,7 @@
       "laundry": true
     },
     {
-      "id": "1",
+      "id": 2,
       "name": "A113 Transitional Housing",
       "city": "Santa Monica",
       "state": "CA",
@@ -20,7 +21,7 @@
       "laundry": true
     },
     {
-      "id": 2,
+      "id": 3,
       "name": "Warm Beds Housing Support",
       "city": "Juneau",
       "state": "AK",
@@ -30,7 +31,7 @@
       "laundry": false
     },
     {
-      "id": 3,
+      "id": 4,
       "name": "Homesteady Housing",
       "city": "Chicago",
       "state": "IL",
@@ -40,7 +41,7 @@
       "laundry": false
     },
     {
-      "id": 4,
+      "id": 5,
       "name": "Happy Homes Group",
       "city": "Gary",
       "state": "IN",
@@ -50,7 +51,7 @@
       "laundry": false
     },
     {
-      "id": 5,
+      "id": 6,
       "name": "Hopeful Apartment Group",
       "state": "CA",
       "photo": "/assets/r-architecture-JvQ0Q5IkeMM-unsplash.jpg",
@@ -60,7 +61,7 @@
       "laundry": true
     },
     {
-      "id": 6,
+      "id": 7,
       "name": "Seriously Safe Towns",
       "city": "Oakland",
       "state": "CA",
@@ -70,7 +71,7 @@
       "laundry": true
     },
     {
-      "id": 7,
+      "id": 8,
       "name": "Hopeful Housing Solutions",
       "city": "Oakland",
       "state": "CA",
@@ -80,7 +81,7 @@
       "laundry": true
     },
     {
-      "id": 8,
+      "id": 9,
       "name": "Seriously Safe Towns",
       "city": "Oakland",
       "state": "CA",
@@ -90,7 +91,7 @@
       "laundry": false
     },
     {
-      "id": 9,
+      "id": 10,
       "name": "Capital Safe Towns",
       "city": "Portland",
       "state": "OR",
@@ -98,5 +99,10 @@
       "availableUnits": 6,
       "wifi": true,
       "laundry": true
-}]
+    },
+    {
+      "id": "a536",
+      "query": "\n    query IntrospectionQuery {\n      __schema {\n        \n        queryType { name }\n        mutationType { name }\n        subscriptionType { name }\n        types {\n          ...FullType\n        }\n        directives {\n          name\n          description\n          \n          locations\n          args {\n            ...InputValue\n          }\n        }\n      }\n    }\n\n    fragment FullType on __Type {\n      kind\n      name\n      description\n      \n      fields(includeDeprecated: true) {\n        name\n        description\n        args {\n          ...InputValue\n        }\n        type {\n          ...TypeRef\n        }\n        isDeprecated\n        deprecationReason\n      }\n      inputFields {\n        ...InputValue\n      }\n      interfaces {\n        ...TypeRef\n      }\n      enumValues(includeDeprecated: true) {\n        name\n        description\n        isDeprecated\n        deprecationReason\n      }\n      possibleTypes {\n        ...TypeRef\n      }\n    }\n\n    fragment InputValue on __InputValue {\n      name\n      description\n      type { ...TypeRef }\n      defaultValue\n      \n      \n    }\n\n    fragment TypeRef on __Type {\n      kind\n      name\n      ofType {\n        kind\n        name\n        ofType {\n          kind\n          name\n          ofType {\n            kind\n            name\n            ofType {\n              kind\n              name\n              ofType {\n                kind\n                name\n                ofType {\n                  kind\n                  name\n                  ofType {\n                    kind\n                    name\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  "
+    }
+  ]
 }

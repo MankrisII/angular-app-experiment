@@ -59,7 +59,10 @@ export class HousingLocationListComponent implements OnInit{
   }
   
   order(event:Queryoptions) {
-    this.housingList = this.housingService.getHousingLocationListByQuery(event)
+    this.housingService.getHousingLocationList(event)
+      .then((reponse) => {
+        this.housingList = reponse
+      })
   }
 
   delete(id: number) {
