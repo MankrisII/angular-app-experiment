@@ -47,8 +47,8 @@ export class HousingLocationGridComponent{
   orderBy(event:any) {
     console.log(event.target.value)
     let param :Queryoptions = {}
-    if(event.target.value == '') this.housingService.clearOrdering()
-    else param = { order: { order: 'ASC', by: event.target.value } }
+    // if(event.target.value == '') this.housingService.clearOrdering()
+    // else param = { order: { order: 'ASC', by: event.target.value } }
     this.onOrderBy.emit(param)
     // this.housingService.getHousingLocationList(param)
     //   .then((reponse) => {

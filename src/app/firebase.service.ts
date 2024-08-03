@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, addDoc, collectionData, collection } from '@angular/fire/firestore';
+import { Firestore, addDoc, collectionData, collection, doc, deleteDoc } from '@angular/fire/firestore';
 import { initializeApp } from 'firebase/app';
 import { Observable, from } from 'rxjs';
 import { HousingLocation } from './HousingLocation';
@@ -50,5 +50,11 @@ export class FirebaseService {
         }
       }
     );
+  }
+
+  deleteLocation(id: String): Observable<void> {
+    const docRef = doc(this.fireStore, 'locations/' + id)
+    const promise = deleteDoc(docRef)
+    return from(promise)
   }
 }
