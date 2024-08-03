@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HousingService } from '../housing.service';
 import { HousingLocation } from '../HousingLocation';
@@ -15,6 +15,12 @@ import { CityInputComponent } from './city-input/city-input.component';
   styleUrl: './housing-edit.component.css'
 })
 export class HousingEditComponent implements OnInit {
+  route = inject(ActivatedRoute)
+  housingService = inject(HousingService)
+  formBuilder = inject(FormBuilder)
+  router = inject(Router)
+  http = inject(HttpClient)
+
   param
   housingLocation: HousingLocation | undefined
   editForm = this.formBuilder.group({
@@ -27,24 +33,15 @@ export class HousingEditComponent implements OnInit {
     wifi: [false],
     laundry: [false]
   })
-  
-  http: HttpClient
-  
 
-  constructor(
-    private route: ActivatedRoute,
-    private housingService: HousingService,
-    private formBuilder: FormBuilder,
-    private router: Router,
-    http:HttpClient) {
-    
-    this.http = http
-    this.param = route.snapshot.params
+  constructor() {
+    this.param = this.route.snapshot.params
     console.log('id', this.param['id']);
-    // housingService.getHousingLocationById(this.param['id'])
-    //   .then(reponse => {
-    //     this.housingLocation = reponse
-    // })
+    if (this.param['id'] != undefined) {
+      this.housingLocation = this.housingService.getHousingLocationById(this.param['id'])
+    } else {
+      this.housingLocation = this.housingService.getNewLocation();
+    }
     this.editForm.setValue(Object(this.housingLocation)) 
   }
 
