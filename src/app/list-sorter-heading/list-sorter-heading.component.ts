@@ -1,6 +1,8 @@
 import { NgClass } from '@angular/common';
-import { Component, EventEmitter, OnInit, input } from '@angular/core';
+import { Component, EventEmitter, OnInit, inject, input } from '@angular/core';
 import { Input, Output } from '@angular/core';
+import { SorterOptions } from './sorter-options';
+import { SorterService } from './sorter.service';
 
 
 @Component({
@@ -8,30 +10,31 @@ import { Input, Output } from '@angular/core';
   standalone: true,
   imports: [NgClass],
   template: `
-    <a (click)="sort()"
-    [ngClass]="[_orderedBy == by ? 'active' : '',order]"
-    >{{label}}</a>
+    <a
+      (click)="sort()"
+      [ngClass]="[
+        this.options.sortable && this.sorterService.sortSig().sortOn == this.options.sortOn ? 'active' : '',
+        this.options.sortable ? this.sorterService.sortSig().order : '',
+        this.options.sortable ? 'sortable' : '']"
+      >{{ this.options.label }}</a
+    >
   `,
-  styleUrl: './list-sorter-heading.component.css'
+  styleUrl: './list-sorter-heading.component.css',
 })
-export class ListSorterHeadingComponent{
-  @Input() label!: string
-  @Input() by! :string
-  @Output() ordering = new EventEmitter<any>() 
-  order: string = "DESC"
-  _orderedBy : String | undefined = ''
-  currentClasses = {}
-  constructor() {
-    
-  }
-  @Input() set orderedBy(value: string | undefined) {
-    this._orderedBy = value
-    if(value != this.by) this.order = "DESC"
-  }
-  
+export class ListSorterHeadingComponent {
+  @Input() options!: SorterOptions;
+  @Output() onSort = new EventEmitter();
+  sorterService = inject(SorterService);
+
+  constructor() {}
+
   sort() {
-    this.order = this.order == 'ASC' ? 'DESC' : 'ASC'
-    this.ordering.emit({ order: { order: this.order, by: this.by } })
+    this.sorterService.sortSig.update((query) => {
+      return {
+        order: query.order == 'ASC' ? 'DESC' : 'ASC',
+        sortOn: this.options.sortOn,
+      };
+    });
+    this.onSort.emit(this.sorterService.sortSig());
   }
-   
 }

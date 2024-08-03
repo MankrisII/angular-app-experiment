@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output,  } from '@angular/core';
 import { HousingLocation } from '../HousingLocation';
 import { RouterModule } from '@angular/router';
 import { LocationDetailsComponent } from '../location-details/location-details.component';
@@ -39,6 +39,7 @@ import { Queryoptions } from '../queryoptions';
 })
 export class HousingLocationGridComponent{
   @Input() housingList!: HousingLocation[]
+  @Output() onOrderBy = new EventEmitter<any>()
   constructor(private housingService: HousingService) {
     
   }
@@ -47,11 +48,12 @@ export class HousingLocationGridComponent{
     console.log(event.target.value)
     let param :Queryoptions = {}
     if(event.target.value == '') this.housingService.clearOrdering()
-    else param  = {order : {order:'ASC',by:event.target.value}}
-    this.housingService.getHousingLocationList(param)
-      .then((reponse) => {
-        this.housingList = reponse
-    })
+    else param = { order: { order: 'ASC', by: event.target.value } }
+    this.onOrderBy.emit(param)
+    // this.housingService.getHousingLocationList(param)
+    //   .then((reponse) => {
+    //     this.housingList = reponse
+    // })
   }
 
 }

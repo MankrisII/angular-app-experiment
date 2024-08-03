@@ -1,4 +1,4 @@
-import { Component,OnInit,inject } from '@angular/core';
+import { Component,OnInit,effect,inject } from '@angular/core';
 import { HousingLocation } from '../HousingLocation';
 import { HousingLocationGridComponent } from '../housing-location-grid/housing-location-grid.component';
 import { HousingService } from '../housing.service';
@@ -9,6 +9,7 @@ import { NgClass, NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Queryoptions } from '../queryoptions';
 import { FirebaseService } from '../firebase.service';
+import { SorterService } from '../list-sorter-heading/sorter.service';
 
 @Component({
   selector: 'app-home',
@@ -31,18 +32,14 @@ export class HomeComponent implements OnInit{
   firebaseService = inject(FirebaseService);
   housingService = inject(HousingService);
   customisationService = inject(HomeCustomisationService);
-
+  sorterService = inject(SorterService)
+  
   constructor() {
     this.displayType = this.customisationService.getDisplayType();
   }
 
   ngOnInit(): void {
-    this.firebaseService.getLocation().subscribe((locations) => {
-      
-      this.housingService.setLocations(locations);
-      this.housingList = locations
-      console.log(this.housingList);
-    });
+    this.housingService.init()
   }
 
   display(type: string) {
@@ -50,18 +47,23 @@ export class HomeComponent implements OnInit{
     this.displayType = type;
     this.customisationService.setDisplayType(type);
   }
+  // order(event : Queryoptions) {
+  //   // this.housingService.getHousingLocationList(event);
+  //   this.housingService.sort(event)
+  // }
 
   search(value: any) {
-    let q: Queryoptions = { filterByName: value };
+    // let q: Queryoptions = { filterByName: value };
 
-    this.housingService.getHousingLocationList(q).then((response) => {
-      this.housingList = response;
-    });
+    // this.housingService.getHousingLocationList(q).then((response) => {
+    //   this.housingList = response;
+    // });
   }
 
   clearSearch() {
     this.searchInput = '';
-    this.search('');
+    this.housingService.clearSearch()
+    // this.sorterService.clearOrder()
   }
 
   // searchInputChange(value:any) {

@@ -3,7 +3,6 @@ import { Firestore, addDoc, collectionData, collection } from '@angular/fire/fir
 import { initializeApp } from 'firebase/app';
 import { Observable, from } from 'rxjs';
 import { HousingLocation } from './HousingLocation';
-import { HousingService } from './housing.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,8 +20,7 @@ export class FirebaseService {
   app = initializeApp(this.firebaseConfig);
   fireStore = inject(Firestore);
   collection = collection(this.fireStore, 'locations');
-  housingService = inject(HousingService);
-
+  
   constructor() {
     
   }

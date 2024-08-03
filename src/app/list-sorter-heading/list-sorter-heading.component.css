@@ -1,8 +1,10 @@
 a{
-  cursor: pointer;
   position: relative;
 }
 
+.sortable{
+  cursor: pointer;
+}
 
 a.active{
   color: rgb(107, 85, 194);;

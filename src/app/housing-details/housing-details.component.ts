@@ -36,10 +36,10 @@ export class HousingDetailsComponent {
   
   constructor( route: ActivatedRoute, housingService : HousingService) {
     this.params = route.snapshot.params
-    housingService.getHousingLocationById(this.params['id'])
-      .then(reponse => {
-        this.housingLocation = reponse
-    })
+    // housingService.getHousingLocationById(this.params['id'])
+    //   .then(reponse => {
+    //     this.housingLocation = reponse
+    // })
   }
 
   displayApplyForm() {

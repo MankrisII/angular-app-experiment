@@ -18,7 +18,7 @@ export class HousingEditComponent implements OnInit {
   param
   housingLocation: HousingLocation | undefined
   editForm = this.formBuilder.group({
-    id:[0],
+    id:[''],
     photo: ['', Validators.required],
     name:['',Validators.required],
     city: ['',Validators.required],
@@ -41,10 +41,10 @@ export class HousingEditComponent implements OnInit {
     this.http = http
     this.param = route.snapshot.params
     console.log('id', this.param['id']);
-    housingService.getHousingLocationById(this.param['id'])
-      .then(reponse => {
-        this.housingLocation = reponse
-    })
+    // housingService.getHousingLocationById(this.param['id'])
+    //   .then(reponse => {
+    //     this.housingLocation = reponse
+    // })
     this.editForm.setValue(Object(this.housingLocation)) 
   }
 

@@ -1,32 +1,94 @@
-import { Injectable, OnInit, inject } from '@angular/core';
+import { Injectable, OnInit, signal, inject, computed } from '@angular/core';
 import { HousingLocation } from './HousingLocation';
 import { Queryoptions } from './queryoptions';
 import { HttpClient } from '@angular/common/http';
-import { initializeApp } from 'firebase/app';
 import { FirebaseService } from './firebase.service';
+import { SorterService } from './list-sorter-heading/sorter.service';
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class HousingService implements OnInit {
-  housingList: HousingLocation[] = [];
+  housingListDb: HousingLocation[] = [];
+  housingListSig = signal<HousingLocation[]>([]);
   queyOptions: Queryoptions | null = { page: 1, perPage: 5 };
-  url: string = 'http://localhost:3000/locations';
-  
+  firebase = inject(FirebaseService);
+  sorterService = inject(SorterService)
+
   constructor(private http: HttpClient) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // this.firebase.getLocation().subscribe(location => {
+    //   this.housingList = location
+    // })
+  }
+
+  init() {
+    this.firebase.getLocation().subscribe((locations) => {
+      this.housingListDb = locations;
+      this.housingListSig.update((list) => [...list, ...locations]);
+      console.log(this.housingListDb);
+    });
+  }
 
   searchHousingLocationByName(search: string) {}
 
-  setLocations(locations: HousingLocation[]) {
-    this.housingList = locations
+  // setLocations(locations: HousingLocation[]) {
+  //   this.housingList = locations;
+  // }
+
+  search(value: string) {
+    this.housingListSig.set(
+      this.housingListDb.filter((housing) =>
+        housing.name.toLowerCase().includes(value.toLowerCase())
+      )
+    );
   }
 
-  async getHousingLocationList(
-    options?: Queryoptions | null
-  ) {
+  clearSearch() {
+    this.housingListSig.set(this.housingListDb)
+    this.sort()
+  }
+
+  sort() {
+    let sortOn = this.sorterService.sortSig().sortOn;
+    let order = this.sorterService.sortSig().order;
+
+    this.housingListSig.update((housings) =>
+      housings.sort((a, b) => {
+        let type = typeof this.getValueToSort(a, sortOn);
+        let aValue = this.getValueToSort(a, sortOn);
+        let bValue = this.getValueToSort(b, sortOn);
+
+        switch (type) {
+          case 'string':
+            if (aValue.toLowerCase() < bValue.toLowerCase()) {
+              return order == 'ASC' ? -1 : 1;
+            }
+            return order == 'ASC' ? 1 : -1;
+
+          case 'number':
+            return order == 'DESC' ? aValue - bValue : bValue - aValue;
+
+          case 'boolean':
+            if (aValue == true && bValue == true) return 0;
+            if (order == 'ASC') return aValue ? 1 : -1;
+            if (order == 'DESC') return aValue ? -1 : 1;
+        }
+        return 0;
+      })
+    );
+  }
+
+  private getValueToSort(
+    housingLocation: HousingLocation,
+    sortOn: string
+  ): any {
+    return housingLocation[sortOn as keyof HousingLocation];
+  }
+
+  getHousingLocationList(options?: Queryoptions | null) {
     // console.log(this.queyOptions, 'this.queryoptions')
     // console.log(options, "options params")
     options = { ...this.queyOptions, ...options };
@@ -34,7 +96,7 @@ export class HousingService implements OnInit {
     // console.log(this.queyOptions, 'merge options')
 
     // filer by name
-    let h = this.housingList;
+    let h = this.housingListDb;
     if (options.filterByName) {
       // console.log("filter by name")
       h = h.filter(
@@ -103,29 +165,27 @@ export class HousingService implements OnInit {
     // } else {
     //   return this.getNewLocation();
     // }
-    const data = await fetch(`${this.url}/${id}`)
-      .then((reponse) => {
-        if (!reponse.ok)
-          throw new Error(
-            'Erreur : ' + reponse.status + ' - ' + reponse.statusText
-          );
-        return reponse.json();
-      })
-      .then((json) => {
-        return json;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    //TODO save data for pagination
-
-    return data ?? {};
+    // const data = await fetch(`${this.url}/${id}`)
+    //   .then((reponse) => {
+    //     if (!reponse.ok)
+    //       throw new Error(
+    //         'Erreur : ' + reponse.status + ' - ' + reponse.statusText
+    //       );
+    //     return reponse.json();
+    //   })
+    //   .then((json) => {
+    //     return json;
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    // TODO save data for pagination
+    // return data ?? {};
   }
 
   getNewLocation(): HousingLocation {
     return {
-      id: this.getNextId(),
+      id: 'null',
       name: '',
       city: '',
       state: '',
@@ -141,23 +201,23 @@ export class HousingService implements OnInit {
     // if(this.queyOptions.order?.by)
   }
 
-  getNextId(): number {
-    return this.housingList[this.housingList.length - 1].id + 1;
-  }
+  // getNextId(): number {
+  //   return this.housingList[this.housingList.length - 1].id + 1;
+  // }
 
   editHousingLocation(data: HousingLocation) {
     // casting available units valu to Number
-    data.availableUnits = Number(data.availableUnits);
-    let housingIndex = this.housingList.findIndex((h) => h.id == data.id);
-    this.housingList[housingIndex] = data;
+    // data.availableUnits = Number(data.availableUnits);
+    // let housingIndex = this.housingList.findIndex((h) => h.id == data.id);
+    // this.housingList[housingIndex] = data;
   }
 
   addHousingLocation(data: HousingLocation) {
-    this.housingList.push(data);
+    // this.housingList.push(data);
   }
 
-  deleteHousingLocation(id: number) {
-    let index = this.housingList.findIndex((h) => h.id == id);
-    this.housingList.splice(index, 1);
+  deleteHousingLocation(id: string) {
+    // let index = this.housingList.findIndex((h) => h.id == id);
+    // this.housingList.splice(index, 1);
   }
 }
