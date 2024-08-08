@@ -5,16 +5,19 @@ import { HousingService } from '../housing.service';
 import { LocationDetailsComponent } from '../location-details/location-details.component';
 import { IsOptionAvailableComponent } from '../is-option-available/is-option-available.component';
 import { RouterLink } from '@angular/router';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-housing-details',
   standalone: true,
-  imports: [LocationDetailsComponent,IsOptionAvailableComponent,RouterLink],
+  imports: [LocationDetailsComponent,IsOptionAvailableComponent,RouterLink,NgFor],
   template: `
       @if(housingLocation){
         <a class="action-link" [routerLink]="['']">Back</a>
       <section>
-        <img src="{{housingLocation.photo}}"/>
+        <div id="photo-container">
+          <img *ngFor="let photo of housingLocation.photos" src="{{photo}}"/>
+        </div>
         <p>{{housingLocation.name}}</p>
         <app-location-details [city]="housingLocation.city" [state]="housingLocation.state"/>
         <p>Unit available : {{housingLocation.availableUnits}}</p>
@@ -36,10 +39,10 @@ export class HousingDetailsComponent {
   
   constructor( route: ActivatedRoute, housingService : HousingService) {
     this.params = route.snapshot.params
-    // housingService.getHousingLocationById(this.params['id'])
-    //   .then(reponse => {
-    //     this.housingLocation = reponse
-    // })
+    housingService.getHousingLocationById(this.params['id'])
+      .subscribe(location => {
+        this.housingLocation = location
+    })
   }
 
   displayApplyForm() {

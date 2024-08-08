@@ -1,0 +1,23 @@
+  <td class="check"><input type="checkbox" class="rowCheck" [checked]="this.selected"/></td>
+  <td class="photo"><img src="{{ housingLocation.photos }}" /></td>
+  <td class="name">{{ housingLocation.name }}</td>
+  <td class="city">{{ housingLocation.city }}</td>
+  <td class="state">{{ housingLocation.state }}</td>
+  <td class="available-units">{{ housingLocation.availableUnits }}</td>
+  <td class="wifi">@if(housingLocation.wifi){yes}@else{no}</td>
+  <td class="laundry">@if(housingLocation.laundry){yes}@else{no}</td>
+  <td class="actions">
+    <a class="actionLink"
+      [routerLink]="['details', housingLocation.id]">Details</a>
+    -
+    <a class="actionLink"
+      [routerLink]="['edit', housingLocation.id]">Edit</a>
+    -
+    <a class="actionLink"
+      (click)="delete(housingLocation.id!)">Delete</a>
+  </td>
+  <!-- (click)='selectRow($event)' -->
+  <!-- <tr class="housing-location-list"
+    *ngFor="let housingLocation of housingList"
+    app-housing-location-row
+    [housingLocation]="housingLocation"></tr> -->

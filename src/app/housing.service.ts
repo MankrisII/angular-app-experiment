@@ -4,6 +4,7 @@ import { Queryoptions } from './queryoptions';
 import { HttpClient } from '@angular/common/http';
 import { FirebaseService } from './firebase.service';
 import { SorterService } from './list-sorter-heading/sorter.service';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -24,10 +25,10 @@ export class HousingService implements OnInit {
     // })
   }
 
-  init() {
-    this.firebase.getLocation().subscribe((locations) => {
+  getLocations() {
+    this.firebase.getLocations().subscribe((locations) => {
       this.housingListDb = locations;
-      this.housingListSig.update((list) => [...list, ...locations]);
+      this.housingListSig.set(locations);
       console.log(this.housingListDb);
     });
   }
@@ -90,23 +91,36 @@ export class HousingService implements OnInit {
 
   //TODO
   clearSort() {
+    this.housingListSig.set(this.housingListDb)
   }
 
-  getHousingLocationById(id: string) {
-      return this.housingListDb.find((h) => h.id == id);
+  getHousingLocationById(id: string): Observable<HousingLocation> {
+    return new Observable((observer) => {
+      this.firebase.getLocationById(id).subscribe((data) => {
+       
+        // var location = this.housingListDb.find((h) => h.id == id);
+        console.log('data',data)
+        observer.next(data)
+        observer.complete()
+      })
+    })
   }
 
-  getNewLocation(): HousingLocation {
-    return {
-      id: 'null',
-      name: '',
-      city: '',
-      state: '',
-      photo: '',
-      availableUnits: 0,
-      wifi: false,
-      laundry: false,
-    };
+  getNewLocation(): Observable<HousingLocation> {
+    return new Observable(observer => {
+      observer.next(
+        {
+          id: '',
+          name: '',
+          city: '',
+          state: '',
+          photos: [],
+          availableUnits: 0,
+          wifi: false,
+          laundry: false,
+        }
+      )
+    })
   }
 
   getOrderBy() {
@@ -118,15 +132,32 @@ export class HousingService implements OnInit {
   //   return this.housingList[this.housingList.length - 1].id + 1;
   // }
 
-  editHousingLocation(data: HousingLocation) {
-    // casting available units valu to Number
-    // data.availableUnits = Number(data.availableUnits);
-    // let housingIndex = this.housingList.findIndex((h) => h.id == data.id);
-    // this.housingList[housingIndex] = data;
+  editHousingLocation(data: HousingLocation) : Observable<boolean> {
+    console.log(data)
+    return new Observable((subscriber) => {
+      this.firebase.editLocation(data).subscribe(
+        () => {
+          console.log("updated");
+
+          subscriber.next(true)
+          subscriber.complete()
+        }
+      );
+    })
   }
 
   addHousingLocation(data: HousingLocation) {
-    // this.housingList.push(data);
+    console.log(data);
+    return new Observable((subscriber) => {
+      this.firebase.addLocation(data).subscribe((newId) => {
+        console.log(newId);
+        // data.id = newId;
+        // this.housingListDb.push(data);
+
+        subscriber.next(true);
+        subscriber.complete();
+      });
+    });
   }
 
   deleteHousingLocation(id: string) {

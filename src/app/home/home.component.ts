@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.housingService.init()
+    this.housingService.getLocations()
   }
 
   display(type: string) {

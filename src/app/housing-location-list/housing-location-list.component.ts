@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { HousingLocation } from '../HousingLocation';
 import { Input } from '@angular/core';
 import { LocationDetailsComponent } from '../location-details/location-details.component';
@@ -9,6 +9,7 @@ import { HousingService } from '../housing.service';
 import { ListSorterHeadingComponent } from '../list-sorter-heading/list-sorter-heading.component';
 import { Queryoptions } from '../queryoptions';
 import { SorterOptions } from '../list-sorter-heading/sorter-options';
+import { HousingLocationRowComponent } from './housing-location-row/housing-location-row/housing-location-row.component';
 
 
 @Component({
@@ -19,6 +20,8 @@ import { SorterOptions } from '../list-sorter-heading/sorter-options';
     IsOptionAvailableComponent,
     RouterLink,
     ListSorterHeadingComponent,
+    HousingLocationRowComponent,
+    NgFor,
   ],
   template: `
     <section class="housingList list">
@@ -27,35 +30,19 @@ import { SorterOptions } from '../list-sorter-heading/sorter-options';
           <th><input type="checkbox" /></th>
           @for( col of columns;track col){
           <th class="{{ col.class }}">
-            <app-list-sorter-heading [options]="col" (onSort)="this.onSort.emit($event)" />
+            <app-list-sorter-heading
+              [options]="col"
+              (onSort)="this.onSort.emit($event)"
+            />
           </th>
           }
         </tr>
-        @for(housingLocation of housingList;track housingLocation){
-        <tr class="housing-location-list">
-          <td><input type="checkbox" /></td>
-          <td class="photo"><img src="{{ housingLocation.photo }}" /></td>
-          <td class="name">{{ housingLocation.name }}</td>
-          <td class="city">{{ housingLocation.city }}</td>
-          <td class="state">{{ housingLocation.state }}</td>
-          <td class="available-units">{{ housingLocation.availableUnits }}</td>
-          <td class="wifi">@if(housingLocation.wifi){yes}@else{no}</td>
-          <td class="laundry">@if(housingLocation.laundry){yes}@else{no}</td>
-          <td class="actions">
-            <a class="actionLink" [routerLink]="['details', housingLocation.id]"
-              >Details</a
-            >
-            -
-            <a class="actionLink" [routerLink]="['edit', housingLocation.id]"
-              >Edit</a
-            >
-            -
-            <a class="actionLink" (click)="delete(housingLocation.id)"
-              >Delete</a
-            >
-          </td>
-        </tr>
-        }
+        <tr
+          *ngFor="let housingLocation of housingList"
+          class="housing-location-list-row"
+          app-housing-location-row
+          [housingLocation]="housingLocation"
+        ></tr>
       </table>
     </section>
   `,
@@ -63,7 +50,7 @@ import { SorterOptions } from '../list-sorter-heading/sorter-options';
 })
 export class HousingLocationListComponent implements OnInit {
   @Input() housingList!: HousingLocation[];
-  @Output() onSort = new EventEmitter()
+  @Output() onSort = new EventEmitter();
   housingService = inject(HousingService);
 
   columns: SorterOptions[] = [
@@ -83,7 +70,27 @@ export class HousingLocationListComponent implements OnInit {
   ];
   constructor() {}
   ngOnInit() {}
-  
+
+  selectRow(event: any) {
+    console.log('selectRow', event);
+    var target = event.target as HTMLElement;
+    var parent = target;
+    console.log('target', target);
+
+    var count = 0;
+    while (parent.tagName != 'TR' && count < 10) {
+      var parent: HTMLElement = parent.parentElement as HTMLElement;
+      console.log('parent', parent);
+      count++;
+    }
+
+    var check = parent.getElementsByClassName(
+      'rowCheck'
+    )[0] as HTMLInputElement;
+    check.checked = !check.checked;
+    console.log('check', check);
+  }
+
   delete(id: string) {
     this.housingService.deleteHousingLocation(id);
   }

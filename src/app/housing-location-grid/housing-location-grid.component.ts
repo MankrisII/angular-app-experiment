@@ -23,7 +23,7 @@ import { Queryoptions } from '../queryoptions';
     <section class="grid">
       @for(housingLocation  of housingList; track housingList){
       <div class="housing-location-card" [routerLink]="['details',housingLocation.id]">
-        <img  class="housing-photo" src="{{housingLocation.photo}}"/>
+        <img  class="housing-photo" src="{{housingLocation.photos}}"/>
         <div class="details">
           <h2>{{housingLocation.name}}</h2>
           <app-location-details [city]="housingLocation.city" [state]="housingLocation.state"/>

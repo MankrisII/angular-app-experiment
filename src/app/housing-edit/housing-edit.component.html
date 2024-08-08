@@ -1,34 +1,37 @@
-<form [formGroup]="editForm"
-  (ngSubmit)="submit()">
+<form [formGroup]="editForm" (ngSubmit)="submit()">
   <label for="name">
     <p>Name :</p> 
-
     <input type="text"
-    id="name"
-    formControlName="name">
+      id="name"
+      formControlName="name">
   </label>
-  <label for="photo">
+
+  <label id="photo-label" for="photo">
     <p>Photo : </p>
-    <input id="photo"
-    type="text"
-    formControlName="photo">
+    
+    <!-- <input id="photo"
+      type="text"
+      formControlName="photo"> -->
+
+    <input type="file"
+      id="photo-file-input"
+      name="file"
+      (change)="fileSelected($event)"
+      [formControl]="fileInput" />
+
+    <div formArrayName="photos">
+      <div *ngFor="let photo of photos.controls">
+        <img id="photo" src="{{photo.value}}" />
+      </div>
+    </div>
+    
+    <button id="add-photo"
+      (click)="selectFile($event)">Add photo</button>
   </label>
+  <!-- <app-housing-edit-photo [photosArray]="housingLocation?.photos"></app-housing-edit-photo> -->
+
   <label for="city">
     <p>City : </p>
-    <!-- <div class="input-list-container">
-      <input type="text"
-      id="city"
-      formControlName="city"
-      
-      >
-      <ul id="city-list" class="list city-list" *ngIf="cityList">
-        @for(city of cityList;track city.code){
-          
-          <li [ngClass]="[city.selected ? 'selected':'']" (click)="cityClick(city.nom+' - '+city.codePostal)">{{city.nom}} - {{city.codePostal}}</li> 
-        }
-      
-      </ul>
-    </div> -->
     <app-city-input [control]="editForm.controls['city']"></app-city-input>
   </label>
 
@@ -36,22 +39,22 @@
     <p>State : </p>
 
     <input type="text"
-    id="state"
-    formControlName="state">
+      id="state"
+      formControlName="state">
   </label>
   <label for="availableUnits">
     <p>Available units : </p>
 
     <input type="text"
-    id="availableUnits"
-    formControlName="availableUnits">
+      id="availableUnits"
+      formControlName="availableUnits">
   </label>
   
   <label for="wifi">
    <p> Wifi : </p>
     <input type="checkbox"
-    id="wifi"
-    formControlName="wifi">
+      id="wifi"
+      formControlName="wifi">
   </label>
   
   <label for="laundry">
