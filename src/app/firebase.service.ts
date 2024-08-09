@@ -45,8 +45,9 @@ export class FirebaseService {
     return new Observable((observer) => {
       getDoc(doc(this.fireStore, 'locations', id))
         .then((reponse) => {
-          console.log('reponse',reponse)
-          observer.next(reponse.data())
+          let snapshot:HousingLocation = reponse.data() as HousingLocation
+          snapshot.id = id
+          observer.next(snapshot)
           observer.complete();
         })
     })
