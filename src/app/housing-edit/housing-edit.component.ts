@@ -96,6 +96,14 @@ export class HousingEditComponent implements OnInit {
     });
   }
 
+  deletePhoto(event: Event) {
+    console.log(event)
+    let target = event.target as HTMLImageElement
+    let url = target.src
+    let index = this.photos.value.indexOf(url)
+    this.photos.removeAt(index)
+  }
+
   submit(event: Event) {
     console.log(event)
     console.log('submit', this.editForm.value);

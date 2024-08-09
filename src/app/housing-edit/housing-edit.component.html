@@ -22,7 +22,7 @@
 
     <div formArrayName="photos">
       <div *ngFor="let photo of photos.controls">
-        <img id="photo" src="{{photo.value}}" />
+        <img id="photo" (click)="deletePhoto($event)" src="{{photo.value}}" />
       </div>
     </div>
 

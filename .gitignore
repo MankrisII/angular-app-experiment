@@ -43,3 +43,15 @@ Thumbs.db
 
 public
 logs
+.firebaserc
+firebase.json
+firestore.indexes.json
+firestore.rules
+storage.rules
+functions/.eslintrc.js
+functions/.gitignore
+functions/index.js
+functions/package.json
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
