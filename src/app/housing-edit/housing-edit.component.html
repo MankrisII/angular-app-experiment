@@ -1,5 +1,6 @@
-<form [formGroup]="editForm" (ngSubmit)="submit()">
-  <label for="name">
+<!-- <form [formGroup]="editForm" (ngSubmit)="submit($event)"> -->
+<form [formGroup]="editForm" >
+<label for="name">
     <p>Name :</p> 
     <input type="text"
       id="name"
@@ -24,8 +25,8 @@
         <img id="photo" src="{{photo.value}}" />
       </div>
     </div>
-    
-    <button id="add-photo"
+
+    <button type="button" id="add-photo"
       (click)="selectFile($event)">Add photo</button>
   </label>
   <!-- <app-housing-edit-photo [photosArray]="housingLocation?.photos"></app-housing-edit-photo> -->
@@ -45,7 +46,7 @@
   <label for="availableUnits">
     <p>Available units : </p>
 
-    <input type="text"
+    <input type="number"
       id="availableUnits"
       formControlName="availableUnits">
   </label>
@@ -65,7 +66,8 @@
   </label>
 
   <button class="primary"
-    type="submit"
+    type="button"
+    (click)="submit($event)"
     [disabled]="!editForm.valid">submit</button>
   <button class="secondary"
     type="button"

@@ -1,11 +1,13 @@
 <div class="input-list-container">
   <input type="text" autocomplete="off"
     id="city"
+    (keyup)="keyup($event)"
+    (focusout)="closeList()"
     [formControl]="control">
     
   <ul id="city-list"
     class="list city-list"
-    [ngClass]="[displayList ? 'd-b':'d-n']">
+    [ngClass]="[isListDisplayed ? 'd-b':'d-n']">
     <li *ngIf="loading">Loading</li>
     <li *ngIf="noResult">No result</li>
     @for(city of cityList;track city.code){

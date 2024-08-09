@@ -13,14 +13,14 @@ import { catchError, debounceTime, distinctUntilChanged, fromEvent ,map, of} fro
 })
 export class CityInputComponent implements OnInit {
   cityList: any = null
-  cityListSelectedId: number | null = null
-  cityListPreviousSelectedId: number | null = null
+  selectedCityId: number | null = null
+  previousSelectedCityId: number | null = null
   cityInputElement : HTMLElement | null = null
   http: HttpClient
   @Input() control!: FormControl
   timer: any
   previousCityValue: any = ''
-  displayList:boolean = false
+  isListDisplayed:boolean = false
   loading: boolean = false
   noResult : boolean = false
 
@@ -28,140 +28,157 @@ export class CityInputComponent implements OnInit {
     this.http = http
   }
 
-  ngOnInit(): void {
-
-    this.cityInputElement = document.getElementById('city')
+  keyup(event:KeyboardEvent) {
+    console.log('keyup', event);
+    console.log('event code', event.code);
+   
+    // close city list on Escape Key press
+    if (event.code == 'Escape') {
+      this.closeList();
+      return;
+    }
     
+    // city list is open
+    if (this.isListDisplayed && this.cityList != null) {
+      this.previousSelectedCityId = this.selectedCityId;
 
-    this.cityInputElement?.addEventListener('keyup', (event) => {
-      console.log('listener', event)
-      
-      // close city list on Escape Key press
-      if (event.code == "Escape") {
-        this.closeList()
-        return
+      // On Enter key press, set city input value from selected item
+      if (event.code == 'Enter') {
+        this.selectCity()
+        return;
       }
 
-      if ( this.displayList && this.cityList != null) {
-        this.cityListPreviousSelectedId = this.cityListSelectedId
-
-        // On Enter key press, set city input value from selected item
-        if (event.code == "Enter") {
-          this.control?.setValue(this.cityList[this.cityListSelectedId!].nom+" "+this.cityList[this.cityListSelectedId!].codePostal)
-          this.closeList()
-          this.previousCityValue = this.control.value
-          return
-        }
+      // listening for keyup to navigate with keyboard in autocomplete city list
+      if (event.code == 'ArrowUp') {
+        console.log('arrowup');
+        this.mouveUp()
+        return;
+      }
         
-        // listening for keyup to navigate with keyboard in autocomplete city list
-        if (event.code == "ArrowUp") {
-          console.log('arrowup')
-          if (this.cityListSelectedId == null || this.cityListSelectedId == 0) {
-            this.cityListSelectedId = this.cityList.length - 1
-          } else {
-            this.cityListSelectedId --
-          }
-          this.updateCityList()
-          return
-        
-        } else if (event.code == 'ArrowDown') {
-          console.log('arrowdown')
-          if (this.cityListSelectedId == null || this.cityListSelectedId == this.cityList.length - 1) {
-            this.cityListSelectedId = 0
-          } else {
-            this.cityListSelectedId ++
-          }
-          this.updateCityList()
-          return
-        }
+      if (event.code == 'ArrowDown') {
+        console.log('arrowdown');
+        this.mouveDown()
+        return;
       }
+    }
 
-      if (!this.displayList && this.cityList && event.code == 'ArrowDown') {
-        this.cityListSelectedId = 0
-        this.displayList = true
-        this.updateCityList()
-        return
-      }
-    
-      clearTimeout(this.timer)
-      console.log('timer')
-      
-      if (this.control.value == this.previousCityValue) return
-      
-      if (!this.displayList && !this.cityList) {
-        this.displayList = true
-        this.loading = true
-        this.noResult = false
-      }
+    // open dropdown at previous state
+    if (!this.isListDisplayed && this.cityList && event.code == 'ArrowDown') {
+      this.selectedCityId = 0;
+      this.isListDisplayed = true;
+      this.updateCityList();
+      return;
+    }
 
-      // request goe.api.gouv to get city
-      // execution delayed after the last key pressed
-      this.timer = setTimeout(() => {
-        // do nothing if city.value is still the same
-        
-        this.displayList = true
-        this.loading = true
-        this.noResult = false
-        this.cityListSelectedId = null
+    clearTimeout(this.timer);
+    console.log('timer');
 
-        this.previousCityValue = this.control.value
-        // this.closeList()
+    // value hasn't changed
+    if (this.control.value == this.previousCityValue) return;
 
-        this.http.get(`https://geo.api.gouv.fr/communes?nom=${this.control.value}`).subscribe(response => {
-          // console.log('city keyup response = ', response)
-          let cities: any = []
-          // decompose cities with multiple postals codes
-          for (let c of response as Iterable<any>) {
-            // console.log("boucle", c.codesPostaux.join(','))
-            // console.log(c.codesPostaux.length)
-            if (c.codesPostaux.length == 1) {
-              // console.log('1 code postal')
-              cities.push({ nom: c.nom, codePostal: c.codesPostaux[0],selected:false });
-              
-            }else {
-              for (let cp of c.codesPostaux) {
-                cities.push({ nom: c.nom, codePostal: cp ,selected:false}); 
+    // open dropdown in loading mode at first typping when field is empty
+    if (!this.isListDisplayed && !this.cityList) {
+      this.isListDisplayed = true;
+      this.loading = true;
+      this.noResult = false;
+    }
+
+    // request goe.api.gouv to get city
+    // execution delayed after the last key pressed
+    this.timer = setTimeout(() => {
+      // do nothing if city.value is still the same
+
+      this.isListDisplayed = true;
+      this.loading = true;
+      this.noResult = false;
+      this.selectedCityId = null;
+
+      this.previousCityValue = this.control.value;
+      // this.closeList()
+
+      this.http
+        .get(`https://geo.api.gouv.fr/communes?nom=${this.control.value}`)
+        .subscribe((response) => {
+         
+          console.log('city keyup response = ', response)
+          if ((response as Array<any>).length > 0) {
+            let cities: any = [];
+            // decompose cities with multiple postals codes
+            for (let city of response as Iterable<any>) {
+              if (city.codesPostaux.length == 1) {
+                cities.push({
+                  nom: city.nom,
+                  codePostal: city.codesPostaux[0],
+                  selected: false,
+                });
+              } else {
+                for (let cp of city.codesPostaux) {
+                  cities.push({ nom: city.nom, codePostal: cp, selected: false });
+                }
               }
             }
-          }
-          // console.log('cities', cities)
-          this.loading = false
-          if (cities.length > 0) {
-            this.cityList = cities
-            
+            this.cityList = cities;
+
           } else {
-            this.noResult = true
-            // this.closeList()
-            this.cityList = null
-            this.cityListSelectedId = null
-            this.cityListPreviousSelectedId = null
+            this.noResult = true;
+            this.cityList = null;
+            this.selectedCityId = null;
+            this.previousSelectedCityId = null;
           }
-        }
-        )
-      },400)
-    })
 
-    this.cityInputElement?.addEventListener('focusout', (event) => {
-      // console.log('focus out')
-      this.closeList()
-    })
+          this.loading = false;
+        });
+    }, 400);
+  }
 
+  mouveUp() {
+   if (this.selectedCityId == null || this.selectedCityId == 0) {
+     this.selectedCityId = this.cityList.length - 1;
+   } else {
+     this.selectedCityId--;
+   }
+   this.updateCityList(); 
+  }
+
+  mouveDown() {
+    if (
+      this.selectedCityId == null ||
+      this.selectedCityId == this.cityList.length - 1
+    ) {
+      this.selectedCityId = 0;
+    } else {
+      this.selectedCityId++;
+    }
+    this.updateCityList();
+  }
+
+  selectCity() {
+    this.control?.setValue(
+      this.cityList[this.selectedCityId!].nom +
+        ' ' +
+        this.cityList[this.selectedCityId!].codePostal
+    );
+    this.closeList();
+    this.previousCityValue = this.control.value;
+  }
+
+  ngOnInit(): void {
   }
 
   updateCityList() {
     // console.log('updateCityList')
     // change selected item
-    if(this.cityListPreviousSelectedId != null)this.cityList[this.cityListPreviousSelectedId!].selected = false
-    this.cityList[this.cityListSelectedId!].selected = true
+    if(this.previousSelectedCityId != null)this.cityList[this.previousSelectedCityId!].selected = false
+    this.cityList[this.selectedCityId!].selected = true
 
     // scroll cityList
     let selectedY = 0
-    let selectedHeight = (document.getElementById('city-list')?.children[this.cityListSelectedId!] as HTMLElement).offsetHeight
+    let selectedHeight = (document.getElementById('city-list')?.children[this.selectedCityId!] as HTMLElement).offsetHeight
     let cityListHeight = (document.getElementById('city-list') as HTMLElement).offsetHeight
     // console.log('selectedHeight', selectedHeight)
     // console.log('cityListHeight',cityListHeight)
     
-    for (let i = 0; i < this.cityListSelectedId! ; i++) {
+    for (let i = 0; i < this.selectedCityId! ; i++) {
       selectedY += (document.getElementById('city-list')?.children[i]as HTMLElement).offsetHeight
     }
 
@@ -178,10 +195,10 @@ export class CityInputComponent implements OnInit {
 
   closeList() {
     console.log('closelist')
-    if(this.cityListSelectedId) this.cityList[this.cityListSelectedId!].selected = false
-    this.cityListSelectedId = null
-    this.cityListPreviousSelectedId = null
-    this.displayList = false
+    if(this.selectedCityId) this.cityList[this.selectedCityId!].selected = false
+    this.selectedCityId = null
+    this.previousSelectedCityId = null
+    this.isListDisplayed = false
     this.loading = false
     this.noResult = false
   }

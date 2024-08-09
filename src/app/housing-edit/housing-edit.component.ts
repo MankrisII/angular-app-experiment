@@ -96,7 +96,8 @@ export class HousingEditComponent implements OnInit {
     });
   }
 
-  submit() {
+  submit(event: Event) {
+    console.log(event)
     console.log('submit', this.editForm.value);
     // if (this.param['id'] !== undefined) {
     //   this.housingService.editHousingLocation(this.editForm.value as HousingLocation)

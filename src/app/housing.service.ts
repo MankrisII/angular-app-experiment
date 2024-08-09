@@ -97,9 +97,6 @@ export class HousingService implements OnInit {
   getHousingLocationById(id: string): Observable<HousingLocation> {
     return new Observable((observer) => {
       this.firebase.getLocationById(id).subscribe((data) => {
-       
-        // var location = this.housingListDb.find((h) => h.id == id);
-        console.log('data',data)
         observer.next(data)
         observer.complete()
       })
@@ -125,7 +122,6 @@ export class HousingService implements OnInit {
 
   getOrderBy() {
     return this.queyOptions!.order?.by;
-    // if(this.queyOptions.order?.by)
   }
 
   // getNextId(): number {
