@@ -10,9 +10,9 @@
     <!-- <p>{{searchInput}}</p> -->
     <button class="primary primary-right"
       type="submit">Search</button>
-    <a class="actionLink clearSearchButton"
+    <app-close-button class="actionLink clearSearchButton"
       (click)="this.clearSearch()"
-      [ngStyle]="{ display: searchInput != '' ? 'inline' : 'none' }"></a>
+      [ngStyle]="{ display: searchInput != '' ? 'inline' : 'none' }"></app-close-button>
     <!-- <a class="actionLink clearSearchButton" (click)="clearSearch()" ></a> -->
   </form>
 </div>

@@ -20,38 +20,4 @@
   padding: 3px 20px 4px;
 }
 
-.clearSearchButton{
-  display: block;
-  position: absolute;
-  background-color: var(--secondary-color);
-  border-radius: 100px;
-  width: 20px;
-  height: 20px;
-  top: 8px;
-  right: 94px;
-}
-
-.clearSearchButton::after, .clearSearchButton::before{
-  content:"";
-  display: block;
-  position: absolute;
-}
-.clearSearchButton::after{
-border-bottom: 2px solid var(--primary-color);
-  width: 12px;
-  height: 2px;
-  rotate: 45deg;
-  left: 5px;
-  top: 7px;
-}
-
-.clearSearchButton::before {
-  border-left: 2px solid var(--primary-color);
-    width: 2px;
-    height: 12px;
-    rotate: -135deg;
-    left: 7px;
-    top: 3px;
-}
-
 #add-location-button {}

@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { Queryoptions } from '../queryoptions';
 import { FirebaseService } from '../firebase.service';
 import { SorterService } from '../list-sorter-heading/sorter.service';
+import { CloseButtonComponent } from "../ui/button/close-button/close-button.component";
 
 @Component({
   selector: 'app-home',
@@ -21,7 +22,8 @@ import { SorterService } from '../list-sorter-heading/sorter.service';
     NgClass,
     FormsModule,
     NgStyle,
-  ],
+    CloseButtonComponent
+],
   styleUrl: './home.component.css',
   templateUrl: './home.component.html',
 })
