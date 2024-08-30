@@ -9,12 +9,14 @@
   <td class="actions">
     <a class="actionLink"
       [routerLink]="['details', housingLocation.id]">Details</a>
-    -
-    <a class="actionLink"
+    @if(this.fireaseAuth.user() != null){
+      -
+      <a class="actionLink"
       [routerLink]="['edit', housingLocation.id]">Edit</a>
-    -
-    <a class="actionLink"
-      (click)="delete(housingLocation.id!)">Delete</a>
+      -
+      <a class="actionLink"
+        (click)="delete(housingLocation.id!)">Delete</a>
+    }
   </td>
   <!-- (click)='selectRow($event)' -->
   <!-- <tr class="housing-location-list"

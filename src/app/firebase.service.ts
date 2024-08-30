@@ -1,9 +1,11 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, addDoc, collectionData, collection, doc, deleteDoc, setDoc, updateDoc,getDoc,query,getDocs } from '@angular/fire/firestore';
-import { initializeApp } from 'firebase/app';
+import { Firestore, addDoc, collectionData, collection, doc, deleteDoc, setDoc, updateDoc, getDoc, query, getDocs } from '@angular/fire/firestore';
+//import { initializeApp } from 'firebase/app';
+// import compat version tu use firebaseUi
+import firebase from 'firebase/compat/app';
+import * as firebaseui  from 'firebaseui';
 import { Observable, from } from 'rxjs';
 import { HousingLocation } from './HousingLocation';
-import { getAuth, provideAuth } from '@angular/fire/auth'
 import {
   connectStorageEmulator,
   getStorage,
@@ -25,7 +27,7 @@ export class FirebaseService {
     appId: '1:832901011574:web:63da21dba1fff4d3832757',
   };
 
-  app = initializeApp(this.firebaseConfig);
+  app = firebase.initializeApp(this.firebaseConfig);
   fireStore = inject(Firestore);
   storage = getStorage()
   storageRef = ref(this.storage)
@@ -33,6 +35,17 @@ export class FirebaseService {
   
   constructor() {
     
+  }
+
+  getUserById(id : string):Observable<any> {
+    return new Observable((observer) => {
+      getDoc(doc(this.fireStore, 'users', id)).then((reponse) => {
+        let snapshot : any = reponse.data() ;
+        snapshot.id = id;
+        observer.next(snapshot);
+        observer.complete();
+      });
+    });
   }
 
   getLocations(): Observable<HousingLocation[]> {

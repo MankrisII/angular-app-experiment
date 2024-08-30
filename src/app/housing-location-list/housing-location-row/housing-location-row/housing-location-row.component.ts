@@ -1,7 +1,8 @@
-import { Component, ElementRef, Input, OnInit, inject } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, computed, inject } from '@angular/core';
 import { HousingLocation } from '../../../HousingLocation';
 import { RouterLink } from '@angular/router';
 import { HousingService } from '../../../housing.service';
+import { FirebaseAuthService } from '../../../firebase.auth.service';
 
 @Component({
   selector: '[app-housing-location-row]',
@@ -11,17 +12,25 @@ import { HousingService } from '../../../housing.service';
   styleUrl: '../../housing-location-list.component.css',
   host: {
     '[class.selected]': 'selected',
-    '(click)' : 'selectRow($event)'
+    '(click)': 'selectRow($event)',
   },
 })
+
+  // TODO
+  // row actions button listen on
+  // firebaseAutComponent.user signal to display or hide
+  // that cause reload hoising list the number of the item
+  
 export class HousingLocationRowComponent implements OnInit {
   @Input() housingLocation!: HousingLocation;
   housingService = inject(HousingService);
   elementRef = inject(ElementRef);
   selected = false;
+  fireaseAuth = inject(FirebaseAuthService);
+  
 
   constructor() {
-    console.log('cest parti');
+    //console.log('cest parti');
   }
 
   ngOnInit(): void {}
