@@ -4,7 +4,7 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/cor
   selector: 'app-overlay',
   standalone: true,
   imports: [],
-  template: `<div id="overlay-background" (click)="this.closeEvent.emit()">
+  template: `<div id="overlay-background" (click)="click($event)">
     <div id="overlay-content">
       <ng-content></ng-content>
     </div>
@@ -37,6 +37,10 @@ export class OverlayComponent implements OnInit, OnDestroy{
     let body = (
       document.getElementsByTagName('body')[0] as HTMLElement
     ).style.setProperty('overflow', 'hidden');
+  }
+  
+  click(event: MouseEvent) {
+    if((event.target! as HTMLElement).id == 'overlay-background') this.closeEvent.emit();
   }
 
   ngOnDestroy(): void {
