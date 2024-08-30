@@ -27,7 +27,7 @@ import { HousingLocationRowComponent } from './housing-location-row/housing-loca
     <section class="housingList list">
       <table class="housing-location-list">
         <tr>
-          <th><input type="checkbox" /></th>
+          <th><input type="checkbox" (click)="selectAllRows()" [checked]="this.allRowSelected"/></th>
           @for( col of columns;track col){
           <th class="{{ col.class }}">
             <app-list-sorter-heading
@@ -42,6 +42,7 @@ import { HousingLocationRowComponent } from './housing-location-row/housing-loca
           class="housing-location-list-row"
           app-housing-location-row
           [housingLocation]="housingLocation"
+          [selected]="this.allRowSelected"
         ></tr>
       </table>
     </section>
@@ -52,6 +53,7 @@ export class HousingLocationListComponent implements OnInit {
   @Input() housingList!: HousingLocation[];
   @Output() onSort = new EventEmitter();
   housingService = inject(HousingService);
+  allRowSelected = false
 
   columns: SorterOptions[] = [
     { label: 'Photo', sortable: false, sortOn: '', class: 'photo' },
@@ -71,24 +73,30 @@ export class HousingLocationListComponent implements OnInit {
   constructor() {}
   ngOnInit() {}
 
-  selectRow(event: any) {
-    console.log('selectRow', event);
-    var target = event.target as HTMLElement;
-    var parent = target;
-    console.log('target', target);
+  // selectRow(event: any) {
+  //   console.log('selectRow', event);
+  //   var target = event.target as HTMLElement;
+  //   var parent = target;
+  //   console.log('target', target);
 
-    var count = 0;
-    while (parent.tagName != 'TR' && count < 10) {
-      var parent: HTMLElement = parent.parentElement as HTMLElement;
-      console.log('parent', parent);
-      count++;
-    }
+  //   var count = 0;
+  //   while (parent.tagName != 'TR' && count < 10) {
+  //     var parent: HTMLElement = parent.parentElement as HTMLElement;
+  //     console.log('parent', parent);
+  //     count++;
+  //   }
 
-    var check = parent.getElementsByClassName(
-      'rowCheck'
-    )[0] as HTMLInputElement;
-    check.checked = !check.checked;
-    console.log('check', check);
+  //   var check = parent.getElementsByClassName(
+  //     'rowCheck'
+  //   )[0] as HTMLInputElement;
+  //   check.checked = !check.checked;
+  //   console.log('check', check);
+  // }
+
+  selectAllRows() {
+    console.log("selectAllRows")
+    this.allRowSelected = !this.allRowSelected
+    
   }
 
   delete(id: string) {

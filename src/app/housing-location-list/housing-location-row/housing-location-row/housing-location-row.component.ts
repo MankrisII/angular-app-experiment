@@ -23,9 +23,9 @@ import { FirebaseAuthService } from '../../../firebase.auth.service';
   
 export class HousingLocationRowComponent implements OnInit {
   @Input() housingLocation!: HousingLocation;
+  @Input() selected:boolean = false;
   housingService = inject(HousingService);
   elementRef = inject(ElementRef);
-  selected = false;
   fireaseAuth = inject(FirebaseAuthService);
   
 
