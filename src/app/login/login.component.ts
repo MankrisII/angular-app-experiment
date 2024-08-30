@@ -6,6 +6,7 @@ import { CardComponent } from '../ui/card/card.component';
 import { NgClass } from '@angular/common';
 import { error } from 'jquery';
 import { FirebaseService } from '../firebase.service';
+import { Router } from '@angular/router';
 
 @Component({
   // Comment plus récent
@@ -27,6 +28,7 @@ export class LoginComponent {
   loading : boolean = false
   isLogginFormDisplayed: Boolean = false;
   errorMessage: string = '';
+  router = inject(Router)
 
   constructor() {
     
@@ -63,6 +65,7 @@ export class LoginComponent {
 
   signout() {
     this.firebaseAuth.signOut();
+    this.router.navigateByUrl("")
   }
 
 
