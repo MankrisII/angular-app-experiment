@@ -1,9 +1,11 @@
-@if(this.firebaseAuth.user() == null){
-  <button id="displaySigninFormBtn" type="subimt" (click)="this.displayLogginForm()">signin</button>
-}@else{
-  <span>Bienvenu {{this.firebaseAuth.user().prenom}} </span>
-  <button id="signOutBtn" (click)="signout()">signout</button>
-}
+<div id="loginComp">
+  @if(this.firebaseAuth.user() == null){
+    <button id="displaySigninFormBtn" class="primary" type="subimt" (click)="this.displayLogginForm()">signin</button>
+  }@else{
+    <span>Bienvenu {{this.firebaseAuth.user().prenom}} </span>
+    <button id="signOutBtn"  class="primary" (click)="signout()">signout</button>
+  }
+</div>
 
 @if(this.isLogginFormDisplayed){
 <app-overlay (closeEvent)="close()">
@@ -13,7 +15,7 @@
   <app-card (clickClose)="close()">
     <h3 class="title">Loggin</h3>
     <div class="truc" [ngClass]="this.errorMessage ? 'error':''">
-      <form [formGroup]="logginForm">
+      <form [formGroup]="loginForm">
         <div class="inputContainer">
           <input type="email" id="email"
           formControlName="email" placeholder="Email" />
@@ -25,8 +27,9 @@
           <label for="password">Password</label>
         </div>
         <button id="signinBtn"
+          class="primary"
           type="subimt"
-          [disabled]="!logginForm.valid"
+          [disabled]="!loginForm.valid"
           (click)="signin()">signin</button>
       </form>
       <div id="errorMessage">{{this.errorMessage}}</div>

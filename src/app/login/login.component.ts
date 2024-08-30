@@ -9,18 +9,18 @@ import { FirebaseService } from '../firebase.service';
 
 @Component({
   // Comment plus récent
-  selector: 'app-loggin',
+  selector: 'app-login',
   standalone: true,
   imports: [ReactiveFormsModule, OverlayComponent, CardComponent, NgClass],
-  templateUrl: './loggin.component.html',
-  styleUrl: './loggin.component.css',
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css',
 })
   
-export class LogginComponent {
+export class LoginComponent {
   firebaseAuth = inject(FirebaseAuthService);
   firebase = inject(FirebaseService)
   formbuilder = inject(FormBuilder);
-  logginForm = this.formbuilder.group({
+  loginForm = this.formbuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
   });
@@ -44,17 +44,17 @@ export class LogginComponent {
     this.loading = true
     this.firebaseAuth
       .signIn(
-        this.logginForm.controls['email'].value!,
-        this.logginForm.controls['password'].value!
+        this.loginForm.controls['email'].value!,
+        this.loginForm.controls['password'].value!
       )
       .subscribe({
         next: (user) => {
-          console.log('loggin comp - ok', user);
+          console.log('login comp - ok', user);
           this.close()
           this.loading = false
         },
         error: (error) => {
-          console.log('loggin comp - error', error);
+          console.log('login comp - error', error);
           this.loading = false
           this.errorMessage = 'invalid email or password';
         },
