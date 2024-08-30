@@ -6,7 +6,7 @@
 }
 
 @if(this.isLogginFormDisplayed){
-<app-overlay>
+<app-overlay (closeEvent)="close()">
   @if(this.loading){
     <div id="loading"><span>Loading</span></div>
   }

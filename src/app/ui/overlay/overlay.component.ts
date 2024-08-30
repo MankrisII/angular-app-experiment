@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-overlay',
   standalone: true,
   imports: [],
-  template: `<div id="overlay-background">
+  template: `<div id="overlay-background" (click)="this.closeEvent.emit()">
     <div id="overlay-content">
       <ng-content></ng-content>
     </div>
@@ -30,4 +30,19 @@ import { Component } from '@angular/core';
             display: inline-block;
           }`,
 })
-export class OverlayComponent {}
+export class OverlayComponent implements OnInit, OnDestroy{
+  @Output() closeEvent = new EventEmitter<string>();
+
+  ngOnInit(): void {
+    let body = (
+      document.getElementsByTagName('body')[0] as HTMLElement
+    ).style.setProperty('overflow', 'hidden');
+  }
+
+  ngOnDestroy(): void {
+    let body = (
+      document.getElementsByTagName('body')[0] as HTMLElement
+    ).style.setProperty('overflow', 'scroll');
+  }
+  
+}
