@@ -8,7 +8,7 @@ import { CloseButtonComponent } from "../button/close-button/close-button.compon
   template: `<div id="card">
     <app-close-button (click)="handleclose()"></app-close-button>
     <ng-content select=".title"></ng-content>
-    <ng-content select=".truc"></ng-content>
+    <ng-content select=".content"></ng-content>
   </div>`,
   styles: `#card{
             background-color: #ffffff;

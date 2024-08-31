@@ -14,7 +14,7 @@
   }
   <app-card (clickClose)="close()">
     <h3 class="title">Loggin</h3>
-    <div class="truc" [ngClass]="this.errorMessage ? 'error':''">
+    <div class="content" [ngClass]="this.errorMessage ? 'error':''">
       <form [formGroup]="loginForm">
         <div class="inputContainer">
           <input type="email" id="email"
