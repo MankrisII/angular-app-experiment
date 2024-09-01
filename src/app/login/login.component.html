@@ -1,8 +1,8 @@
 <div id="loginComp">
-  @if(this.firebaseAuth.user() == null){
+  @if(!this.firebaseAuth.userLogged()){
     <button id="displaySigninFormBtn" class="primary" type="subimt" (click)="this.displayLogginForm()">signin</button>
   }@else{
-    <span>Bienvenu {{this.firebaseAuth.user().prenom}} </span>
+    <span>Bienvenu {{this.firebaseAuth.userData?.prenom}} </span>
     <button id="signOutBtn"  class="primary" (click)="signout()">signout</button>
   }
 </div>

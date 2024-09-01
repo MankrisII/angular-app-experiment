@@ -9,7 +9,7 @@
   <td class="actions">
     <a class="actionLink"
       [routerLink]="['details', housingLocation.id]">Details</a>
-    @if(this.fireaseAuth.user() != null){
+    @if(this.fireaseAuth.userLogged()){
       -
       <a class="actionLink"
       [routerLink]="['edit', housingLocation.id]">Edit</a>
