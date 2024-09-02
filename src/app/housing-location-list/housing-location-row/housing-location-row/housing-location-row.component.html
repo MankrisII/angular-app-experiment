@@ -1,5 +1,7 @@
   <td class="check"><input type="checkbox" class="rowCheck" [checked]="this.selected"/></td>
-  <td class="photo"><img src="{{ housingLocation.photos }}" /></td>
+  <td class="photo">
+    <img src="{{ housingLocation.photos && housingLocation.photos[0] ? housingLocation.photos[0] : 'assets/3926921.png' }}" />
+  </td>
   <td class="name">{{ housingLocation.name }}</td>
   <td class="city">{{ housingLocation.city }}</td>
   <td class="state">{{ housingLocation.state }}</td>
