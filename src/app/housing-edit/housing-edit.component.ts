@@ -7,11 +7,12 @@ import { HttpClient } from '@angular/common/http';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { CityInputComponent } from './city-input/city-input.component';
 import { FirebaseService } from '../firebase.service';
+import { CloseButtonComponent } from "../ui/button/close-button/close-button.component";
 
 @Component({
   selector: 'app-housing-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, NgIf, NgClass, CityInputComponent,NgFor],
+  imports: [ReactiveFormsModule, RouterLink, NgIf, NgClass, CityInputComponent, NgFor, CloseButtonComponent,CloseButtonComponent],
   templateUrl: './housing-edit.component.html',
   styleUrl: './housing-edit.component.css',
 })
@@ -66,7 +67,7 @@ export class HousingEditComponent implements OnInit {
 
   ngOnInit(): void { }
   
-  get photos() {
+  get photos():FormArray {
     return this.editForm.get('photos') as FormArray
   }
 
@@ -79,7 +80,6 @@ export class HousingEditComponent implements OnInit {
     event.stopPropagation();
     event.preventDefault();
     (document.getElementById('photo-file-input') as HTMLInputElement).click();
-    // this.htmlFileInput.click()
   }
 
   fileSelected(event: Event) {
@@ -96,10 +96,7 @@ export class HousingEditComponent implements OnInit {
     });
   }
 
-  deletePhoto(event: Event) {
-    console.log(event)
-    let target = event.target as HTMLImageElement
-    let url = target.src
+  deletePhoto(url : string) {
     let index = this.photos.value.indexOf(url)
     this.photos.removeAt(index)
   }
@@ -107,11 +104,7 @@ export class HousingEditComponent implements OnInit {
   submit(event: Event) {
     console.log(event)
     console.log('submit', this.editForm.value);
-    // if (this.param['id'] !== undefined) {
-    //   this.housingService.editHousingLocation(this.editForm.value as HousingLocation)
-    // } else {
-    //   this.housingService.addHousingLocation(this.editForm.value as HousingLocation)
-    // }
+    
     this.editForm.disable();
 
     const housingData = this.editForm.value as HousingLocation;
