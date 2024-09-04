@@ -25,6 +25,12 @@
       id="state"
       formControlName="state">
   </label>
+  <label>
+    <p>location : </p>
+    <div id="mapContainer">
+      <app-housing-edit-lat-long [housingLocation]="housingLocation"></app-housing-edit-lat-long>
+    </div>
+  </label>
   <label for="availableUnits">
     <p>Available units : </p>
 

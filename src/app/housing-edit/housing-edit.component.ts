@@ -9,6 +9,7 @@ import { CityInputComponent } from './city-input/city-input.component';
 import { FirebaseService } from '../firebase.service';
 import { CloseButtonComponent } from "../ui/button/close-button/close-button.component";
 import { HousingEditPhotoComponent } from './housing-edit-photo/housing-edit-photo.component';
+import { HousingEditLatLongComponent } from "./housing-edit-lat-long/housing-edit-lat-long.component";
 
 @Component({
   selector: 'app-housing-edit',
@@ -23,7 +24,8 @@ import { HousingEditPhotoComponent } from './housing-edit-photo/housing-edit-pho
     CloseButtonComponent,
     CloseButtonComponent,
     HousingEditPhotoComponent,
-  ],
+    HousingEditLatLongComponent
+],
   templateUrl: './housing-edit.component.html',
   styleUrl: './housing-edit.component.css',
 })
@@ -39,7 +41,7 @@ export class HousingEditComponent implements OnInit {
 
   param! : any;
   id! : string;
-  housingLocation : HousingLocation | undefined;
+  housingLocation! : HousingLocation ;
   editForm = this.formBuilder.group({
     id: [''],
     photos:  this.formBuilder.array<FormArray>([]),
