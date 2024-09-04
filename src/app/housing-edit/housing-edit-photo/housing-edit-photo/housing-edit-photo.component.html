@@ -1,7 +1,0 @@
-<button id="add-photo" (click)="selectFile($event)">Add photo</button>
-<input type="file"
-  id="photo-file-input"
-  name="file"
-  (change)="fileSelected($event)" [formControl]="fileInput"/>
-
-<img id="photo" *ngFor="let url of photos"  [src]="photoUrl" />

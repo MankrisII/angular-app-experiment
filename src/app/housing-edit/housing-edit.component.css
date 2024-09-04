@@ -4,28 +4,5 @@ label{
   display: block;
 }
 
-#photo-file-input {
-  opacity: 0;
-  position: absolute;
-  top: -1000px;
-  left:-1000px
-}
-.photoContainer{
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  margin-right: 10px;
-}
-app-close-button{
-  visibility: hidden;
-  position: absolute;
-  right: -7px;
-  top: -7px;
-}
-.photoContainer:hover app-close-button{
-  visibility: visible;
-}
-.photo {
-  width: 150px;
-}
+
 

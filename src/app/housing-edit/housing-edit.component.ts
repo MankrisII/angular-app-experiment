@@ -1,18 +1,29 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HousingService } from '../housing.service';
 import { HousingLocation } from '../HousingLocation';
-import { FormArray, FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { CityInputComponent } from './city-input/city-input.component';
 import { FirebaseService } from '../firebase.service';
 import { CloseButtonComponent } from "../ui/button/close-button/close-button.component";
+import { HousingEditPhotoComponent } from './housing-edit-photo/housing-edit-photo.component';
 
 @Component({
   selector: 'app-housing-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, NgIf, NgClass, CityInputComponent, NgFor, CloseButtonComponent,CloseButtonComponent],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    NgIf,
+    NgClass,
+    CityInputComponent,
+    NgFor,
+    CloseButtonComponent,
+    CloseButtonComponent,
+    HousingEditPhotoComponent,
+  ],
   templateUrl: './housing-edit.component.html',
   styleUrl: './housing-edit.component.css',
 })
@@ -24,13 +35,14 @@ export class HousingEditComponent implements OnInit {
   http = inject(HttpClient);
   firebase = inject(FirebaseService);
   photoUrl = '';
+  @ViewChild('photos') photos! : HousingEditPhotoComponent;
 
-  param;
-  id;
-  housingLocation: HousingLocation | undefined;
+  param! : any;
+  id! : string;
+  housingLocation : HousingLocation | undefined;
   editForm = this.formBuilder.group({
     id: [''],
-    photos: this.formBuilder.array([]),
+    photos:  this.formBuilder.array<FormArray>([]),
     name: ['', Validators.required],
     city: ['', Validators.required],
     state: ['', Validators.required],
@@ -38,73 +50,41 @@ export class HousingEditComponent implements OnInit {
     wifi: [false],
     laundry: [false],
   });
+  
   fileInput = new FormControl();
-  htmlFileInput!: HTMLInputElement;
+  htmlFileInput! : HTMLInputElement;
 
   constructor() {
+  }
+  
+  ngOnInit(): void {
     this.param = this.route.snapshot.params;
     this.id = this.param['id'];
-    console.log(this.id)
-
+    console.log(this.id);
+  
     var locObs;
     if (this.id != undefined) {
       locObs = this.housingService.getHousingLocationById(this.id);
     } else {
       locObs = this.housingService.getNewLocation();
     }
-
+  
     locObs.subscribe((location) => {
       this.housingLocation = location;
-      console.log(location)
-      console.log(this.housingLocation);
+      console.log(location);
       if (this.housingLocation.photos)
         for (let photo of this.housingLocation.photos) {
-          this.addPhotoControl();
+          this.photos.addPhotoControl();
         }
       this.editForm.setValue(Object(this.housingLocation));
     });
-  }
 
-  ngOnInit(): void { }
-  
-  get photos():FormArray {
-    return this.editForm.get('photos') as FormArray
-  }
-
-  addPhotoControl() {
-    this.photos.push(this.formBuilder.control(''))
-  }
-
-  selectFile(event: Event) {
-    console.log('selectFile');
-    event.stopPropagation();
-    event.preventDefault();
-    (document.getElementById('photo-file-input') as HTMLInputElement).click();
-  }
-
-  fileSelected(event: Event) {
-    console.log('fileSelected');
-    event.stopPropagation();
-    event.preventDefault();
-    const target = event.target as HTMLInputElement;
-    const files = target.files;
-    const file = files![0];
-    console.log(file);
-    const reponse = this.firebase.addphoto(file).then((url) => {
-      this.photos.push(this.formBuilder.control(url))
-      console.log(this.photos)
-    });
-  }
-
-  deletePhoto(url : string) {
-    let index = this.photos.value.indexOf(url)
-    this.photos.removeAt(index)
   }
 
   submit(event: Event) {
-    console.log(event)
+    console.log(event);
     console.log('submit', this.editForm.value);
-    
+
     this.editForm.disable();
 
     const housingData = this.editForm.value as HousingLocation;
