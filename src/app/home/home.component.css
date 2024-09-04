@@ -21,3 +21,7 @@
 }
 
 #add-location-button {}
+
+app-housing-location-map{
+  display: block;
+}

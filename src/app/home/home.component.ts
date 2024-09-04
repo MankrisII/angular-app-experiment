@@ -11,6 +11,7 @@ import { Queryoptions } from '../queryoptions';
 import { FirebaseService } from '../firebase.service';
 import { SorterService } from '../list-sorter-heading/sorter.service';
 import { CloseButtonComponent } from "../ui/button/close-button/close-button.component";
+import { HousingLocationMapComponent } from '../housing-location-map/housing-location-map.component';
 
 @Component({
   selector: 'app-home',
@@ -18,11 +19,12 @@ import { CloseButtonComponent } from "../ui/button/close-button/close-button.com
   imports: [
     HousingLocationGridComponent,
     HousingLocationListComponent,
+    HousingLocationMapComponent,
     RouterLink,
     NgClass,
     FormsModule,
     NgStyle,
-    CloseButtonComponent
+    CloseButtonComponent,
 ],
   styleUrl: './home.component.css',
   templateUrl: './home.component.html',

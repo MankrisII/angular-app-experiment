@@ -8,7 +8,7 @@
       placeholder="Search by housing name" />
     <!-- two way databindig example with formControl -->
     <!-- <p>{{searchInput}}</p> -->
-    <button class="primary primary-right"
+    <button class="primary primary-rounded-right"
       type="submit">Search</button>
     <app-close-button class="actionLink clearSearchButton"
       (click)="this.clearSearch()"
@@ -20,16 +20,21 @@
   class="primary"
   [routerLink]="['edit']">Add location</a>
 <div style="float: right;">
-  <a class="primary primary-left"
-    [ngClass]="displayType == 'list' ? 'inactiv' : ''"
+  <a class="primary primary-rounded-left"
+    [ngClass]="displayType != 'grid' ? 'inactiv' : ''"
     (click)="display('list')">list</a>
-  <a class="primary primary-right"
-    [ngClass]="displayType == 'grid' ? 'inactiv' : ''"
+  <a class="primary primary-rounded-none"
+    [ngClass]="displayType != 'list' ? 'inactiv' : ''"
     (click)="display('grid')">grid</a>
+  <a class="primary primary-rounded-right"
+    [ngClass]="displayType != 'map' ? 'inactiv' : ''"
+    (click)="display('map')">map</a>
 </div>
 @if(this.customisationService.getDisplayType() == "grid"){
 <app-housing-location-grid [housingList]="this.housingService.housingListSig()" />
-}@else {
+}@else if(this.customisationService.getDisplayType() == "list") {
 <app-housing-location-list [housingList]="this.housingService.housingListSig()" (onSort)="this.housingService.sort()"/>
 <!-- <app-housing-location-list [housingList]="this.housingService.housingListSig()"/> -->
+}@else if(this.customisationService.getDisplayType() == "map"){
+  <app-housing-location-map [housingList]="this.housingService.housingListSig()"></app-housing-location-map>
 }

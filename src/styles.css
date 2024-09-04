@@ -14,6 +14,9 @@
   font-family: var(--font-normal);
   font-size: 13px;
 }
+html, body, app-root, #app-container{
+  height: 100%;
+}
 .d-b{
   display: block;
 }
@@ -46,6 +49,7 @@ input[type="checkbox"]{
   border-radius: 1000px;
   display: inline-block;
   text-decoration: none;
+  cursor: pointer;
 }
 .secondary{
   color: rgb(86, 78, 194);
@@ -60,12 +64,21 @@ input[type="checkbox"]{
   cursor:default;
 }
 
-.primary-left{
+.primary.inactiv{
+  cursor: pointer;
+}
+
+.primary-rounded-none {
+    border-radius: 0px;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+.primary-rounded-left{
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
   margin-right: 1px;
 }
-.primary-right {
+.primary-rounded-right {
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
 }
