@@ -2,7 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { FirebaseService } from './firebase.service';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
-import * as firebaseui from 'firebaseui';
+// import * as firebaseui from 'firebaseui';
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -21,7 +21,7 @@ import { UserData } from './UserData';
 })
 export class FirebaseAuthService {
   firebase = inject(FirebaseService);
-  ui = new firebaseui.auth.AuthUI(firebase.auth());
+  // ui = new firebaseui.auth.AuthUI(firebase.auth());
   userLogged = signal<boolean>(false);
   user: User | null = null
   userData : UserData | null = null

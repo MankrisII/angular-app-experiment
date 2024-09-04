@@ -3,7 +3,7 @@ import { Firestore, addDoc, collectionData, collection, doc, deleteDoc, setDoc, 
 //import { initializeApp } from 'firebase/app';
 // import compat version tu use firebaseUi
 import firebase from 'firebase/compat/app';
-import * as firebaseui  from 'firebaseui';
+// import * as firebaseui  from 'firebaseui';
 import { Observable, from } from 'rxjs';
 import { HousingLocation } from './HousingLocation';
 import {
