@@ -145,11 +145,7 @@ export class AdressInputComponent implements OnInit {
   }
 
   selectAdress() {
-    this.control?.setValue(
-      this.adressesList[this.selectedAdressId!].nom +
-        ' ' +
-        this.adressesList[this.selectedAdressId!].codePostal
-    );
+    this.control?.setValue(this.adressesList[this.selectedAdressId!].label);
     this.closeList();
     this.previousAdressValue = this.control.value;
   }
@@ -187,12 +183,14 @@ export class AdressInputComponent implements OnInit {
 
   closeList() {
     console.log('closelist')
-    if(this.selectedAdressId) this.adressesList[this.selectedAdressId!].selected = false
-    this.selectedAdressId = null
-    this.previousSelectedAdressId = null
-    this.isListDisplayed = false
-    this.loading = false
-    this.noResult = false
+    setTimeout(() => {
+      if (this.selectedAdressId) this.adressesList[this.selectedAdressId!].selected = false
+      this.selectedAdressId = null
+      this.previousSelectedAdressId = null
+      this.isListDisplayed = false
+      this.loading = false
+      this.noResult = false
+    }, 100)
   }
   
   adressClick(nom:string) {
