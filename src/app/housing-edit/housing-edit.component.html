@@ -13,22 +13,25 @@
   </label>
   <!-- <app-housing-edit-photo [photosArray]="housingLocation?.photos"></app-housing-edit-photo> -->
 
+  <label for="adress">
+    <p>Adress :</p>
+    <app-adress-input [control]="editForm.controls['adress']" #adress></app-adress-input>
+  </label>
   <label for="city">
     <p>City : </p>
     <app-city-input [control]="editForm.controls['city']"></app-city-input>
   </label>
-
-  <label for="state">
-    <p>State : </p>
+  <label for="postalCode">
+    <p>Postal code : </p>
 
     <input type="text"
-      id="state"
-      formControlName="state">
+      id="postalCode"
+      formControlName="postalCode">
   </label>
   <label>
     <p>location : </p>
     <div id="mapContainer">
-      <app-housing-edit-lat-long [housingLocation]="housingLocation"></app-housing-edit-lat-long>
+      <app-housing-edit-lat-lon [housingLocation]="housingLocation" [editForm]="this.editForm" #latlong></app-housing-edit-lat-lon>
     </div>
   </label>
   <label for="availableUnits">

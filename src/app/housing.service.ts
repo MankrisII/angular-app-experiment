@@ -115,6 +115,7 @@ export class HousingService implements OnInit {
           availableUnits: 0,
           wifi: false,
           laundry: false,
+          coords:{lat: '', lon: ''}
         }
       )
     })

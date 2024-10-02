@@ -6,5 +6,11 @@ export interface HousingLocation {
     photos: string[],
     availableUnits: number,
     wifi: boolean,
-    laundry: boolean
+    laundry: boolean,
+    coords: HousingLocationCoords
+}
+
+export interface HousingLocationCoords {
+  lat?: string;
+  lon?: string;
 }

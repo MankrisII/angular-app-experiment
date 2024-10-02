@@ -9,9 +9,9 @@
     [ngClass]="[isListDisplayed ? 'd-b':'d-n']" #list>
     <li *ngIf="loading">Loading</li>
     <li *ngIf="noResult">No result</li>
-    @for(adress of adressesList;track adress.label){
+    @for(adress of adressesList; track adress.data.properties.banId){
     <li [ngClass]="[adress.selected ? 'selected':'']"
-      (click)="adressClick(adress.label)">{{adress.label}}</li>
+      (click)="adressClick(adress.id)">{{adress.data.properties.label}}</li>
     }
 
   </ul>

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HousingEditLatLongComponent } from './housing-edit-lat-long.component';
+import { HousingEditLatLonComponent as HousingEditLatLonComponent } from './housing-edit-lat-lon.component';
 
 describe('HousingEditLatLongComponent', () => {
-  let component: HousingEditLatLongComponent;
-  let fixture: ComponentFixture<HousingEditLatLongComponent>;
+  let component: HousingEditLatLonComponent;
+  let fixture: ComponentFixture<HousingEditLatLonComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HousingEditLatLongComponent]
+      imports: [HousingEditLatLonComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(HousingEditLatLongComponent);
+    fixture = TestBed.createComponent(HousingEditLatLonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
