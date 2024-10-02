@@ -57,7 +57,7 @@ export class HousingLocationListComponent implements OnInit {
 
   columns: SorterOptions[] = [
     { label: 'Photo', sortable: false, sortOn: '', class: 'photo' },
-    { label: 'Name', sortable: true, sortOn: 'name', class: 'name' },
+    { label: 'Adress', sortable: true, sortOn: 'adress', class: 'adress' },
     { label: 'City', sortable: true, sortOn: 'city', class: 'city' },
     {
       label: 'Unit Available',
