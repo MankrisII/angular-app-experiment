@@ -42,7 +42,7 @@ export class HousingService implements OnInit {
   search(value: string) {
     this.housingListSig.set(
       this.housingListDb.filter((housing) =>
-        housing.name.toLowerCase().includes(value.toLowerCase())
+        housing.name!.toLowerCase().includes(value.toLowerCase())
       )
     );
   }
@@ -110,7 +110,7 @@ export class HousingService implements OnInit {
           id: '',
           name: '',
           city: '',
-          state: '',
+          adress: '',
           photos: [],
           availableUnits: 0,
           wifi: false,

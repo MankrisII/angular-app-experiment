@@ -35,8 +35,7 @@ import { Queryoptions } from '../queryoptions';
           <div class="details">
             <h2>{{ housingLocation.name }}</h2>
             <app-location-details
-              [city]="housingLocation.city"
-              [state]="housingLocation.state"
+              [adress]="housingLocation.adress"
             />
             <!-- <a class="primary-link" [routerLink]="['details',housingLocation.id]">See details</a>   -->
             <a

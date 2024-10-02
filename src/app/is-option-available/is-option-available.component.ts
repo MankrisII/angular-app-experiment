@@ -11,5 +11,5 @@ import { Component, Input } from '@angular/core';
 })
 export class IsOptionAvailableComponent {
   @Input() label!: string
-  @Input() value!: boolean
+  @Input() value!: boolean | undefined
 }

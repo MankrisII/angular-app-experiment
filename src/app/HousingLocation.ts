@@ -1,13 +1,14 @@
 export interface HousingLocation {
-    id?: string,
-    name: string,
-    city: string,
-    state: string,
-    photos: string[],
-    availableUnits: number,
-    wifi: boolean,
-    laundry: boolean,
-    coords: HousingLocationCoords
+  id?: string;
+  photos?: string[];
+  name?: string;
+  city?: string;
+  adress?: string;
+  postalCode?: string;
+  coords?: HousingLocationCoords;
+  availableUnits?: number;
+  wifi?: boolean;
+  laundry?: boolean;
 }
 
 export interface HousingLocationCoords {

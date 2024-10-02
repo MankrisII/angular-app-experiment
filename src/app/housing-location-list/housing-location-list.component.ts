@@ -59,7 +59,6 @@ export class HousingLocationListComponent implements OnInit {
     { label: 'Photo', sortable: false, sortOn: '', class: 'photo' },
     { label: 'Name', sortable: true, sortOn: 'name', class: 'name' },
     { label: 'City', sortable: true, sortOn: 'city', class: 'city' },
-    { label: 'State', sortable: true, sortOn: 'state', class: 'state' },
     {
       label: 'Unit Available',
       sortable: true,
