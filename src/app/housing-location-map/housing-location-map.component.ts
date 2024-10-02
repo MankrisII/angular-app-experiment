@@ -71,9 +71,11 @@ export class HousingLocationMapComponent implements OnInit, OnDestroy{
 
   setMarker() {
     console.log('setMarker');
-    let markerPane : HTMLElement = this.map.getPane('markerPane')
+    let markerPane: HTMLElement = this.map.getPane('markerPane')
+    let shadowPane: HTMLElement = this.map.getPane('shadowPane');
     console.log('markerPane', markerPane);
     markerPane.innerHTML = ''
+    shadowPane.innerHTML = '';
 
     this._housingList.forEach((housing) => {
       if (housing.coords) {        // TODO: temp fix for missing coords
