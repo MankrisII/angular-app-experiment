@@ -74,7 +74,7 @@ export class HousingEditComponent implements OnInit {
   ngOnInit(): void {
     this.param = this.route.snapshot.params;
     this.id = this.param['id'];
-    console.log(this.id);
+    // console.log(this.id);
 
     var locObs;
     if (this.id != undefined) {
@@ -94,7 +94,7 @@ export class HousingEditComponent implements OnInit {
     });
 
     this.adress.adressChange.subscribe((adressData: AdressApiResult) => {
-      console.log('adressChange', adressData);
+      // console.log('adressChange', adressData);
       // console.log('editformValue', this.editForm.value);
       let newValues : HousingLocation = {
         //adress: adressData.properties.name,

@@ -13,8 +13,8 @@ import * as L from 'leaflet';
 export class HousingLocationMapComponent implements OnInit, OnDestroy{
   @Input()
   set housingList(value: HousingLocation[]) {
-    console.log('set housingList');
-    console.log('this.map',this.map)
+    //console.log('set housingList');
+    //console.log('this.map',this.map)
     this._housingList = value;
     if (this.map) { this.setMarker(); }
   }
@@ -28,10 +28,10 @@ export class HousingLocationMapComponent implements OnInit, OnDestroy{
   resizeObserver!: ResizeObserver;
   
   constructor() {
-    console.log('constructor');
+    //console.log('constructor');
     afterNextRender(() => {
-      console.log('afterNextRender'); 
-      console.log('this.map', this.mapElement);
+      //console.log('afterNextRender'); 
+      //console.log('this.map', this.mapElement);
       
       if (!this.map && this.housingList) this.initMap()
   
@@ -42,12 +42,12 @@ export class HousingLocationMapComponent implements OnInit, OnDestroy{
     });
   }
   ngOnInit(): void {
-    console.log('ngoInit');
-    console.log('housing', this.housingList[0]);
+    //console.log('ngoInit');
+    //console.log('housing', this.housingList[0]);
   }
 
   initMap() {
-    console.log('initMap');
+    //console.log('initMap');
     setTimeout(() => {
       this.resize();
       this.map = L.map('map').setView([44.525800, 5.066040], 15);
@@ -61,7 +61,7 @@ export class HousingLocationMapComponent implements OnInit, OnDestroy{
         }
       );
       tiles.addTo(this.map);
-      console.log('housingList', this.housingList);
+      //console.log('housingList', this.housingList);
       if(this.housingList) this.setMarker();
       
         
@@ -70,10 +70,10 @@ export class HousingLocationMapComponent implements OnInit, OnDestroy{
   }
 
   setMarker() {
-    console.log('setMarker');
+    //console.log('setMarker');
     let markerPane: HTMLElement = this.map.getPane('markerPane')
     let shadowPane: HTMLElement = this.map.getPane('shadowPane');
-    console.log('markerPane', markerPane);
+    //console.log('markerPane', markerPane);
     markerPane.innerHTML = ''
     shadowPane.innerHTML = '';
 
@@ -96,7 +96,7 @@ export class HousingLocationMapComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy(): void {
-    console.log('ngOnDestroy');
+    //console.log('ngOnDestroy');
     this.map.remove()
     this.resizeObserver.unobserve(document.body);
   }

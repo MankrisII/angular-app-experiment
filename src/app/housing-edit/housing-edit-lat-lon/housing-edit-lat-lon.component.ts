@@ -17,8 +17,8 @@ import { debounceTime, defer, distinctUntilChanged, take } from 'rxjs';
 export class HousingEditLatLonComponent {
   // @Input() housingLocation!: HousingLocation;
   @Input() set housingLocation(value: HousingLocation) {
-    console.log('set housingLocation');
-    console.log('this.map', this.map);
+    //console.log('set housingLocation');
+    //console.log('this.map', this.map);
     this._housingLocation = value;
     if (this.map) {
       this.setMarkerCoords(this.housingLocation.coords!);
@@ -39,19 +39,19 @@ export class HousingEditLatLonComponent {
 
   constructor() {
     afterNextRender(() => {
-      console.log('afterNextRender');
+      //console.log('afterNextRender');
       if (!this.map) this.initMap();
       if(this.housingLocation) this.setMarkerCoords(this.housingLocation.coords!);
     });
   }
   
   ngOnInit(): void {
-    console.log('ngoInit');
-    console.log('housing', this.housingLocation);
-    console.log('editForm', this.editForm);
+    //console.log('ngoInit');
+    //console.log('housing', this.housingLocation);
+    //console.log('editForm', this.editForm);
 
     this.editForm.controls['coords'].valueChanges.subscribe((value) => {
-      console.log('lat-long - coords', value);
+      //console.log('lat-long - coords', value);
       this.coords = value;
       this.setMarkerCoords(this.coords);
     });
@@ -81,7 +81,7 @@ export class HousingEditLatLonComponent {
     this.marker.setLatLng([Number(coords.lat), Number(coords.lon)]);
     this.map.panTo([Number(coords.lat), Number(coords.lon)]);
 
-    console.log('marker getLatLng', this.marker.getLatLng());
+    //console.log('marker getLatLng', this.marker.getLatLng());
   }
 
   createMarker(coords: HousingLocationCoords) {
@@ -91,10 +91,10 @@ export class HousingEditLatLonComponent {
 
     this.map.panTo([Number(coords.lat), Number(coords.lon)]);
 
-    console.log('create marker getLatLng', this.marker.getLatLng());
+    //console.log('create marker getLatLng', this.marker.getLatLng());
 
     this.marker.addEventListener('dragend', (event: any) => {
-      console.log('marker end', event);
+      //console.log('marker end', event);
       this.editForm.controls['coords'].patchValue({
         lat: event.target._latlng.lat,
         lon: event.target._latlng.lng,

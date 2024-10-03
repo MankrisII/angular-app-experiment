@@ -27,11 +27,11 @@ export class HousingEditPhotoComponent implements OnInit {
   ngOnInit(): void {
     
     this.photosFormArray = this.editForm.get('photos') as FormArray;
-    console.log('photos',this.photosFormArray)
+    //console.log('photos',this.photosFormArray)
     this.htmlFileInput = document.getElementById(
       'photo-file-input'
     ) as HTMLInputElement;
-    console.log(this.htmlFileInput);
+    //console.log(this.htmlFileInput);
   }
 
   addPhotoControl() {
@@ -39,23 +39,23 @@ export class HousingEditPhotoComponent implements OnInit {
   }
 
   selectFile(event: Event) {
-    console.log('selectFile');
+    //console.log('selectFile');
     event.stopPropagation();
     event.preventDefault();
     (document.getElementById('photo-file-input') as HTMLInputElement).click();
   }
 
   fileSelected(event: Event) {
-    console.log('fileSelected');
+    //console.log('fileSelected');
     event.stopPropagation();
     event.preventDefault();
     const target = event.target as HTMLInputElement;
     const files = target.files;
     const file = files![0];
-    console.log(file);
+    //console.log(file);
     const reponse = this.firebase.addphoto(file).then((url) => {
       this.photosFormArray.push(this.formBuilder.control(url));
-      console.log(this.photosFormArray);
+      //console.log(this.photosFormArray);
     });
   }
 
