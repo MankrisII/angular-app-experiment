@@ -3,26 +3,26 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { catchError, debounceTime, distinctUntilChanged, fromEvent ,map, of} from 'rxjs';
-import { AdressListItem } from '../../AdressApiResult';
+import { AddressListItem } from '../../AddressApiResult';
 
 @Component({
-  selector: 'app-adress-input',
+  selector: 'app-address-input',
   standalone: true,
   imports: [NgClass, NgIf, ReactiveFormsModule, NgStyle],
-  templateUrl: './adress-input.component.html',
-  styleUrl: './adress-input.component.css',
+  templateUrl: './address-input.component.html',
+  styleUrl: './address-input.component.css',
 })
-export class AdressInputComponent implements OnInit {
+export class AddressInputComponent implements OnInit {
   @Input() control!: FormControl;
-  @Output() adressChange = new EventEmitter<any>();
+  @Output() addressChange = new EventEmitter<any>();
   @ViewChild('list') ulList!: ElementRef;
 
-  adressesList!: AdressListItem[] | null;
-  previousSelectedAdressId: number | null = null;
-  selectedAdressId: number | null = null;
+  addressesList!: AddressListItem[] | null;
+  previousSelectedAddressId: number | null = null;
+  selectedAddressId: number | null = null;
   http: HttpClient;
   timer: any;
-  previousAdressValue: any = '';
+  previousAddressValue: any = '';
   isListDisplayed: boolean = false;
   loading: boolean = false;
   noResult: boolean = false;
@@ -43,12 +43,12 @@ export class AdressInputComponent implements OnInit {
     }
 
     // city list is open
-    if (this.isListDisplayed && this.adressesList != null) {
-      this.previousSelectedAdressId = this.selectedAdressId;
+    if (this.isListDisplayed && this.addressesList != null) {
+      this.previousSelectedAddressId = this.selectedAddressId;
 
       // On Enter key press, set city input value from selected item
       if (event.code == 'Enter') {
-        this.selectAdress();
+        this.selectAddress();
         return;
       }
 
@@ -69,12 +69,12 @@ export class AdressInputComponent implements OnInit {
     // open dropdown at previous state
     if (
       !this.isListDisplayed &&
-      this.adressesList &&
+      this.addressesList &&
       event.code == 'ArrowDown'
     ) {
-      this.selectedAdressId = 0;
+      this.selectedAddressId = 0;
       this.isListDisplayed = true;
-      this.updateAdressList();
+      this.updateAddressList();
       return;
     }
 
@@ -82,10 +82,10 @@ export class AdressInputComponent implements OnInit {
     //console.log('timer');
 
     // value hasn't changed
-    if (this.control.value == this.previousAdressValue) return;
+    if (this.control.value == this.previousAddressValue) return;
 
     // open dropdown in loading mode at first typping when field is empty
-    if (!this.isListDisplayed && !this.adressesList) {
+    if (!this.isListDisplayed && !this.addressesList) {
       this.isListDisplayed = true;
       this.loading = true;
       this.noResult = false;
@@ -99,9 +99,9 @@ export class AdressInputComponent implements OnInit {
       this.isListDisplayed = true;
       this.loading = true;
       this.noResult = false;
-      this.selectedAdressId = null;
+      this.selectedAddressId = null;
 
-      this.previousAdressValue = this.control.value;
+      this.previousAddressValue = this.control.value;
       // this.closeList()
 
       this.http
@@ -114,22 +114,22 @@ export class AdressInputComponent implements OnInit {
         .subscribe((response: any) => {
           //console.log('city keyup response = ', response);
           if ((response.features as Array<any>).length > 0) {
-            let adresses: any = [];
+            let addresses: any = [];
             // decompose cities with multiple postals codes
             for (let [id,feature] of response.features.entries() as Iterable<any>) {
               //console.log('feature', feature);
-              adresses.push({
+              addresses.push({
                 selected: false,
                 data: feature,
                 id:id
               });
             }
-            this.adressesList = adresses;
+            this.addressesList = addresses;
           } else {
             this.noResult = true;
-            this.adressesList = null;
-            this.selectedAdressId = null;
-            this.previousSelectedAdressId = null;
+            this.addressesList = null;
+            this.selectedAddressId = null;
+            this.previousSelectedAddressId = null;
           }
 
           this.loading = false;
@@ -138,60 +138,60 @@ export class AdressInputComponent implements OnInit {
   }
 
   mouveUp() {
-    if (this.selectedAdressId == null || this.selectedAdressId == 0) {
-      this.selectedAdressId = this.adressesList!.length - 1;
+    if (this.selectedAddressId == null || this.selectedAddressId == 0) {
+      this.selectedAddressId = this.addressesList!.length - 1;
     } else {
-      this.selectedAdressId--;
+      this.selectedAddressId--;
     }
-    this.updateAdressList();
+    this.updateAddressList();
   }
 
   mouveDown() {
     if (
-      this.selectedAdressId == null ||
-      this.selectedAdressId == this.adressesList!.length - 1
+      this.selectedAddressId == null ||
+      this.selectedAddressId == this.addressesList!.length - 1
     ) {
-      this.selectedAdressId = 0;
+      this.selectedAddressId = 0;
     } else {
-      this.selectedAdressId++;
+      this.selectedAddressId++;
     }
-    this.updateAdressList();
+    this.updateAddressList();
   }
 
-  adressClick(id: number) {
-    //console.log('adressClick', this.adressesList![id].data.properties.label);
+  addressClick(id: number) {
+    //console.log('addressClick', this.addressesList![id].data.properties.label);
     //this.control?.setValue(nom);
-    this.adressChange.emit(this.adressesList![id].data);
+    this.addressChange.emit(this.addressesList![id].data);
     this.closeList();
   }
 
-  selectAdress() {
-    // this.control?.setValue(this.adressesList[this.selectedAdressId!].label);
-    this.adressChange.emit(this.adressesList![this.selectedAdressId!].data);
+  selectAddress() {
+    // this.control?.setValue(this.addressesList[this.selectedAddressId!].label);
+    this.addressChange.emit(this.addressesList![this.selectedAddressId!].data);
     this.closeList();
-    this.previousAdressValue = this.control.value;
+    this.previousAddressValue = this.control.value;
   }
 
   ngOnInit(): void {}
 
-  updateAdressList() {
+  updateAddressList() {
     // console.log('updateCityList')
     // change selected item
-    if (this.previousSelectedAdressId != null)
-      this.adressesList![this.previousSelectedAdressId!].selected = false;
-    this.adressesList![this.selectedAdressId!].selected = true;
+    if (this.previousSelectedAddressId != null)
+      this.addressesList![this.previousSelectedAddressId!].selected = false;
+    this.addressesList![this.selectedAddressId!].selected = true;
 
     // scroll cityList
     let selectedY = 0;
     let ul = this.ulList.nativeElement;
-    // console.log(this.selectedAdressId,
+    // console.log(this.selectedAddressId,
     //   this.ulList.nativeElement
     // );
-    let selectedHeight = (ul.children[this.selectedAdressId!] as HTMLElement)
+    let selectedHeight = (ul.children[this.selectedAddressId!] as HTMLElement)
       .offsetHeight;
     let cityListHeight = ul.offsetHeight;
 
-    for (let i = 0; i < this.selectedAdressId!; i++) {
+    for (let i = 0; i < this.selectedAddressId!; i++) {
       selectedY += (ul.children[i] as HTMLElement).offsetHeight;
     }
 
@@ -208,10 +208,10 @@ export class AdressInputComponent implements OnInit {
     //console.log('closelist');
     if (this.closeTimeOut) clearTimeout(this.closeTimeOut);
     this.closeTimeOut = setTimeout(() => {
-      if (this.selectedAdressId)
-        this.adressesList![this.selectedAdressId!].selected = false;
-      this.selectedAdressId = null;
-      this.previousSelectedAdressId = null;
+      if (this.selectedAddressId)
+        this.addressesList![this.selectedAddressId!].selected = false;
+      this.selectedAddressId = null;
+      this.previousSelectedAddressId = null;
       this.isListDisplayed = false;
       this.loading = false;
       this.noResult = false;

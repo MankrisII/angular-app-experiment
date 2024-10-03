@@ -3,7 +3,7 @@ export interface HousingLocation {
   photos?: string[];
   name?: string;
   city?: string;
-  adress?: string;
+  address?: string;
   houseNumber?: number;
   street?: string;
   postalCode?: string;

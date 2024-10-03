@@ -19,7 +19,7 @@ import { NgFor } from '@angular/common';
           <img *ngFor="let photo of housingLocation.photos" src="{{photo}}"/>
         </div>
         <p>{{housingLocation.name}}</p>
-        <app-location-details [adress]="housingLocation.adress" />
+        <app-location-details [address]="housingLocation.address" />
         <p>Unit available : {{housingLocation.availableUnits}}</p>
         <app-is-option-available label="Wifi available" [value]="housingLocation.wifi"/>
         <app-is-option-available label="Laundry sevice" [value]="housingLocation.laundry"/>

@@ -110,7 +110,7 @@ export class HousingService implements OnInit {
           id: '',
           name: '',
           city: '',
-          adress: '',
+          address: '',
           photos: [],
           availableUnits: 0,
           wifi: false,

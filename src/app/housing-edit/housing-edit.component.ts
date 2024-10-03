@@ -10,8 +10,8 @@ import { FirebaseService } from '../firebase.service';
 import { CloseButtonComponent } from "../ui/button/close-button/close-button.component";
 import { HousingEditPhotoComponent } from './housing-edit-photo/housing-edit-photo.component';
 import { HousingEditLatLonComponent } from "./housing-edit-lat-lon/housing-edit-lat-lon.component";
-import { AdressInputComponent } from './adress-input/adress-input.component';
-import { AdressApiResult } from '../AdressApiResult';
+import { AddressInputComponent } from './address-input/address-input.component';
+import { AddressApiResult } from '../AddressApiResult';
 import { data } from 'jquery';
 
 @Component({
@@ -23,7 +23,7 @@ import { data } from 'jquery';
     NgIf,
     NgClass,
     CityInputComponent,
-    AdressInputComponent,
+    AddressInputComponent,
     NgFor,
     CloseButtonComponent,
     CloseButtonComponent,
@@ -43,7 +43,7 @@ export class HousingEditComponent implements OnInit {
   photoUrl = '';
   @ViewChild('photos') photos!: HousingEditPhotoComponent;
   @ViewChild('latlong') latlong!: HousingEditLatLonComponent;
-  @ViewChild('adress', { static: true }) adress!: AdressInputComponent;
+  @ViewChild('address', { static: true }) address!: AddressInputComponent;
 
   param!: any;
   id!: string;
@@ -55,7 +55,7 @@ export class HousingEditComponent implements OnInit {
     city: ['', Validators.required],
     street: ['', Validators.required],
     houseNumber: [0, Validators.required],
-    adress: ['', Validators.required],
+    address: ['', Validators.required],
     postalCode: ['', Validators.required],
     coords: this.formBuilder.group({
       lat: ['', Validators.required],
@@ -93,20 +93,20 @@ export class HousingEditComponent implements OnInit {
       this.editForm.patchValue(Object(this.housingLocation));
     });
 
-    this.adress.adressChange.subscribe((adressData: AdressApiResult) => {
-      // console.log('adressChange', adressData);
+    this.address.addressChange.subscribe((addressData: AddressApiResult) => {
+      // console.log('addressChange', addressData);
       // console.log('editformValue', this.editForm.value);
       let newValues : HousingLocation = {
-        adress: adressData.properties.label,
-        houseNumber: Number(adressData.properties.housenumber),
-        street: adressData.properties.street,
-        postalCode: adressData.properties.postcode,
-        city: adressData.properties.city,
+        address: addressData.properties.label,
+        houseNumber: Number(addressData.properties.housenumber),
+        street: addressData.properties.street,
+        postalCode: addressData.properties.postcode,
+        city: addressData.properties.city,
       };
       // console.log('coords',this.editForm.get('coords.lat')?.value);
       newValues.coords = {
-        lat: adressData.geometry.coordinates[1],
-        lon: adressData.geometry.coordinates[0]
+        lat: addressData.geometry.coordinates[1],
+        lon: addressData.geometry.coordinates[0]
       }
 
       // console.log('newValues', newValues);

@@ -1,9 +1,9 @@
-export interface AdressListItem {
+export interface AddressListItem {
   selected: boolean;
-  data: AdressApiResult;
+  data: AddressApiResult;
   id: number;
 }
-export interface AdressApiResult {
+export interface AddressApiResult {
   type: string;
   geometry: Geometry;
   properties: Properties;

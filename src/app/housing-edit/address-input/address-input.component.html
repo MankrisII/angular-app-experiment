@@ -1,6 +1,6 @@
 <div class="input-list-container">
   <input type="text" autocomplete="off"
-    id="adresse"
+    id="addresse"
     (keyup)="keyup($event)"
     (focusout)="closeList()"
     [formControl]="control">
@@ -9,9 +9,9 @@
     [ngClass]="[isListDisplayed ? 'd-b':'d-n']" #list>
     <li *ngIf="loading">Loading</li>
     <li *ngIf="noResult">No result</li>
-    @for(adress of adressesList; track adress.data.properties.banId){
-    <li [ngClass]="[adress.selected ? 'selected':'']"
-      (click)="adressClick(adress.id)">{{adress.data.properties.label}}</li>
+    @for(address of addressesList; track address.data.properties.banId){
+    <li [ngClass]="[address.selected ? 'selected':'']"
+      (click)="addressClick(address.id)">{{address.data.properties.label}}</li>
     }
 
   </ul>

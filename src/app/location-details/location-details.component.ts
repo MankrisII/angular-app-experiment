@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core';
   standalone: true,
   imports: [],
   template: `
-    <p>{{adress}}</p>
+    <p>{{address}}</p>
   `,
   styles: `
     p{
@@ -21,5 +21,5 @@ import { Component, Input } from '@angular/core';
   `
 })
 export class LocationDetailsComponent {
-  @Input() adress!: string | undefined
+  @Input() address!: string | undefined
 }
