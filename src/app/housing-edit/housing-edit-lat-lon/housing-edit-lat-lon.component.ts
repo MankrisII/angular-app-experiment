@@ -3,7 +3,6 @@ import { HousingLocation, HousingLocationCoords } from '../../HousingLocation';
 import * as L from 'leaflet';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { debounceTime, defer, distinctUntilChanged, take } from 'rxjs';
-import { HousingFormDataCoords } from '../HousingFormData';
 
 @Component({
   selector: 'app-housing-edit-lat-lon',
@@ -34,7 +33,7 @@ export class HousingEditLatLonComponent {
   @ViewChild('map') mapElement!: ElementRef;
   map!: any;
   resizeObserver!: ResizeObserver;
-  coords!: HousingFormDataCoords;
+  coords!: HousingLocationCoords;
   marker!: any;
 
 

@@ -13,7 +13,6 @@ import { HousingEditLatLonComponent } from "./housing-edit-lat-lon/housing-edit-
 import { AdressInputComponent } from './adress-input/adress-input.component';
 import { AdressApiResult } from '../AdressApiResult';
 import { data } from 'jquery';
-import { HousingFormData } from './HousingFormData';
 
 @Component({
   selector: 'app-housing-edit',
@@ -95,7 +94,7 @@ export class HousingEditComponent implements OnInit {
     this.adress.adressChange.subscribe((adressData: AdressApiResult) => {
       console.log('adressChange', adressData);
       // console.log('editformValue', this.editForm.value);
-      let newValues : HousingFormData = {
+      let newValues : HousingLocation = {
         adress: adressData.properties.name,
         postalCode: adressData.properties.postcode,
         city: adressData.properties.city,
