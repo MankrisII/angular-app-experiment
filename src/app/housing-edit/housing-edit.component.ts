@@ -54,7 +54,7 @@ export class HousingEditComponent implements OnInit {
     name: ['', Validators.required],
     city: ['', Validators.required],
     street: ['', Validators.required],
-    houseNumber: ['', Validators.required],
+    houseNumber: [0, Validators.required],
     adress: ['', Validators.required],
     postalCode: ['', Validators.required],
     coords: this.formBuilder.group({
@@ -85,7 +85,7 @@ export class HousingEditComponent implements OnInit {
 
     locObs.subscribe((location) => {
       this.housingLocation = location;
-      //console.log(location);
+      console.log(location);
       if (this.housingLocation.photos)
         for (let photo of this.housingLocation.photos) {
           this.photos.addPhotoControl();
@@ -98,7 +98,7 @@ export class HousingEditComponent implements OnInit {
       // console.log('editformValue', this.editForm.value);
       let newValues : HousingLocation = {
         //adress: adressData.properties.name,
-        houseNumber: adressData.properties.housenumber,
+        houseNumber: Number(adressData.properties.housenumber),
         street: adressData.properties.street,
         postalCode: adressData.properties.postcode,
         city: adressData.properties.city,
