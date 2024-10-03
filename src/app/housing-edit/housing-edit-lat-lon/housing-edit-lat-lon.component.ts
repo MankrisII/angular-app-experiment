@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, ViewChild, afterNextRender, provideExperimentalZonelessChangeDetection } from '@angular/core';
-import { HousingLocation } from '../../HousingLocation';
+import { HousingLocation, HousingLocationCoords } from '../../HousingLocation';
 import * as L from 'leaflet';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { debounceTime, defer, distinctUntilChanged, take } from 'rxjs';
@@ -16,7 +16,20 @@ import { HousingFormDataCoords } from '../HousingFormData';
           }`,
 })
 export class HousingEditLatLonComponent {
-  @Input() housingLocation!: HousingLocation;
+  // @Input() housingLocation!: HousingLocation;
+  @Input() set housingLocation(value: HousingLocation) {
+    console.log('set housingLocation');
+    console.log('this.map', this.map);
+    this._housingLocation = value;
+    if (this.map) {
+      this.setMarkerCoords(this.housingLocation.coords!);
+    }
+  }
+
+  get housingLocation(): HousingLocation {
+    return this._housingLocation;
+  }
+  private _housingLocation!: HousingLocation;
   @Input() editForm!: FormGroup;
   @ViewChild('map') mapElement!: ElementRef;
   map!: any;
@@ -24,37 +37,25 @@ export class HousingEditLatLonComponent {
   coords!: HousingFormDataCoords;
   marker!: any;
 
+
   constructor() {
-    
+    afterNextRender(() => {
+      console.log('afterNextRender');
+      if (!this.map) this.initMap();
+      if(this.housingLocation) this.setMarkerCoords(this.housingLocation.coords!);
+    });
   }
+  
   ngOnInit(): void {
-    this.editForm.valueChanges.pipe(take(1)).subscribe((form) => {
-      console.log('form init')
-      this.initMap();
-    }
-    );
+    console.log('ngoInit');
+    console.log('housing', this.housingLocation);
+    console.log('editForm', this.editForm);
 
     this.editForm.controls['coords'].valueChanges.subscribe((value) => {
       console.log('lat-long - coords', value);
       this.coords = value;
       this.setMarkerCoords(this.coords);
-    })
-  }
-  
-  init() {
-    console.log('init');
-    // this.editForm.valueChanges
-    //   .pipe(debounceTime(300),
-    //     distinctUntilChanged((prev, curr) => {
-    //       return prev.adress === curr.adress && prev.city === curr.city;
-    //     })
-    // )
-    //   .subscribe((form) => {
-    //   // console.log('form', form);
-    //   let adress = form.adress.replace(/ /g, '+') + '+' + form.city.replace(/ /g, '+');
-    //   console.log('adress', adress);
-    // });
-    this.initMap()
+    });
   }
 
   initMap() {
@@ -72,29 +73,29 @@ export class HousingEditLatLonComponent {
     return this.map;
   }
 
-  setMarkerCoords(coords: HousingFormDataCoords) {
+  setMarkerCoords(coords: HousingLocationCoords) {
     if (!this.marker) {
       this.createMarker(coords);
       return;
     }
 
     this.marker.setLatLng([Number(coords.lat), Number(coords.lon)]);
-    this.map.setView([Number(coords.lat), Number(coords.lon)], 15);
-    
+    this.map.panTo([Number(coords.lat), Number(coords.lon)]);
+
     console.log('marker getLatLng', this.marker.getLatLng());
   }
 
-  createMarker(coords: HousingFormDataCoords) {
+  createMarker(coords: HousingLocationCoords) {
     this.marker = L.marker([Number(coords.lat), Number(coords.lon)], {
       draggable: true,
     }).addTo(this.map);
 
-    this.map.setView([Number(coords.lat), Number(coords.lon)], 15);
-    
+    this.map.panTo([Number(coords.lat), Number(coords.lon)]);
+
     console.log('create marker getLatLng', this.marker.getLatLng());
 
     this.marker.addEventListener('dragend', (event: any) => {
-      console.log('marker dragend', event);
+      console.log('marker end', event);
       this.editForm.controls['coords'].patchValue({
         lat: event.target._latlng.lat,
         lon: event.target._latlng.lng,
