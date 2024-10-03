@@ -97,7 +97,7 @@ export class HousingEditComponent implements OnInit {
       // console.log('adressChange', adressData);
       // console.log('editformValue', this.editForm.value);
       let newValues : HousingLocation = {
-        //adress: adressData.properties.name,
+        adress: adressData.properties.label,
         houseNumber: Number(adressData.properties.housenumber),
         street: adressData.properties.street,
         postalCode: adressData.properties.postcode,
