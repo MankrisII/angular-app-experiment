@@ -17,6 +17,21 @@
     <p>Adress :</p>
     <app-adress-input [control]="editForm.controls['adress']" #adress></app-adress-input>
   </label>
+  
+  <label for="houseNumber">
+    <p>House Number : </p>
+
+    <input type="text"
+      id="houseNumber"
+      formControlName="houseNumber">
+  </label>
+  <label for="street">
+    <p>Street : </p>
+
+    <input type="text"
+      id="street"
+      formControlName="street">
+  </label>
   <label for="city">
     <p>City : </p>
     <app-city-input [control]="editForm.controls['city']"></app-city-input>

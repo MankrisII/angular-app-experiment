@@ -22,6 +22,7 @@ export interface Properties {
   name: string;
   postcode: string;
   citycode: string;
+  housenumber: string;
   x: number;
   y: number;
   city: string;

@@ -53,6 +53,8 @@ export class HousingEditComponent implements OnInit {
     photos: this.formBuilder.array<FormArray>([]),
     name: ['', Validators.required],
     city: ['', Validators.required],
+    street: ['', Validators.required],
+    houseNumber: ['', Validators.required],
     adress: ['', Validators.required],
     postalCode: ['', Validators.required],
     coords: this.formBuilder.group({
@@ -95,7 +97,9 @@ export class HousingEditComponent implements OnInit {
       console.log('adressChange', adressData);
       // console.log('editformValue', this.editForm.value);
       let newValues : HousingLocation = {
-        adress: adressData.properties.name,
+        //adress: adressData.properties.name,
+        houseNumber: adressData.properties.housenumber,
+        street: adressData.properties.street,
         postalCode: adressData.properties.postcode,
         city: adressData.properties.city,
       };

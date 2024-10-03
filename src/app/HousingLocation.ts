@@ -4,6 +4,8 @@ export interface HousingLocation {
   name?: string;
   city?: string;
   adress?: string;
+  houseNumber?: string;
+  street?: string;
   postalCode?: string;
   coords?: HousingLocationCoords;
   availableUnits?: number;
