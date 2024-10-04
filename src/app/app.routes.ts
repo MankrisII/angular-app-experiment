@@ -2,26 +2,32 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { HousingDetailsComponent } from './housing-details/housing-details.component';
 import { HousingEditComponent } from './housing-edit/housing-edit.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 export const routes: Routes = [
   {
-    path: "",
+    path: '',
     component: HomeComponent,
-    title : "Home"
+    title: 'Home',
   },
   {
-    path: "details/:id",
+    path: 'details/:id',
     component: HousingDetailsComponent,
-    title : "housing Details"
+    title: 'housing Details',
   },
   {
-    path: "edit/:id",
+    path: 'edit/:id',
     component: HousingEditComponent,
-    title : 'Housing Edit'
+    title: 'Housing Edit',
   },
-   {
-    path: "edit",
+  {
+    path: 'edit',
     component: HousingEditComponent,
-    title : 'Housing New'
-  }
+    title: 'Housing New',
+  },
+  {
+    path: '**',
+    component: PageNotFoundComponent,
+    title: 'Page note found',
+  },
 ];
