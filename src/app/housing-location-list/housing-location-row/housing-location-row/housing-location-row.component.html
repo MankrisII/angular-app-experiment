@@ -10,11 +10,11 @@
   <td class="laundry">@if(housingLocation.laundry){yes}@else{no}</td>
   <td class="actions">
     <a class="actionLink"
-      [routerLink]="['details', housingLocation.id]">Details</a>
+      [routerLink]="['/details', housingLocation.id]">Details</a>
     @if(this.fireaseAuth.userLogged()){
       -
       <a class="actionLink"
-      [routerLink]="['edit', housingLocation.id]">Edit</a>
+      [routerLink]="['/edit', housingLocation.id]">Edit</a>
       -
       <a class="actionLink"
         (click)="delete(housingLocation.id!)">Delete</a>
