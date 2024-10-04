@@ -1,12 +1,13 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, afterNextRender, afterRender } from '@angular/core';
 import { HousingLocation } from '../HousingLocation';
 import * as L from 'leaflet';
+import { NgFor } from '@angular/common';
 
 
 @Component({
   selector: 'app-housing-location-map',
   standalone: true,
-  imports: [],
+  imports: [NgFor],
   templateUrl: './housing-location-map.component.html',
   styleUrl: './housing-location-map.component.css',
 })
@@ -22,8 +23,11 @@ export class HousingLocationMapComponent implements OnInit, OnDestroy{
   get housingList(): HousingLocation[]{
     return this._housingList;
   };
+  
   private _housingList!: HousingLocation[];
+
   @ViewChild('map') mapElement!: ElementRef;
+
   map!: any 
   resizeObserver!: ResizeObserver;
   
@@ -41,6 +45,7 @@ export class HousingLocationMapComponent implements OnInit, OnDestroy{
       this.resizeObserver.observe(document.body);
     });
   }
+
   ngOnInit(): void {
     //console.log('ngoInit');
     //console.log('housing', this.housingList[0]);
@@ -80,11 +85,16 @@ export class HousingLocationMapComponent implements OnInit, OnDestroy{
     this._housingList.forEach((housing) => {
       if (housing.coords) {        // TODO: temp fix for missing coords
 
-        L.marker([Number(housing.coords.lat), Number(housing.coords.lon),])
-          .addTo(this.map);
-        // .bindPopup(
-        //   `<b>${housing.title}</b><br>${housing.price}€<br>${housing.surface}m²`
-        // );
+        let marker = L.marker([Number(housing.coords.lat), Number(housing.coords.lon)])
+        marker.addTo(this.map)
+
+        setTimeout(() => {
+          console.log(housing.id!);
+          console.log(document.getElementById(housing.id!));
+          
+          marker.bindPopup(document.getElementById(housing.id!) as HTMLElement);
+          marker.bindTooltip(housing.address!);
+        }, 200);
       }
     });
   }

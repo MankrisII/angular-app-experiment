@@ -1,1 +1,4 @@
 <div id="map" #map></div>
+@for(housing of housingList; track housing.id){
+  <div id="{{housing.id}}">{{housing.address}}</div>
+}
