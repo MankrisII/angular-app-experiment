@@ -39,7 +39,7 @@ export class HousingLocationMapComponent implements OnInit, OnDestroy{
       //console.log('afterNextRender'); 
       //console.log('this.map', this.mapElement);
       
-      if (!this.map && this.housingList) this.initMap()
+      this.initMap()
   
       this.resizeObserver = new ResizeObserver(() => {
         this.resize();
