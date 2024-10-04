@@ -4,11 +4,16 @@ import { RouterModule } from '@angular/router';
 import { LocationDetailsComponent } from '../location-details/location-details.component';
 import { HousingService } from '../housing.service';
 import { Queryoptions } from '../queryoptions';
+import { HousinglocationCardComponent } from './housinglocation-card/housinglocation-card.component';
 
 @Component({
   selector: 'app-housing-location-grid',
   standalone: true,
-  imports: [RouterModule, LocationDetailsComponent],
+  imports: [
+    RouterModule,
+    LocationDetailsComponent,
+    HousinglocationCardComponent,
+  ],
   template: `
     <div>
       <div class="orderBy">
@@ -22,29 +27,7 @@ import { Queryoptions } from '../queryoptions';
       </div>
       <section class="grid">
         @for(housingLocation of housingList; track housingList){
-        <div
-          class="housing-location-card"
-          [routerLink]="['details', housingLocation.id]"
-        >
-          <img class="housing-photo" 
-            src="{{
-              housingLocation.photos && housingLocation.photos[0]
-                ? housingLocation.photos[0]
-                : 'assets/3926921.png'
-            }}"/>
-          <div class="details">
-            <h2>{{ housingLocation.name }}</h2>
-            <app-location-details
-              [address]="housingLocation.address"
-            />
-            <!-- <a class="primary-link" [routerLink]="['details',housingLocation.id]">See details</a>   -->
-            <a
-              class="edit-btn secondary"
-              [routerLink]="['edit', housingLocation.id]"
-              >Edit</a
-            >
-          </div>
-        </div>
+          <div app-housinglocation-card [housingLocation]="housingLocation"></div>
         }
       </section>
     </div>
