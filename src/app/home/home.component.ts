@@ -2,7 +2,7 @@ import { Component,OnInit,effect,inject } from '@angular/core';
 import { HousingLocation } from '../HousingLocation';
 import { HousingLocationGridComponent } from '../housing-location-grid/housing-location-grid.component';
 import { HousingService } from '../housing.service';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { HousingLocationListComponent } from '../housing-location-list/housing-location-list.component';
 import { HomeCustomisationService } from './home-customisation.service';
 import { NgClass, NgStyle } from '@angular/common';
@@ -25,6 +25,7 @@ import { HousingLocationMapComponent } from '../housing-location-map/housing-loc
     FormsModule,
     NgStyle,
     CloseButtonComponent,
+    RouterOutlet
 ],
   styleUrl: './home.component.css',
   templateUrl: './home.component.html',

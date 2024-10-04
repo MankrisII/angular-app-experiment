@@ -22,19 +22,12 @@
 <div style="float: right;">
   <a class="primary primary-rounded-left"
     [ngClass]="displayType != 'grid' ? 'inactiv' : ''"
-    (click)="display('list')">list</a>
+    routerLink="/list">list</a>
   <a class="primary primary-rounded-none"
     [ngClass]="displayType != 'list' ? 'inactiv' : ''"
-    (click)="display('grid')">grid</a>
+    routerLink="/grid">grid</a>
   <a class="primary primary-rounded-right"
     [ngClass]="displayType != 'map' ? 'inactiv' : ''"
-    (click)="display('map')">map</a>
+    routerLink="/map">map</a>
 </div>
-@if(this.customisationService.getDisplayType() == "grid"){
-<app-housing-location-grid [housingList]="this.housingService.housingListSig()" />
-}@else if(this.customisationService.getDisplayType() == "list") {
-<app-housing-location-list [housingList]="this.housingService.housingListSig()" (onSort)="this.housingService.sort()"/>
-<!-- <app-housing-location-list [housingList]="this.housingService.housingListSig()"/> -->
-}@else if(this.customisationService.getDisplayType() == "map"){
-  <app-housing-location-map [housingList]="this.housingService.housingListSig()"></app-housing-location-map>
-}
+<router-outlet></router-outlet>
