@@ -38,7 +38,7 @@ import { HousingLocationRowComponent } from './housing-location-row/housing-loca
           }
         </tr>
         <tr
-          *ngFor="let housingLocation of housingList"
+          *ngFor="let housingLocation of housingService.housingListSig()"
           class="housing-location-list-row"
           app-housing-location-row
           [housingLocation]="housingLocation"
@@ -50,7 +50,6 @@ import { HousingLocationRowComponent } from './housing-location-row/housing-loca
   styleUrl: './housing-location-list.component.css',
 })
 export class HousingLocationListComponent implements OnInit {
-  @Input() housingList!: HousingLocation[];
   @Output() onSort = new EventEmitter();
   housingService = inject(HousingService);
   allRowSelected = false
