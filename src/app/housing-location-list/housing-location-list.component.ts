@@ -32,7 +32,7 @@ import { HousingLocationRowComponent } from './housing-location-row/housing-loca
           <th class="{{ col.class }}">
             <app-list-sorter-heading
               [options]="col"
-              (onSort)="this.onSort.emit($event)"
+              (onSort)="this.housingService.sort()"
             />
           </th>
           }
