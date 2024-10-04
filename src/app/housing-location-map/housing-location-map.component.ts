@@ -29,6 +29,7 @@ export class HousingLocationMapComponent implements OnInit, OnDestroy{
 
   @ViewChild('map') mapElement!: ElementRef;
 
+  housingService = inject(HousingService);
   map!: any 
   resizeObserver!: ResizeObserver;
   
@@ -45,6 +46,11 @@ export class HousingLocationMapComponent implements OnInit, OnDestroy{
       });
       this.resizeObserver.observe(document.body);
     });
+
+    effect(() => {
+      console.log('effect');
+      this.housingList = this.housingService.housingListSig();
+    })
   }
 
   ngOnInit(): void {
