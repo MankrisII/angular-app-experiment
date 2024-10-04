@@ -2,12 +2,13 @@ import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, afterNextRe
 import { HousingLocation } from '../HousingLocation';
 import * as L from 'leaflet';
 import { NgFor } from '@angular/common';
+import { HousinglocationCardComponent } from '../housing-location-grid/housinglocation-card/housinglocation-card.component';
 
 
 @Component({
   selector: 'app-housing-location-map',
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor, HousinglocationCardComponent],
   templateUrl: './housing-location-map.component.html',
   styleUrl: './housing-location-map.component.css',
 })

@@ -1,4 +1,8 @@
-<div id="map" #map></div>
-@for(housing of housingList; track housing.id){
-  <div id="{{housing.id}}">{{housing.address}}</div>
-}
+<section class="map">
+  <div id="map" #map></div>
+  <div class="cards">
+    @for(housing of housingList; track housing.id){
+      <div id="{{housing.id}}" class="housingCard" app-housinglocation-card [housingLocation]="housing"></div>
+    }
+  </div>
+</section>
