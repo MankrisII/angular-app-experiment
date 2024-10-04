@@ -1,8 +1,9 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, afterNextRender, afterRender } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, afterNextRender, afterRender, effect, inject } from '@angular/core';
 import { HousingLocation } from '../HousingLocation';
 import * as L from 'leaflet';
 import { NgFor } from '@angular/common';
 import { HousinglocationCardComponent } from '../housing-location-grid/housinglocation-card/housinglocation-card.component';
+import { HousingService } from '../housing.service';
 
 
 @Component({
