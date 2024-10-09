@@ -25,7 +25,7 @@ import { LocationDetailsComponent } from '../../location-details/location-detail
       <div class="address">{{ housingLocation.houseNumber }} {{ housingLocation.street }}</div>
       <!-- <a class="primary-link" [routerLink]="['details',housingLocation.id]">See details</a>   -->
       <div class="actions">
-        <a class="edit-btn secondary" [routerLink]="['edit', housingLocation.id]">Edit</a>
+        <a class="edit-btn secondary" [routerLink]="['/edit', housingLocation.id]">Edit</a>
       </div>  
     </div>
   `,
