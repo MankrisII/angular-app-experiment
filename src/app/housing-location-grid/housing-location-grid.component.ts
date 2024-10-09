@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output,  } from '@angular/core';
-import { HousingLocation } from '../HousingLocation';
+import { Component, EventEmitter, inject, Output,  } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LocationDetailsComponent } from '../location-details/location-details.component';
 import { HousingService } from '../housing.service';
@@ -26,8 +25,8 @@ import { HousinglocationCardComponent } from './housinglocation-card/housingloca
         </select>
       </div>
       <section class="grid">
-        @for(housingLocation of housingList; track housingList){
-          <div app-housinglocation-card [housingLocation]="housingLocation"></div>
+        @for(housingLocation of housingService.housingListSig(); track housingLocation.id){
+        <div app-housinglocation-card [housingLocation]="housingLocation"></div>
         }
       </section>
     </div>
@@ -35,9 +34,9 @@ import { HousinglocationCardComponent } from './housinglocation-card/housingloca
   styleUrl: './housing-location-grid.component.css',
 })
 export class HousingLocationGridComponent {
-  @Input() housingList!: HousingLocation[];
+  housingService = inject(HousingService);
   @Output() onOrderBy = new EventEmitter<any>();
-  constructor(private housingService: HousingService) {}
+  constructor() {}
 
   orderBy(event: any) {
     console.log(event.target.value);
