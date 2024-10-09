@@ -1,13 +1,12 @@
-import { Component,OnInit,effect,inject } from '@angular/core';
+import { Component,OnInit,inject } from '@angular/core';
 import { HousingLocation } from '../HousingLocation';
 import { HousingLocationGridComponent } from '../housing-location-grid/housing-location-grid.component';
 import { HousingService } from '../housing.service';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { HousingLocationListComponent } from '../housing-location-list/housing-location-list.component';
 import { HomeCustomisationService } from './home-customisation.service';
 import { NgClass, NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Queryoptions } from '../queryoptions';
 import { FirebaseService } from '../firebase.service';
 import { SorterService } from '../list-sorter-heading/sorter.service';
 import { CloseButtonComponent } from "../ui/button/close-button/close-button.component";
@@ -21,6 +20,7 @@ import { HousingLocationMapComponent } from '../housing-location-map/housing-loc
     HousingLocationListComponent,
     HousingLocationMapComponent,
     RouterLink,
+    RouterLinkActive,
     NgClass,
     FormsModule,
     NgStyle,
@@ -32,7 +32,6 @@ import { HousingLocationMapComponent } from '../housing-location-map/housing-loc
 })
 export class HomeComponent implements OnInit{
   housingList: HousingLocation[] = [];
-  displayType: string;
   searchInput: string = '';
   firebaseService = inject(FirebaseService);
   housingService = inject(HousingService);
@@ -40,18 +39,12 @@ export class HomeComponent implements OnInit{
   sorterService = inject(SorterService)
   
   constructor() {
-    this.displayType = this.customisationService.getDisplayType();
   }
 
   ngOnInit(): void {
     this.housingService.getLocations()
   }
 
-  display(type: string) {
-    console.log(type, 'display');
-    this.displayType = type;
-    this.customisationService.setDisplayType(type);
-  }
   // order(event : Queryoptions) {
   //   // this.housingService.getHousingLocationList(event);
   //   this.housingService.sort(event)

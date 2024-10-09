@@ -15,22 +15,24 @@ export const routes: Routes = [
     children: [
       {
         path: 'grid',
-        component : HousingLocationGridComponent
+        component: HousingLocationGridComponent,
+        title: 'grid',
       },
       {
         path: 'list',
-        component : HousingLocationListComponent
+        component: HousingLocationListComponent,
+        title: 'list',
       },
       {
         path: 'map',
-        component : HousingLocationMapComponent
+        component: HousingLocationMapComponent,
       },
       {
         path: '',
         redirectTo: '/list',
         pathMatch: 'full',
-      }
-    ]
+      },
+    ],
   },
   {
     path: 'details/:id',

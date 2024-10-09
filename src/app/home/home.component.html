@@ -21,13 +21,17 @@
   [routerLink]="['edit']">Add location</a>
 <div style="float: right;">
   <a class="primary primary-rounded-left"
-    [ngClass]="displayType != 'grid' ? 'inactiv' : ''"
-    routerLink="/list">list</a>
+    routerLink="/list"
+    routerLinkActive="inactiv"
+    >list
+  </a>
   <a class="primary primary-rounded-none"
-    [ngClass]="displayType != 'list' ? 'inactiv' : ''"
-    routerLink="/grid">grid</a>
+    routerLink="/grid"
+    routerLinkActive="inactiv"
+    >grid</a>
   <a class="primary primary-rounded-right"
-    [ngClass]="displayType != 'map' ? 'inactiv' : ''"
-    routerLink="/map">map</a>
+    routerLink="/map"
+    routerLinkActive="inactiv"
+    >map</a>
 </div>
 <router-outlet></router-outlet>
