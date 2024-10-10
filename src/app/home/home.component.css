@@ -20,6 +20,12 @@
   padding: 3px 20px 4px;
 }
 
+#clearSearchButton{
+  position: absolute;
+  right: 93px;
+  top: 9px;
+}
+
 #add-location-button {}
 
 app-housing-location-map{
