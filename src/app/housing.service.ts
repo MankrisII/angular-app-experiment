@@ -51,7 +51,7 @@ export class HousingService implements OnInit {
     }
 
     const querySnap = await getDocs(q);
-    console.log(querySnap);
+    console.log('docs', querySnap.docs);
     // const locations = querySnap.docs.map((doc) => {
     //   return { id: doc.id, ...doc.data() } as HousingLocation;
     // });
@@ -136,7 +136,7 @@ export class HousingService implements OnInit {
   getNewLocation(): Observable<HousingLocation> {
     return new Observable((observer) => {
       observer.next({
-        id: '',
+        // id: '',
         name: '',
         city: '',
         address: '',
@@ -157,10 +157,10 @@ export class HousingService implements OnInit {
   //   return this.housingList[this.housingList.length - 1].id + 1;
   // }
 
-  editHousingLocation(data: HousingLocation): Observable<boolean> {
+  editHousingLocation(id: string, data: HousingLocation): Observable<boolean> {
     // console.log(data);
     return new Observable((subscriber) => {
-      const docRef = doc(this.firebase.fireStore, 'locations', data.id!);
+      const docRef = doc(this.firebase.fireStore, 'locations', id);
       const promise = updateDoc(docRef, { ...data }).then((rep) => {
         subscriber.next(true);
         subscriber.complete();

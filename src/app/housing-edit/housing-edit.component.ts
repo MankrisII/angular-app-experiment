@@ -56,7 +56,6 @@ export class HousingEditComponent implements OnInit {
   id!: string;
   housingLocation!: HousingLocation;
   editForm = this.formBuilder.group({
-    id: [''],
     photos: this.formBuilder.array<FormArray>([]),
     name: ['', Validators.required],
     city: ['', Validators.required],
@@ -135,7 +134,7 @@ export class HousingEditComponent implements OnInit {
 
     var obs;
     if (this.id) {
-      obs = this.housingService.editHousingLocation(housingData);
+      obs = this.housingService.editHousingLocation(this.id, housingData);
     } else {
       obs = this.housingService.addHousingLocation(housingData);
     }

@@ -33,8 +33,8 @@ export class HousingLocationRowComponent implements OnInit {
   set housingLocation(docSnap: DocumentSnapshot) {
     this._housingLocationDoc = docSnap;
     this._housingLocationData = {
-      id: docSnap.id,
       ...docSnap.data(),
+      id: docSnap.id,
     } as HousingLocation;
   }
   get housingLocation(): HousingLocation {
