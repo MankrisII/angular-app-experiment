@@ -12,12 +12,12 @@
     <li *ngIf="loading">Loading</li>
     <li *ngIf="noResult">No result</li>
     @for (address of addressesList; track address.data.properties.banId) {
-      <li
-        [ngClass]="[address.selected ? 'selected' : '']"
-        (click)="addressClick(address.id)"
-      >
-        {{ address.data.properties.label }}
-      </li>
+    <li
+      [ngClass]="[address.selected ? 'selected' : '']"
+      (click)="addressClick(address.id)"
+    >
+      {{ address.data.properties.label }}
+    </li>
     }
   </ul>
 </div>
