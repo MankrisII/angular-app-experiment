@@ -65,7 +65,14 @@ export class HousingLocationListComponent implements OnInit {
 { label: 'Actions', sortable: false, sortOn: '', class: 'actions' },
   ];
   constructor() {}
-  ngOnInit() {}
+  ngOnInit() {
+    this.housingService.getLocations({
+      page: 1, perPage: 5, orderBy: [
+        { order: 'asc', by: 'street_insensitive' },
+        { order: 'asc', by: 'houseNumber' }
+      ]
+    });
+  }
 
   // selectRow(event: any) {
   //   console.log('selectRow', event);

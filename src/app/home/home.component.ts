@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.housingService.getLocations()
+    // this.housingService.getLocations()
   }
 
   // order(event : Queryoptions) {

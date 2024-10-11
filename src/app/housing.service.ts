@@ -1,10 +1,13 @@
-import { Injectable, OnInit, signal, inject, computed } from '@angular/core';
-import { HousingLocation } from './HousingLocation';
-import { Queryoptions } from './queryoptions';
 import { HttpClient } from '@angular/common/http';
-import { FirebaseService } from './firebase.service';
-import { SorterService } from './list-sorter-heading/sorter.service';
+import { inject, Injectable, OnInit, signal } from '@angular/core';
+import { collectionData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { FirebaseService } from './firebase.service';
+import { HousingLocation } from './HousingLocation';
+import { SorterService } from './list-sorter-heading/sorter.service';
+import { Queryoptions } from './queryoptions';
+import { collection, getDocs, orderBy, OrderByDirection, query, where } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 
 
 @Injectable({
@@ -25,12 +28,24 @@ export class HousingService implements OnInit {
     // })
   }
 
-  getLocations() {
-    this.firebase.getLocations().subscribe((locations) => {
-      this.housingListDb = locations;
-      this.housingListSig.set(locations);
-      console.log(this.housingListDb);
-    });
+  async getLocations(queryoptions: Queryoptions | null = null) {
+    
+    let q = query(this.firebase.HLCollection)
+
+    if (queryoptions?.orderBy) {
+      for (let order of queryoptions.orderBy) {
+        q = query(q, orderBy(order.by, order.order as OrderByDirection))
+      }
+    }
+    // q = query(q, orderBy('street_insensitive'));
+    // q = query(q, orderBy('houseNumber',"asc"));
+    
+    const querySnap = await getDocs(q)
+    const locations = querySnap.docs.map(doc => doc.data() as HousingLocation)
+    
+    this.housingListDb = locations;
+    this.housingListSig.set(locations);
+
   }
 
   searchHousingLocationByName(search: string) {}
@@ -121,9 +136,9 @@ export class HousingService implements OnInit {
     })
   }
 
-  getOrderBy() {
-    return this.queyOptions!.order?.by;
-  }
+  // getOrderBy() {
+  //   return this.queyOptions!.orderBy?.by;
+  // }
 
   // getNextId(): number {
   //   return this.housingList[this.housingList.length - 1].id + 1;
