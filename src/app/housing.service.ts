@@ -182,18 +182,19 @@ export class HousingService implements OnInit {
     // console.log('delete - ', id);
     const docRef = doc(this.firebase.fireStore, 'locations', id);
     deleteDoc(docRef).then(() => {
-      // TODO remove this to use housinLocationsDocsSig
-      this.housingListDb = this.housingListDb.filter(
-        (housing) => housing.id != id
-      );
-      // TODO remove this to use housinLocationsDocsSig
-      this.housingListSig.update((housings) =>
-        housings.filter((housing) => housing.id != id)
-      );
+      this.getLocations(this.queyOptions);
+      // // TODO remove this to use housinLocationsDocsSig
+      // this.housingListDb = this.housingListDb.filter(
+      //   (housing) => housing.id != id
+      // );
+      // // TODO remove this to use housinLocationsDocsSig
+      // this.housingListSig.update((housings) =>
+      //   housings.filter((housing) => housing.id != id)
+      // );
 
-      this.housinLocationsDocsSig.update((docs) =>
-        this.housinLocationsDocsSig().filter((doc) => doc.id != id)
-      );
+      // this.housinLocationsDocsSig.update((docs) =>
+      // //   this.housinLocationsDocsSig().filter((doc) => doc.id != id)
+      // );
     });
   }
 }
