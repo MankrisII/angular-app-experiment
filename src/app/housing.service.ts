@@ -68,8 +68,8 @@ export class HousingService implements OnInit {
   search(value: string) {
     this.housingListSig.set(
       this.housingListDb.filter((housing) =>
-        housing.name!.toLowerCase().includes(value.toLowerCase()),
-      ),
+        housing.name!.toLowerCase().includes(value.toLowerCase())
+      )
     );
   }
 
@@ -104,13 +104,13 @@ export class HousingService implements OnInit {
             if (order == 'DESC') return aValue ? -1 : 1;
         }
         return 0;
-      }),
+      })
     );
   }
 
   private getValueToSort(
     housingLocation: HousingLocation,
-    sortOn: string,
+    sortOn: string
   ): any {
     return housingLocation[sortOn as keyof HousingLocation];
   }
@@ -154,7 +154,7 @@ export class HousingService implements OnInit {
   // }
 
   editHousingLocation(data: HousingLocation): Observable<boolean> {
-    console.log(data);
+    // console.log(data);
     return new Observable((subscriber) => {
       const docRef = doc(this.firebase.fireStore, 'locations', data.id!);
       const promise = updateDoc(docRef, { ...data }).then((rep) => {
@@ -165,7 +165,7 @@ export class HousingService implements OnInit {
   }
 
   addHousingLocation(data: HousingLocation) {
-    console.log(data);
+    // console.log(data);
     return new Observable((subscriber) => {
       addDoc(this.firebase.HLCollection, data).then((rep) => {
         subscriber.next(true);
@@ -175,16 +175,16 @@ export class HousingService implements OnInit {
   }
 
   deleteHousingLocation(id: string) {
-    console.log(id);
+    // console.log('delete - ', id);
     const docRef = doc(this.firebase.fireStore, 'locations', id);
     deleteDoc(docRef).then(() => {
       // TODO remove this to use housinLocationsDocsSig
       this.housingListDb = this.housingListDb.filter(
-        (housing) => housing.id != id,
+        (housing) => housing.id != id
       );
       // TODO remove this to use housinLocationsDocsSig
       this.housingListSig.update((housings) =>
-        housings.filter((housing) => housing.id != id),
+        housings.filter((housing) => housing.id != id)
       );
 
       this.housinLocationsDocsSig.update((docs) =>
