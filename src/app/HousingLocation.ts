@@ -3,9 +3,12 @@ export interface HousingLocation {
   photos?: string[];
   name?: string;
   city?: string;
+  city_insensitive?: string;
   address?: string;
+  address_insensitive?: string;
   houseNumber?: number;
   street?: string;
+  street_insensitive?: string;
   postalCode?: string;
   coords?: HousingLocationCoords;
   availableUnits?: number;
