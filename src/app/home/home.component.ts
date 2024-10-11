@@ -18,6 +18,8 @@ import { SorterService } from '../list-sorter-heading/sorter.service';
 import { CloseButtonComponent } from '../ui/button/close-button/close-button.component';
 import { HousingLocationMapComponent } from '../housing-location-map/housing-location-map.component';
 import { AddressInputComponent } from '../housing-edit/address-input/address-input.component';
+import { AddressApiResult } from '../AddressApiResult';
+import { Queryoptions } from '../queryoptions';
 
 @Component({
   selector: 'app-home',
@@ -55,6 +57,18 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     // this.housingService.getLocations()
+    this.searchInput.addressChange.subscribe((address: AddressApiResult) => {
+      console.log(address);
+
+      if (!address.properties.housenumber) {
+        let queryOption: Queryoptions = { ...this.housingService.queyOptions };
+        queryOption.street_insensitive =
+          address.properties.street.toLocaleLowerCase();
+
+        this.housingService.getLocations(queryOption);
+        this.searchForm.patchValue({ search: address.properties.street });
+      }
+    });
   }
 
   // order(event : Queryoptions) {

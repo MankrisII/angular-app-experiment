@@ -50,6 +50,13 @@ export class HousingService implements OnInit {
       }
     }
 
+    if (queryoptions?.street_insensitive) {
+      q = query(
+        q,
+        where('street_insensitive', '==', queryoptions.street_insensitive)
+      );
+    }
+
     const querySnap = await getDocs(q);
     console.log('docs', querySnap.docs);
     // const locations = querySnap.docs.map((doc) => {
