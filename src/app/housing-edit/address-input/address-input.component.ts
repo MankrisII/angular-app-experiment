@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Input,
   OnInit,
   Output,
@@ -32,6 +33,7 @@ export class AddressInputComponent implements OnInit {
   @Input() placeholder: string = '';
   @Output() addressChange = new EventEmitter<any>();
   @ViewChild('list') ulList!: ElementRef;
+  @HostBinding('class.homeSearch') isHomeSearch = false;
 
   addressesList!: AddressListItem[] | null;
   previousSelectedAddressId: number | null = null;
