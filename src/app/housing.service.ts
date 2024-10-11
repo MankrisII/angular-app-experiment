@@ -6,7 +6,7 @@ import { FirebaseService } from './firebase.service';
 import { HousingLocation } from './HousingLocation';
 import { SorterService } from './list-sorter-heading/sorter.service';
 import { Queryoptions } from './queryoptions';
-import { collection, getDocs, orderBy, OrderByDirection, query, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, orderBy, OrderByDirection, query, where } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 
@@ -37,12 +37,13 @@ export class HousingService implements OnInit {
         q = query(q, orderBy(order.by, order.order as OrderByDirection))
       }
     }
-    // q = query(q, orderBy('street_insensitive'));
-    // q = query(q, orderBy('houseNumber',"asc"));
     
     const querySnap = await getDocs(q)
-    const locations = querySnap.docs.map(doc => doc.data() as HousingLocation)
-    
+    console.log(querySnap);
+    const locations = querySnap.docs.map(doc => {
+      return { id: doc.id, ...doc.data() } as HousingLocation;
+    })
+    console.log(locations);
     this.housingListDb = locations;
     this.housingListSig.set(locations);
 
@@ -174,7 +175,8 @@ export class HousingService implements OnInit {
 
   deleteHousingLocation(id: string) {
     console.log(id)
-    this.firebase.deleteLocation(id).subscribe(() => {
+    const docRef = doc(this.firebase.fireStore, 'locations', id)
+    deleteDoc(docRef).then(() => {
       this.housingListDb = this.housingListDb.filter(housing => housing.id != id)
       this.housingListSig.update((housings) => housings.filter(housing => housing.id != id))
     })
