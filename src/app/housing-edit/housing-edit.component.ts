@@ -141,7 +141,8 @@ export class HousingEditComponent implements OnInit {
     }
 
     obs.subscribe({
-      next: (reponse) => {
+      complete: () => {
+        // TODO: navigation base on referrer
         this.router.navigateByUrl('/');
       },
       error: (error) => {
