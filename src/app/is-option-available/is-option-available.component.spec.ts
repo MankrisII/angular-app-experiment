@@ -8,9 +8,8 @@ describe('IsOptionAvailableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IsOptionAvailableComponent]
-    })
-    .compileComponents();
+      imports: [IsOptionAvailableComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(IsOptionAvailableComponent);
     component = fixture.componentInstance;

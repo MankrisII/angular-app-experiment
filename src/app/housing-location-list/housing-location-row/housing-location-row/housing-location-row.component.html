@@ -1,27 +1,48 @@
-  <td class="check"><input type="checkbox" class="rowCheck" [checked]="this.selected"/></td>
-  <td class="photo">
-    <img src="{{ _housingLocationData.photos && _housingLocationData.photos[0] ? _housingLocationData.photos[0] : 'assets/3926921.png' }}" />
-  </td>
-  <td class="houseNumber">{{ _housingLocationData.houseNumber }}</td>
-  <td class="street">{{ _housingLocationData.street }}</td>
-  <td class="city">{{ _housingLocationData.city }}</td>
-  <td class="available-units">{{ _housingLocationData.availableUnits }}</td>
-  <td class="wifi">@if(_housingLocationData.wifi){yes}@else{no}</td>
-  <td class="laundry">@if(_housingLocationData.laundry){yes}@else{no}</td>
-  <td class="actions">
-    <a class="actionLink"
-      [routerLink]="['/details', _housingLocationData.id]">Details</a>
-    @if(this.fireaseAuth.userLogged()){
-      -
-      <a class="actionLink"
-      [routerLink]="['/edit', _housingLocationData.id]">Edit</a>
-      -
-      <a class="actionLink"
-        (click)="delete(_housingLocationData.id!)">Delete</a>
-    }
-  </td>
-  <!-- (click)='selectRow($event)' -->
-  <!-- <tr class="housing-location-list"
+<td class="check">
+  <input type="checkbox" class="rowCheck" [checked]="this.selected" />
+</td>
+<td class="photo">
+  <img
+    src="{{
+      _housingLocationData.photos && _housingLocationData.photos[0]
+        ? _housingLocationData.photos[0]
+        : 'assets/3926921.png'
+    }}"
+  />
+</td>
+<td class="houseNumber">{{ _housingLocationData.houseNumber }}</td>
+<td class="street">{{ _housingLocationData.street }}</td>
+<td class="city">{{ _housingLocationData.city }}</td>
+<td class="available-units">{{ _housingLocationData.availableUnits }}</td>
+<td class="wifi">
+  @if (_housingLocationData.wifi) {
+    yes
+  } @else {
+    no
+  }
+</td>
+<td class="laundry">
+  @if (_housingLocationData.laundry) {
+    yes
+  } @else {
+    no
+  }
+</td>
+<td class="actions">
+  <a class="actionLink" [routerLink]="['/details', _housingLocationData.id]"
+    >Details</a
+  >
+  @if (this.fireaseAuth.userLogged()) {
+    -
+    <a class="actionLink" [routerLink]="['/edit', _housingLocationData.id]"
+      >Edit</a
+    >
+    -
+    <a class="actionLink" (click)="delete(_housingLocationData.id!)">Delete</a>
+  }
+</td>
+<!-- (click)='selectRow($event)' -->
+<!-- <tr class="housing-location-list"
     *ngFor="let _housingLocationData of housingList"
     app-housing-location-row
     [_housingLocationData]="_housingLocationData"></tr> -->

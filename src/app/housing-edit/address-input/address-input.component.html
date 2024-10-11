@@ -1,18 +1,23 @@
 <div class="input-list-container">
-  <input type="text" autocomplete="off"
+  <input
+    type="text"
+    autocomplete="off"
     id="addresse"
     (keyup)="keyup($event)"
     (focusout)="closeList()"
-    [formControl]="control">
-    
-  <ul class="list"
-    [ngClass]="[isListDisplayed ? 'd-b':'d-n']" #list>
+    [formControl]="control"
+  />
+
+  <ul class="list" [ngClass]="[isListDisplayed ? 'd-b' : 'd-n']" #list>
     <li *ngIf="loading">Loading</li>
     <li *ngIf="noResult">No result</li>
-    @for(address of addressesList; track address.data.properties.banId){
-    <li [ngClass]="[address.selected ? 'selected':'']"
-      (click)="addressClick(address.id)">{{address.data.properties.label}}</li>
+    @for (address of addressesList; track address.data.properties.banId) {
+      <li
+        [ngClass]="[address.selected ? 'selected' : '']"
+        (click)="addressClick(address.id)"
+      >
+        {{ address.data.properties.label }}
+      </li>
     }
-
   </ul>
 </div>

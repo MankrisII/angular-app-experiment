@@ -5,11 +5,11 @@ import { SortQuery } from './SortQuery';
   providedIn: 'root',
 })
 export class SorterService {
-  sortSig = signal<SortQuery>({order:"",sortOn:""});
+  sortSig = signal<SortQuery>({ order: '', sortOn: '' });
 
-  constructor() { }
-  
+  constructor() {}
+
   clearOrder() {
-    this.sortSig.set({order :"", sortOn : ''})
+    this.sortSig.set({ order: '', sortOn: '' });
   }
 }

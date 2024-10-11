@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output,  } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LocationDetailsComponent } from '../location-details/location-details.component';
 import { HousingService } from '../housing.service';
@@ -25,9 +25,14 @@ import { HousinglocationCardComponent } from './housinglocation-card/housingloca
         </select>
       </div>
       <section class="grid">
-        @for(housingLocation of housingService.housinLocationsDocsSig(); track
-        housingLocation.id){
-        <div app-housinglocation-card [housingLocation]="housingLocation"></div>
+        @for (
+          housingLocation of housingService.housinLocationsDocsSig();
+          track housingLocation.id
+        ) {
+          <div
+            app-housinglocation-card
+            [housingLocation]="housingLocation"
+          ></div>
         }
       </section>
     </div>

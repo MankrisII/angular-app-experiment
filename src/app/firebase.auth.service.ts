@@ -11,7 +11,7 @@ import {
   onAuthStateChanged,
   User,
   signOut,
-  Unsubscribe
+  Unsubscribe,
 } from 'firebase/auth';
 import { Observable, from, map, switchMap } from 'rxjs';
 import { UserData } from './UserData';
@@ -23,13 +23,12 @@ export class FirebaseAuthService {
   firebase = inject(FirebaseService);
   // ui = new firebaseui.auth.AuthUI(firebase.auth());
   userLogged = signal<boolean>(false);
-  user: User | null = null
-  userData : UserData | null = null
+  user: User | null = null;
+  userData: UserData | null = null;
   auth = getAuth();
 
   constructor() {
-
-     let unsubscribe = onAuthStateChanged(this.auth, (userCredential) => {
+    let unsubscribe = onAuthStateChanged(this.auth, (userCredential) => {
       // console.log('onAuthStateChanged',u);
       if (userCredential) {
         // console.log('user already logged');
@@ -43,7 +42,7 @@ export class FirebaseAuthService {
   signIn(email: string, password: string): Observable<User> {
     // console.log('signin user');
     return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
-      switchMap((userCredential) => this.getUser(userCredential.user))
+      switchMap((userCredential) => this.getUser(userCredential.user)),
     );
 
     // before refactoring
@@ -68,9 +67,9 @@ export class FirebaseAuthService {
       this.firebase.getUserById(user.uid).subscribe({
         next: (userData) => {
           // console.log('loggin comp get user - ok', userData);
-          this.user = user
-          this.userData = userData
-          this.userLogged.set(true)
+          this.user = user;
+          this.userData = userData;
+          this.userLogged.set(true);
           subscriber.next(user);
         },
         error: (error) => {
@@ -88,8 +87,8 @@ export class FirebaseAuthService {
         // console.log("user signedout")
         console.log(rep);
         this.user = null;
-        this.userData = null
-        this.userLogged.set(false)
+        this.userData = null;
+        this.userLogged.set(false);
       })
       .catch((error) => {
         // console.log("error", error.code, error.message)

@@ -1,22 +1,29 @@
-<input type="file"
+<input
+  type="file"
   id="photo-file-input"
   name="file"
   (change)="fileSelected($event)"
-  [formControl]="fileInput" />
-  
+  [formControl]="fileInput"
+/>
+
 <div [formGroup]="editForm">
   <div formArrayName="photos">
-    <div class="photoContainer"
+    <div
+      class="photoContainer"
       *ngFor="let photo of photosFormArray.controls"
-      (click)="deletePhoto(photo.value)">
+      (click)="deletePhoto(photo.value)"
+    >
       <app-close-button></app-close-button>
-      <img class="photo"
-        src="{{photo.value}}" />
+      <img class="photo" src="{{ photo.value }}" />
     </div>
   </div>
 </div>
 
-<button class="secondary"
+<button
+  class="secondary"
   type="button"
   id="add-photo"
-  (click)="selectFile($event)">+ Add photo</button>
+  (click)="selectFile($event)"
+>
+  + Add photo
+</button>

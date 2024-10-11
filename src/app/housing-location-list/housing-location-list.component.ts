@@ -11,7 +11,6 @@ import { Queryoptions } from '../queryoptions';
 import { SorterOptions } from '../list-sorter-heading/sorter-options';
 import { HousingLocationRowComponent } from './housing-location-row/housing-location-row/housing-location-row.component';
 
-
 @Component({
   selector: 'app-housing-location-list',
   standalone: true,
@@ -27,18 +26,26 @@ import { HousingLocationRowComponent } from './housing-location-row/housing-loca
     <section class="housingList list">
       <table class="housing-location-list">
         <tr>
-          <th><input type="checkbox" (click)="selectAllRows()" [checked]="this.allRowSelected"/></th>
-          @for( col of columns;track col){
-          <th class="{{ col.class }}">
-            <app-list-sorter-heading
-              [options]="col"
-              (onSort)="this.housingService.sort()"
+          <th>
+            <input
+              type="checkbox"
+              (click)="selectAllRows()"
+              [checked]="this.allRowSelected"
             />
           </th>
+          @for (col of columns; track col) {
+            <th class="{{ col.class }}">
+              <app-list-sorter-heading
+                [options]="col"
+                (onSort)="this.housingService.sort()"
+              />
+            </th>
           }
         </tr>
         <tr
-          *ngFor="let housingLocation of housingService.housinLocationsDocsSig()"
+          *ngFor="
+            let housingLocation of housingService.housinLocationsDocsSig()
+          "
           class="housing-location-list-row"
           app-housing-location-row
           [housingLocation]="housingLocation"
@@ -52,25 +59,37 @@ import { HousingLocationRowComponent } from './housing-location-row/housing-loca
 export class HousingLocationListComponent implements OnInit {
   @Output() onSort = new EventEmitter();
   housingService = inject(HousingService);
-  allRowSelected = false
+  allRowSelected = false;
 
   columns: SorterOptions[] = [
-{ label: 'Photo', sortable: false, sortOn: '', class: 'photo' },
-{ label: 'N°', sortable: true, sortOn: 'houseNumber', class: 'houseNumber' },
-{ label: 'Street', sortable: true, sortOn: 'street', class: 'street' },
-{ label: 'City', sortable: true, sortOn: 'city', class: 'city' },
-{ label: 'Unit Available', sortable: true, sortOn: 'availableUnits', class: 'available-unit',},
-{ label: 'Wifi', sortable: true, sortOn: 'wifi', class: 'wifi' },
-{ label: 'Laundry', sortable: true, sortOn: 'laundry', class: 'laundry' },
-{ label: 'Actions', sortable: false, sortOn: '', class: 'actions' },
+    { label: 'Photo', sortable: false, sortOn: '', class: 'photo' },
+    {
+      label: 'N°',
+      sortable: true,
+      sortOn: 'houseNumber',
+      class: 'houseNumber',
+    },
+    { label: 'Street', sortable: true, sortOn: 'street', class: 'street' },
+    { label: 'City', sortable: true, sortOn: 'city', class: 'city' },
+    {
+      label: 'Unit Available',
+      sortable: true,
+      sortOn: 'availableUnits',
+      class: 'available-unit',
+    },
+    { label: 'Wifi', sortable: true, sortOn: 'wifi', class: 'wifi' },
+    { label: 'Laundry', sortable: true, sortOn: 'laundry', class: 'laundry' },
+    { label: 'Actions', sortable: false, sortOn: '', class: 'actions' },
   ];
   constructor() {}
   ngOnInit() {
     this.housingService.getLocations({
-      page: 1, perPage: 5, orderBy: [
+      page: 1,
+      perPage: 5,
+      orderBy: [
         { order: 'asc', by: 'street_insensitive' },
-        { order: 'asc', by: 'houseNumber' }
-      ]
+        { order: 'asc', by: 'houseNumber' },
+      ],
     });
   }
 
@@ -95,9 +114,8 @@ export class HousingLocationListComponent implements OnInit {
   // }
 
   selectAllRows() {
-    console.log("selectAllRows")
-    this.allRowSelected = !this.allRowSelected
-    
+    console.log('selectAllRows');
+    this.allRowSelected = !this.allRowSelected;
   }
 
   delete(id: string) {

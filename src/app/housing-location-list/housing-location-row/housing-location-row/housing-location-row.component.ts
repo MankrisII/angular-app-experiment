@@ -1,4 +1,11 @@
-import { Component, ElementRef, Input, OnInit, computed, inject } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  computed,
+  inject,
+} from '@angular/core';
 import { HousingLocation } from '../../../HousingLocation';
 import { RouterLink } from '@angular/router';
 import { HousingService } from '../../../housing.service';
@@ -25,7 +32,10 @@ export class HousingLocationRowComponent implements OnInit {
   @Input()
   set housingLocation(docSnap: DocumentSnapshot) {
     this._housingLocationDoc = docSnap;
-    this._housingLocationData = { id: docSnap.id, ...docSnap.data() } as HousingLocation;
+    this._housingLocationData = {
+      id: docSnap.id,
+      ...docSnap.data(),
+    } as HousingLocation;
   }
   get housingLocation(): HousingLocation {
     return this._housingLocationDoc;

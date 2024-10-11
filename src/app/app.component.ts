@@ -7,9 +7,15 @@ import { LoginComponent } from './login/login.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,HomeComponent,RouterModule,FormsModule,LoginComponent],
+  imports: [
+    RouterOutlet,
+    HomeComponent,
+    RouterModule,
+    FormsModule,
+    LoginComponent,
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
   title = 'tuto-app';

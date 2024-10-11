@@ -8,7 +8,7 @@
   overflow: hidden;
   cursor: pointer;
 }
-:host-context(.map){
+:host-context(.map) {
   width: 100%;
   margin: 0;
   border: 2px solid #fff;
@@ -39,7 +39,7 @@ h2 {
   text-overflow: ellipsis;
   text-wrap: nowrap;
 }
-.actions{
+.actions {
   margin-top: 5px;
   text-align: right;
 }

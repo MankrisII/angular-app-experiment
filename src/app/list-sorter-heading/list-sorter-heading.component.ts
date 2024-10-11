@@ -4,7 +4,6 @@ import { Input, Output } from '@angular/core';
 import { SorterOptions } from './sorter-options';
 import { SorterService } from './sorter.service';
 
-
 @Component({
   selector: 'app-list-sorter-heading',
   standalone: true,
@@ -13,9 +12,13 @@ import { SorterService } from './sorter.service';
     <a
       (click)="sort()"
       [ngClass]="[
-        this.options.sortable && this.sorterService.sortSig().sortOn == this.options.sortOn ? 'active' : '',
+        this.options.sortable &&
+        this.sorterService.sortSig().sortOn == this.options.sortOn
+          ? 'active'
+          : '',
         this.options.sortable ? this.sorterService.sortSig().order : '',
-        this.options.sortable ? 'sortable' : '']"
+        this.options.sortable ? 'sortable' : '',
+      ]"
       >{{ this.options.label }}</a
     >
   `,

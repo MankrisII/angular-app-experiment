@@ -1,13 +1,19 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { FirebaseService } from '../../firebase.service';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CloseButtonComponent } from '../../ui/button/close-button/close-button.component';
 
 @Component({
   selector: 'app-housing-edit-photo',
   standalone: true,
-  imports: [NgIf, ReactiveFormsModule, NgFor,CloseButtonComponent],
+  imports: [NgIf, ReactiveFormsModule, NgFor, CloseButtonComponent],
   templateUrl: './housing-edit-photo.component.html',
   styleUrl: './housing-edit-photo.component.css',
 })
@@ -15,21 +21,19 @@ export class HousingEditPhotoComponent implements OnInit {
   @Input() editForm!: FormGroup;
   formBuilder = inject(FormBuilder);
   firebase = inject(FirebaseService);
-  photosGroup! : FormGroup
-  photosFormArray! : FormArray
+  photosGroup!: FormGroup;
+  photosFormArray!: FormArray;
   fileInput = new FormControl();
   photoUrl = '';
   htmlFileInput!: HTMLInputElement;
 
-  constructor() {
-  }
-  
+  constructor() {}
+
   ngOnInit(): void {
-    
     this.photosFormArray = this.editForm.get('photos') as FormArray;
     //console.log('photos',this.photosFormArray)
     this.htmlFileInput = document.getElementById(
-      'photo-file-input'
+      'photo-file-input',
     ) as HTMLInputElement;
     //console.log(this.htmlFileInput);
   }

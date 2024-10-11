@@ -1,37 +1,48 @@
 <div id="form-container">
-  <form id="searchForm"
+  <form
+    id="searchForm"
     #searchForm="ngForm"
-    (ngSubmit)="this.housingService.search(searchInput)">
-    <input type="text"
+    (ngSubmit)="this.housingService.search(searchInput)"
+  >
+    <input
+      type="text"
       name="searchInput"
       [(ngModel)]="searchInput"
-      placeholder="Search by housing name" />
+      placeholder="Search by housing name"
+    />
     <!-- two way databindig example with formControl -->
     <!-- <p>{{searchInput}}</p> -->
-    <button class="primary primary-rounded-right"
-      type="submit">Search</button>
-    <app-close-button id="clearSearchButton" class="actionLink"
+    <button class="primary primary-rounded-right" type="submit">Search</button>
+    <app-close-button
+      id="clearSearchButton"
+      class="actionLink"
       (click)="this.clearSearch()"
-      [ngStyle]="{ visibility: searchInput != '' ? 'visible' : 'hidden' }"></app-close-button>
+      [ngStyle]="{ visibility: searchInput != '' ? 'visible' : 'hidden' }"
+    ></app-close-button>
     <!-- <a class="actionLink clearSearchButton" (click)="clearSearch()" ></a> -->
   </form>
 </div>
-<a id="add-location-button"
-  class="primary"
-  [routerLink]="['edit']">Add location</a>
-<div style="float: right;">
-  <a class="primary primary-rounded-left"
+<a id="add-location-button" class="primary" [routerLink]="['edit']"
+  >Add location</a
+>
+<div style="float: right">
+  <a
+    class="primary primary-rounded-left"
     routerLink="/list"
     routerLinkActive="inactiv"
     >list
   </a>
-  <a class="primary primary-rounded-none"
+  <a
+    class="primary primary-rounded-none"
     routerLink="/grid"
     routerLinkActive="inactiv"
-    >grid</a>
-  <a class="primary primary-rounded-right"
+    >grid</a
+  >
+  <a
+    class="primary primary-rounded-right"
     routerLink="/map"
     routerLinkActive="inactiv"
-    >map</a>
+    >map</a
+  >
 </div>
 <router-outlet></router-outlet>

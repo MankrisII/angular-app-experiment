@@ -1,8 +1,23 @@
 import { NgClass, NgIf, NgStyle } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { catchError, debounceTime, distinctUntilChanged, fromEvent ,map, of} from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  fromEvent,
+  map,
+  of,
+} from 'rxjs';
 import { AddressListItem } from '../../AddressApiResult';
 
 @Component({
@@ -108,20 +123,23 @@ export class AddressInputComponent implements OnInit {
         .get(
           `https://api-adresse.data.gouv.fr/search/?q=${this.control.value.replace(
             / /g,
-            '+'
-          )}&type=&autocomplete=0`
+            '+',
+          )}&type=&autocomplete=0`,
         )
         .subscribe((response: any) => {
           //console.log('city keyup response = ', response);
           if ((response.features as Array<any>).length > 0) {
             let addresses: any = [];
             // decompose cities with multiple postals codes
-            for (let [id,feature] of response.features.entries() as Iterable<any>) {
+            for (let [
+              id,
+              feature,
+            ] of response.features.entries() as Iterable<any>) {
               //console.log('feature', feature);
               addresses.push({
                 selected: false,
                 data: feature,
-                id:id
+                id: id,
               });
             }
             this.addressesList = addresses;

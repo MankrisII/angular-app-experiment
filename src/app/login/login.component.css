@@ -1,53 +1,51 @@
-
-#loginComp{
+#loginComp {
   position: absolute;
   right: 5px;
   top: 5px;
 }
-.inputContainer{
+.inputContainer {
   position: relative;
 }
-input{
+input {
   z-index: 1;
   background-color: transparent;
   display: block;
   margin-top: 20px;
-  transition: all cubic-bezier(0.4, 0, 0.2, 1) .2s;
+  transition: all cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
 }
 
-input::placeholder{
+input::placeholder {
   opacity: 0;
 }
 label,
-#email:focus~label,
-#password:focus~label
-{
-  cursor:text;
+#email:focus ~ label,
+#password:focus ~ label {
+  cursor: text;
   z-index: 0;
   display: block;
   position: absolute;
-  top : -16px;
-  font-size: .8em;
+  top: -16px;
+  font-size: 0.8em;
   left: 5px;
-  transition: all cubic-bezier(0.4, 0, 0.2, 1) .2s;
+  transition: all cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
 }
 
-input:placeholder-shown~label{
+input:placeholder-shown ~ label {
   top: 3px;
-  transition: all cubic-bezier(0.4, 0, 0.2, 1) .2s;
-  font-size: 1em
+  transition: all cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+  font-size: 1em;
 }
-#signinBtn{
+#signinBtn {
   width: 100%;
   margin-top: 20px;
 }
-.error input{
+.error input {
   border-color: red;
 }
-#errorMessage{
+#errorMessage {
   color: red;
 }
-#loading{
+#loading {
   position: absolute;
   top: 0;
   left: 0;
@@ -57,8 +55,8 @@ input:placeholder-shown~label{
   z-index: 100;
 }
 
-#loading span{
-  transform: translateY(-50%)translateX(-50%);
+#loading span {
+  transform: translateY(-50%) translateX(-50%);
   position: absolute;
   top: 50%;
   left: 50%;

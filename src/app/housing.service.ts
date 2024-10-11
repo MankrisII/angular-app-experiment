@@ -6,9 +6,18 @@ import { FirebaseService } from './firebase.service';
 import { HousingLocation } from './HousingLocation';
 import { SorterService } from './list-sorter-heading/sorter.service';
 import { Queryoptions } from './queryoptions';
-import { collection, deleteDoc, doc, DocumentSnapshot, getDocs, orderBy, OrderByDirection, query, where } from 'firebase/firestore';
+import {
+  collection,
+  deleteDoc,
+  doc,
+  DocumentSnapshot,
+  getDocs,
+  orderBy,
+  OrderByDirection,
+  query,
+  where,
+} from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
-
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +28,7 @@ export class HousingService implements OnInit {
   housinLocationsDocsSig = signal<DocumentSnapshot[]>([]);
   queyOptions: Queryoptions | null = { page: 1, perPage: 5 };
   firebase = inject(FirebaseService);
-  sorterService = inject(SorterService)
+  sorterService = inject(SorterService);
 
   constructor(private http: HttpClient) {}
 
@@ -30,20 +39,19 @@ export class HousingService implements OnInit {
   }
 
   async getLocations(queryoptions: Queryoptions | null = null) {
-    
-    let q = query(this.firebase.HLCollection)
+    let q = query(this.firebase.HLCollection);
 
     if (queryoptions?.orderBy) {
       for (let order of queryoptions.orderBy) {
-        q = query(q, orderBy(order.by, order.order as OrderByDirection))
+        q = query(q, orderBy(order.by, order.order as OrderByDirection));
       }
     }
-    
-    const querySnap = await getDocs(q)
+
+    const querySnap = await getDocs(q);
     console.log(querySnap);
-    const locations = querySnap.docs.map(doc => {
+    const locations = querySnap.docs.map((doc) => {
       return { id: doc.id, ...doc.data() } as HousingLocation;
-    })
+    });
     console.log(locations);
     this.housinLocationsDocsSig.set(querySnap.docs);
     this.housingListDb = locations; // TODO remove this to use housinLocationsDocsSig
@@ -59,14 +67,14 @@ export class HousingService implements OnInit {
   search(value: string) {
     this.housingListSig.set(
       this.housingListDb.filter((housing) =>
-        housing.name!.toLowerCase().includes(value.toLowerCase())
-      )
+        housing.name!.toLowerCase().includes(value.toLowerCase()),
+      ),
     );
   }
 
   clearSearch() {
-    this.housingListSig.set(this.housingListDb)
-    this.sort()
+    this.housingListSig.set(this.housingListDb);
+    this.sort();
   }
 
   sort() {
@@ -95,47 +103,45 @@ export class HousingService implements OnInit {
             if (order == 'DESC') return aValue ? -1 : 1;
         }
         return 0;
-      })
+      }),
     );
   }
 
   private getValueToSort(
     housingLocation: HousingLocation,
-    sortOn: string
+    sortOn: string,
   ): any {
     return housingLocation[sortOn as keyof HousingLocation];
   }
 
   //TODO
   clearSort() {
-    this.housingListSig.set(this.housingListDb)
+    this.housingListSig.set(this.housingListDb);
   }
 
   getHousingLocationById(id: string): Observable<HousingLocation> {
     return new Observable((observer) => {
       this.firebase.getLocationById(id).subscribe((data) => {
-        observer.next(data)
-        observer.complete()
-      })
-    })
+        observer.next(data);
+        observer.complete();
+      });
+    });
   }
 
   getNewLocation(): Observable<HousingLocation> {
-    return new Observable(observer => {
-      observer.next(
-        {
-          id: '',
-          name: '',
-          city: '',
-          address: '',
-          photos: [],
-          availableUnits: 0,
-          wifi: false,
-          laundry: false,
-          coords:{lat: '', lon: ''}
-        }
-      )
-    })
+    return new Observable((observer) => {
+      observer.next({
+        id: '',
+        name: '',
+        city: '',
+        address: '',
+        photos: [],
+        availableUnits: 0,
+        wifi: false,
+        laundry: false,
+        coords: { lat: '', lon: '' },
+      });
+    });
   }
 
   // getOrderBy() {
@@ -146,18 +152,16 @@ export class HousingService implements OnInit {
   //   return this.housingList[this.housingList.length - 1].id + 1;
   // }
 
-  editHousingLocation(data: HousingLocation) : Observable<boolean> {
-    console.log(data)
+  editHousingLocation(data: HousingLocation): Observable<boolean> {
+    console.log(data);
     return new Observable((subscriber) => {
-      this.firebase.editLocation(data).subscribe(
-        () => {
-          console.log("updated");
+      this.firebase.editLocation(data).subscribe(() => {
+        console.log('updated');
 
-          subscriber.next(true)
-          subscriber.complete()
-        }
-      );
-    })
+        subscriber.next(true);
+        subscriber.complete();
+      });
+    });
   }
 
   addHousingLocation(data: HousingLocation) {
@@ -175,11 +179,15 @@ export class HousingService implements OnInit {
   }
 
   deleteHousingLocation(id: string) {
-    console.log(id)
-    const docRef = doc(this.firebase.fireStore, 'locations', id)
+    console.log(id);
+    const docRef = doc(this.firebase.fireStore, 'locations', id);
     deleteDoc(docRef).then(() => {
-      this.housingListDb = this.housingListDb.filter(housing => housing.id != id)
-      this.housingListSig.update((housings) => housings.filter(housing => housing.id != id))
-    })
+      this.housingListDb = this.housingListDb.filter(
+        (housing) => housing.id != id,
+      );
+      this.housingListSig.update((housings) =>
+        housings.filter((housing) => housing.id != id),
+      );
+    });
   }
 }

@@ -1,5 +1,17 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, addDoc, collectionData, collection, doc, deleteDoc, setDoc, updateDoc, getDoc, query, getDocs } from '@angular/fire/firestore';
+import {
+  Firestore,
+  addDoc,
+  collectionData,
+  collection,
+  doc,
+  deleteDoc,
+  setDoc,
+  updateDoc,
+  getDoc,
+  query,
+  getDocs,
+} from '@angular/fire/firestore';
 //import { initializeApp } from 'firebase/app';
 // import compat version tu use firebaseUi
 import firebase from 'firebase/compat/app';
@@ -29,18 +41,16 @@ export class FirebaseService {
 
   app = firebase.initializeApp(this.firebaseConfig);
   fireStore = inject(Firestore);
-  storage = getStorage()
-  storageRef = ref(this.storage)
+  storage = getStorage();
+  storageRef = ref(this.storage);
   HLCollection = collection(this.fireStore, 'locations');
-  
-  constructor() {
-    
-  }
 
-  getUserById(id : string):Observable<any> {
+  constructor() {}
+
+  getUserById(id: string): Observable<any> {
     return new Observable((observer) => {
       getDoc(doc(this.fireStore, 'users', id)).then((reponse) => {
-        let snapshot : any = reponse.data() ;
+        let snapshot: any = reponse.data();
         snapshot.id = id;
         observer.next(snapshot);
         observer.complete();
@@ -54,16 +64,15 @@ export class FirebaseService {
     }) as Observable<HousingLocation[]>;
   }
 
-  getLocationById(id: string): Observable<any>{
+  getLocationById(id: string): Observable<any> {
     return new Observable((observer) => {
-      getDoc(doc(this.fireStore, 'locations', id))
-        .then((reponse) => {
-          let snapshot:HousingLocation = reponse.data() as HousingLocation
-          snapshot.id = id
-          observer.next(snapshot)
-          observer.complete();
-        })
-    })
+      getDoc(doc(this.fireStore, 'locations', id)).then((reponse) => {
+        let snapshot: HousingLocation = reponse.data() as HousingLocation;
+        snapshot.id = id;
+        observer.next(snapshot);
+        observer.complete();
+      });
+    });
   }
 
   addLocation(location: HousingLocation): Observable<string> {
@@ -72,46 +81,42 @@ export class FirebaseService {
   }
 
   editLocation(location: any): Observable<void> {
-    const docRef = doc(this.fireStore,'locations',location.id!)
-    const promise = updateDoc(docRef,location).then(rep => rep);
+    const docRef = doc(this.fireStore, 'locations', location.id!);
+    const promise = updateDoc(docRef, location).then((rep) => rep);
     return from(promise);
   }
 
-  async addphoto(file:File):Promise<string> {
-    var imgRef = ref(this.storageRef, 'image/' + file.name)
-    
-    const promise = uploadBytes(imgRef, file)
-      .then((snapshot) => {
-        console.log('Uploaded', snapshot);
-        return getDownloadURL(snapshot.ref).then(function (url) {
-          console.log('File available at', url);
-          
-          return url
-        });
-      })
-    console.log(promise)
-    return promise
+  async addphoto(file: File): Promise<string> {
+    var imgRef = ref(this.storageRef, 'image/' + file.name);
+
+    const promise = uploadBytes(imgRef, file).then((snapshot) => {
+      console.log('Uploaded', snapshot);
+      return getDownloadURL(snapshot.ref).then(function (url) {
+        console.log('File available at', url);
+
+        return url;
+      });
+    });
+    console.log(promise);
+    return promise;
   }
 
   addMultipleLocations(locations: HousingLocation[], id: number = 0) {
-    console.log('addMultipleLocations',id);
-    this.addLocation(locations[id]).subscribe(
-      rep => {
-        console.log('housing added', rep)
-        console.log(locations.length,id+1);
-        if (locations.length > id + 1) {this.addMultipleLocations(locations, id + 1)}
-        else {
-          this.getLocations().subscribe(
-            rep => console.log(rep)
-          )
-        }
+    console.log('addMultipleLocations', id);
+    this.addLocation(locations[id]).subscribe((rep) => {
+      console.log('housing added', rep);
+      console.log(locations.length, id + 1);
+      if (locations.length > id + 1) {
+        this.addMultipleLocations(locations, id + 1);
+      } else {
+        this.getLocations().subscribe((rep) => console.log(rep));
       }
-    );
+    });
   }
 
   deleteLocation(id: String): Observable<void> {
-    const docRef = doc(this.fireStore, 'locations/' + id)
-    const promise = deleteDoc(docRef)
-    return from(promise)
+    const docRef = doc(this.fireStore, 'locations/' + id);
+    const promise = deleteDoc(docRef);
+    return from(promise);
   }
 }

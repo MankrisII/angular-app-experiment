@@ -1,12 +1,11 @@
-#map{
+#map {
   border-radius: 10px;
   height: 400px;
 }
 
-.cards{
+.cards {
   position: absolute;
-  left : -100000px;
+  left: -100000px;
   height: 0px;
   overflow: hidden;
 }
-

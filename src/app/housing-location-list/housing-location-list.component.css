@@ -6,18 +6,19 @@
   overflow: hidden;
 }
 
-th, td{
+th,
+td {
   padding: 5px;
-  border : 0;
+  border: 0;
   border-bottom: 1px solid rgb(238, 238, 238);
 }
-.housing-location-list-row.selected{
+.housing-location-list-row.selected {
   background-color: #0004ff30;
 }
 th {
   padding-bottom: 12px;
   padding-top: 15px;
-  background-color: var(--tercery-color)
+  background-color: var(--tercery-color);
 }
 th:first-child,
 td:first-child {
@@ -28,26 +29,27 @@ td:last-child {
   padding-right: 20px;
 }
 
-tr:nth-child(2n+1){
+tr:nth-child(2n + 1) {
   background-color: var(--quartery-color);
-  
 }
 
-th, td{
+th,
+td {
   text-align: left;
 }
 
-td.photo img{
+td.photo img {
   width: 75px;
   height: 50px;
   object-fit: cover;
   vertical-align: middle;
 }
 
-td.available-units{
+td.available-units {
   text-align: center;
 }
 
-th.actions, td.actions{
+th.actions,
+td.actions {
   text-align: right;
 }

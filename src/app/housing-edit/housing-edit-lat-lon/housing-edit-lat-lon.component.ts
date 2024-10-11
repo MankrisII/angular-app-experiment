@@ -1,4 +1,11 @@
-import { Component, ElementRef, Input, ViewChild, afterNextRender, provideExperimentalZonelessChangeDetection } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+  afterNextRender,
+  provideExperimentalZonelessChangeDetection,
+} from '@angular/core';
 import { HousingLocation, HousingLocationCoords } from '../../HousingLocation';
 import * as L from 'leaflet';
 import { AbstractControl, FormGroup } from '@angular/forms';
@@ -9,10 +16,12 @@ import { debounceTime, defer, distinctUntilChanged, take } from 'rxjs';
   standalone: true,
   imports: [],
   template: ` <div id="map" #map></div> `,
-  styles: `#map{
-            width: 500px;
-            height: 300px;
-          }`,
+  styles: `
+    #map {
+      width: 500px;
+      height: 300px;
+    }
+  `,
 })
 export class HousingEditLatLonComponent {
   // @Input() housingLocation!: HousingLocation;
@@ -36,15 +45,15 @@ export class HousingEditLatLonComponent {
   coords!: HousingLocationCoords;
   marker!: any;
 
-
   constructor() {
     afterNextRender(() => {
       //console.log('afterNextRender');
       if (!this.map) this.initMap();
-      if(this.housingLocation) this.setMarkerCoords(this.housingLocation.coords!);
+      if (this.housingLocation)
+        this.setMarkerCoords(this.housingLocation.coords!);
     });
   }
-  
+
   ngOnInit(): void {
     //console.log('ngoInit');
     //console.log('housing', this.housingLocation);
@@ -66,7 +75,7 @@ export class HousingEditLatLonComponent {
         minZoom: 3,
         attribution:
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      }
+      },
     );
     tiles.addTo(this.map);
     return this.map;

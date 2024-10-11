@@ -1,46 +1,52 @@
 /* You can add global styles to this file, and also import other style files */
-@import url('styles/fonts.css');
-*{
+@import url("styles/fonts.css");
+* {
   --primary-color: rgb(86, 78, 194);
   --secondary-color: rgb(204, 201, 245);
-  --tercery-color : rgb(242, 240, 252);
-  --quartery-color:rgb(253, 251, 255);
-  --font-normal:'sohne-400';
-  --font-bold:'sohne-700';
-  --font-light:'sohne';
-  margin : 0;
+  --tercery-color: rgb(242, 240, 252);
+  --quartery-color: rgb(253, 251, 255);
+  --font-normal: "sohne-400";
+  --font-bold: "sohne-700";
+  --font-light: "sohne";
+  margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: var(--font-normal);
   font-size: 13px;
 }
-html, body, app-root, #app-container{
+html,
+body,
+app-root,
+#app-container {
   height: 100%;
 }
-.d-b{
+.d-b {
   display: block;
 }
-.d-n{
+.d-n {
   display: none;
 }
-table, td, th, tr{
+table,
+td,
+th,
+tr {
   border: 0;
   border: none;
   border-collapse: collapse;
   border-spacing: 0;
-
 }
-input{
+input {
   border: 1px solid rgb(203, 201, 201);
   display: inline-block;
   padding: 3px 5px;
 }
 
-input[type="checkbox"]{
+input[type="checkbox"] {
   border: 1px solid var(--tercery-color);
 }
 
-.primary, .secondary{
+.primary,
+.secondary {
   border: 0;
   background-color: var(--primary-color);
   color: white;
@@ -51,29 +57,31 @@ input[type="checkbox"]{
   text-decoration: none;
   cursor: pointer;
 }
-.secondary{
+.secondary {
   color: rgb(86, 78, 194);
   background-color: rgb(204, 201, 245);
 }
-.primary:hover, .secondary:hover{
-  cursor: pointer; 
+.primary:hover,
+.secondary:hover {
+  cursor: pointer;
 }
 
-.primary.inactiv, .primary[disabled]{
+.primary.inactiv,
+.primary[disabled] {
   background-color: rgb(124, 117, 223);
-  cursor:default;
+  cursor: default;
 }
 
-.primary.inactiv{
+.primary.inactiv {
   cursor: pointer;
 }
 
 .primary-rounded-none {
-    border-radius: 0px;
-    margin-left: 1px;
-    margin-right: 1px;
+  border-radius: 0px;
+  margin-left: 1px;
+  margin-right: 1px;
 }
-.primary-rounded-left{
+.primary-rounded-left {
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
   margin-right: 1px;
@@ -83,7 +91,7 @@ input[type="checkbox"]{
   border-bottom-left-radius: 0px;
 }
 
-.actionLink{
+.actionLink {
   color: rgb(86, 78, 194);
   cursor: pointer;
   text-decoration: none;
@@ -93,22 +101,22 @@ input[type="checkbox"]{
   text-decoration: underline;
 }
 
-#app-container{
+#app-container {
   padding: 5px;
 }
 
-.address{
+.address {
   padding-left: 20px;
   position: relative;
 }
 
 .address:before {
-  content: url('/assets/location-pin.svg');
+  content: url("/assets/location-pin.svg");
   position: absolute;
   top: -5px;
   left: -5px;
 }
 
-.leaflet-popup-content{
+.leaflet-popup-content {
   margin: 0 !important;
 }

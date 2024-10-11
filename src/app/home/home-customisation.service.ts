@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HomeCustomisationService {
   // TODO save in cookie
-  display : string = "map"
-  constructor() { }
+  display: string = 'map';
+  constructor() {}
 
   setDisplayType(type: string) {
-    this.display = type
+    this.display = type;
   }
 
-  getDisplayType(): string{
-    return this.display
+  getDisplayType(): string {
+    return this.display;
   }
 }

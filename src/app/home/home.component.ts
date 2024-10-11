@@ -1,4 +1,4 @@
-import { Component,OnInit,inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { HousingLocation } from '../HousingLocation';
 import { HousingLocationGridComponent } from '../housing-location-grid/housing-location-grid.component';
 import { HousingService } from '../housing.service';
@@ -9,7 +9,7 @@ import { NgClass, NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FirebaseService } from '../firebase.service';
 import { SorterService } from '../list-sorter-heading/sorter.service';
-import { CloseButtonComponent } from "../ui/button/close-button/close-button.component";
+import { CloseButtonComponent } from '../ui/button/close-button/close-button.component';
 import { HousingLocationMapComponent } from '../housing-location-map/housing-location-map.component';
 
 @Component({
@@ -25,21 +25,20 @@ import { HousingLocationMapComponent } from '../housing-location-map/housing-loc
     FormsModule,
     NgStyle,
     CloseButtonComponent,
-    RouterOutlet
-],
+    RouterOutlet,
+  ],
   styleUrl: './home.component.css',
   templateUrl: './home.component.html',
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit {
   housingList: HousingLocation[] = [];
   searchInput: string = '';
   firebaseService = inject(FirebaseService);
   housingService = inject(HousingService);
   customisationService = inject(HomeCustomisationService);
-  sorterService = inject(SorterService)
-  
-  constructor() {
-  }
+  sorterService = inject(SorterService);
+
+  constructor() {}
 
   ngOnInit(): void {
     // this.housingService.getLocations()
@@ -52,7 +51,6 @@ export class HomeComponent implements OnInit{
 
   search(value: any) {
     // let q: Queryoptions = { filterByName: value };
-
     // this.housingService.getHousingLocationList(q).then((response) => {
     //   this.housingList = response;
     // });
@@ -60,7 +58,7 @@ export class HomeComponent implements OnInit{
 
   clearSearch() {
     this.searchInput = '';
-    this.housingService.clearSearch()
+    this.housingService.clearSearch();
     // this.sorterService.clearOrder()
   }
 
@@ -68,4 +66,3 @@ export class HomeComponent implements OnInit{
   //   console.log(value)
   // }
 }
-

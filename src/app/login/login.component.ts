@@ -16,23 +16,20 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-  
 export class LoginComponent {
   firebaseAuth = inject(FirebaseAuthService);
-  firebase = inject(FirebaseService)
+  firebase = inject(FirebaseService);
   formbuilder = inject(FormBuilder);
   loginForm = this.formbuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
   });
-  loading : boolean = false
+  loading: boolean = false;
   isLogginFormDisplayed: Boolean = false;
   errorMessage: string = '';
-  router = inject(Router)
+  router = inject(Router);
 
-  constructor() {
-    
-  }
+  constructor() {}
 
   displayLogginForm() {
     this.isLogginFormDisplayed = true;
@@ -40,24 +37,24 @@ export class LoginComponent {
       document.getElementsByTagName('body')[0] as HTMLElement
     ).style.setProperty('overflow', 'hidden');
   }
-  
+
   signin() {
     console.log('singin form submited');
-    this.loading = true
+    this.loading = true;
     this.firebaseAuth
       .signIn(
         this.loginForm.controls['email'].value!,
-        this.loginForm.controls['password'].value!
+        this.loginForm.controls['password'].value!,
       )
       .subscribe({
         next: (user) => {
           console.log('login comp - ok', user);
-          this.close()
-          this.loading = false
+          this.close();
+          this.loading = false;
         },
         error: (error) => {
           console.log('login comp - error', error);
-          this.loading = false
+          this.loading = false;
           this.errorMessage = 'invalid email or password';
         },
       });
@@ -65,14 +62,13 @@ export class LoginComponent {
 
   signout() {
     this.firebaseAuth.signOut();
-    this.router.navigateByUrl("")
+    this.router.navigateByUrl('');
   }
 
-
   close() {
-    console.log('close')
+    console.log('close');
     this.isLogginFormDisplayed = false;
-    this.errorMessage = ''
+    this.errorMessage = '';
     let body = (
       document.getElementsByTagName('body')[0] as HTMLElement
     ).style.setProperty('overflow', 'scroll');

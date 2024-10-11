@@ -8,9 +8,8 @@ describe('HousingEditLatLongComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HousingEditLatLonComponent]
-    })
-    .compileComponents();
+      imports: [HousingEditLatLonComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(HousingEditLatLonComponent);
     component = fixture.componentInstance;

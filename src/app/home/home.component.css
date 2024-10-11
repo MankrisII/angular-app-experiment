@@ -1,18 +1,16 @@
-
-#form-container{
+#form-container {
   text-align: center;
   position: relative;
 }
 
-#searchForm{
+#searchForm {
   display: block;
   margin: auto;
   width: 400px;
   position: relative;
-  
 }
 
-#searchForm input{
+#searchForm input {
   border-top-left-radius: 100px;
   border-bottom-left-radius: 100px;
   border-left: 0;
@@ -20,14 +18,15 @@
   padding: 3px 20px 4px;
 }
 
-#clearSearchButton{
+#clearSearchButton {
   position: absolute;
   right: 93px;
   top: 9px;
 }
 
-#add-location-button {}
+#add-location-button {
+}
 
-app-housing-location-map{
+app-housing-location-map {
   display: block;
 }

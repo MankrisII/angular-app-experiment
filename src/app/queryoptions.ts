@@ -1,9 +1,9 @@
 export interface Queryoptions {
-  page?: number,
-  perPage?: number,
-  filterByName?: string,
+  page?: number;
+  perPage?: number;
+  filterByName?: string;
   orderBy?: {
-    order: string,
-    by : string
-  }[]
+    order: string;
+    by: string;
+  }[];
 }

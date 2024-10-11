@@ -28,8 +28,12 @@ import { DocumentSnapshot } from 'firebase/firestore';
       </div>
       <!-- <a class="primary-link" [routerLink]="['details',housingLocation.id]">See details</a>   -->
       <div class="actions">
-        <a class="edit-btn secondary" [routerLink]="['/edit', housingLocation.id]">Edit</a>
-      </div>  
+        <a
+          class="edit-btn secondary"
+          [routerLink]="['/edit', housingLocation.id]"
+          >Edit</a
+        >
+      </div>
     </div>
   `,
   styleUrl: './housinglocation-card.component.css',

@@ -1,19 +1,19 @@
-a{
+a {
   position: relative;
 }
 
-.sortable{
+.sortable {
   cursor: pointer;
 }
 
-a.active{
-  color: rgb(107, 85, 194);;
+a.active {
+  color: rgb(107, 85, 194);
 }
-a.active::after{
-  content : "";
+a.active::after {
+  content: "";
   position: absolute;
   right: -13px;
-  top : 5px;
+  top: 5px;
   width: 5px;
   height: 5px;
   rotate: -45deg;

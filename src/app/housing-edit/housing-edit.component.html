@@ -1,81 +1,79 @@
 <!-- <form [formGroup]="editForm" (ngSubmit)="submit($event)"> -->
-<form [formGroup]="editForm" >
-<label for="name">
-    <p>Name :</p> 
-    <input type="text"
-      id="name"
-      formControlName="name">
+<form [formGroup]="editForm">
+  <label for="name">
+    <p>Name :</p>
+    <input type="text" id="name" formControlName="name" />
   </label>
 
   <label id="photo-label" for="photo">
-    <p>Photos : </p>
-    <app-housing-edit-photo [editForm]="this.editForm" #photos></app-housing-edit-photo>
+    <p>Photos :</p>
+    <app-housing-edit-photo
+      [editForm]="this.editForm"
+      #photos
+    ></app-housing-edit-photo>
   </label>
   <!-- <app-housing-edit-photo [photosArray]="housingLocation?.photos"></app-housing-edit-photo> -->
 
   <label for="address">
     <p>Address :</p>
-    <app-address-input [control]="editForm.controls['address']" #address></app-address-input>
+    <app-address-input
+      [control]="editForm.controls['address']"
+      #address
+    ></app-address-input>
   </label>
-  
-  <label for="houseNumber">
-    <p>House Number : </p>
 
-    <input type="text"
-      id="houseNumber"
-      formControlName="houseNumber">
+  <label for="houseNumber">
+    <p>House Number :</p>
+
+    <input type="text" id="houseNumber" formControlName="houseNumber" />
   </label>
   <label for="street">
-    <p>Street : </p>
+    <p>Street :</p>
 
-    <input type="text"
-      id="street"
-      formControlName="street">
+    <input type="text" id="street" formControlName="street" />
   </label>
   <label for="city">
-    <p>City : </p>
+    <p>City :</p>
     <app-city-input [control]="editForm.controls['city']"></app-city-input>
   </label>
   <label for="postalCode">
-    <p>Postal code : </p>
+    <p>Postal code :</p>
 
-    <input type="text"
-      id="postalCode"
-      formControlName="postalCode">
+    <input type="text" id="postalCode" formControlName="postalCode" />
   </label>
   <label>
-    <p>location : </p>
+    <p>location :</p>
     <div id="mapContainer">
-      <app-housing-edit-lat-lon [housingLocation]="housingLocation" [editForm]="this.editForm" #latlong></app-housing-edit-lat-lon>
+      <app-housing-edit-lat-lon
+        [housingLocation]="housingLocation"
+        [editForm]="this.editForm"
+        #latlong
+      ></app-housing-edit-lat-lon>
     </div>
   </label>
   <label for="availableUnits">
-    <p>Available units : </p>
+    <p>Available units :</p>
 
-    <input type="number"
-      id="availableUnits"
-      formControlName="availableUnits">
+    <input type="number" id="availableUnits" formControlName="availableUnits" />
   </label>
-  
+
   <label for="wifi">
-   <p> Wifi : </p>
-    <input type="checkbox"
-      id="wifi"
-      formControlName="wifi">
-  </label>
-  
-  <label for="laundry">
-    <p>Laundry : </p>
-    <input type="checkbox"
-    id="laundry"
-    formControlName="laundry">
+    <p>Wifi :</p>
+    <input type="checkbox" id="wifi" formControlName="wifi" />
   </label>
 
-  <button class="primary"
+  <label for="laundry">
+    <p>Laundry :</p>
+    <input type="checkbox" id="laundry" formControlName="laundry" />
+  </label>
+
+  <button
+    class="primary"
     type="button"
     (click)="submit($event)"
-    [disabled]="!editForm.valid">submit</button>
-  <button class="secondary"
-    type="button"
-    [routerLink]="['']">discard</button>
+    [disabled]="!editForm.valid"
+  >
+    submit
+  </button>
+  <button class="secondary" type="button" [routerLink]="['']">discard</button>
 </form>

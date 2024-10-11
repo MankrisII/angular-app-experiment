@@ -2,14 +2,21 @@ import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HousingService } from '../housing.service';
 import { HousingLocation } from '../HousingLocation';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { CityInputComponent } from './city-input/city-input.component';
 import { FirebaseService } from '../firebase.service';
-import { CloseButtonComponent } from "../ui/button/close-button/close-button.component";
+import { CloseButtonComponent } from '../ui/button/close-button/close-button.component';
 import { HousingEditPhotoComponent } from './housing-edit-photo/housing-edit-photo.component';
-import { HousingEditLatLonComponent } from "./housing-edit-lat-lon/housing-edit-lat-lon.component";
+import { HousingEditLatLonComponent } from './housing-edit-lat-lon/housing-edit-lat-lon.component';
 import { AddressInputComponent } from './address-input/address-input.component';
 import { AddressApiResult } from '../AddressApiResult';
 import { data } from 'jquery';
@@ -96,7 +103,7 @@ export class HousingEditComponent implements OnInit {
     this.address.addressChange.subscribe((addressData: AddressApiResult) => {
       // console.log('addressChange', addressData);
       // console.log('editformValue', this.editForm.value);
-      let newValues : HousingLocation = {
+      let newValues: HousingLocation = {
         address: addressData.properties.label,
         houseNumber: Number(addressData.properties.housenumber),
         street: addressData.properties.street,
@@ -106,8 +113,8 @@ export class HousingEditComponent implements OnInit {
       // console.log('coords',this.editForm.get('coords.lat')?.value);
       newValues.coords = {
         lat: addressData.geometry.coordinates[1],
-        lon: addressData.geometry.coordinates[0]
-      }
+        lon: addressData.geometry.coordinates[0],
+      };
 
       // console.log('newValues', newValues);
       this.editForm.patchValue(newValues);
