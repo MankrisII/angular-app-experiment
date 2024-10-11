@@ -6,6 +6,7 @@
     (keyup)="keyup($event)"
     (focusout)="closeList()"
     [formControl]="control"
+    placeholder="{{ placeholder }}"
   />
 
   <ul class="list" [ngClass]="[isListDisplayed ? 'd-b' : 'd-n']" #list>

@@ -29,6 +29,7 @@ import { AddressListItem } from '../../AddressApiResult';
 })
 export class AddressInputComponent implements OnInit {
   @Input() control!: FormControl;
+  @Input() placeholder: string = '';
   @Output() addressChange = new EventEmitter<any>();
   @ViewChild('list') ulList!: ElementRef;
 
