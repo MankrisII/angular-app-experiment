@@ -28,7 +28,7 @@ export class HousingService implements OnInit {
   housingListDb: HousingLocation[] = [];
   housingListSig = signal<HousingLocation[]>([]); // TODO remove this to use housinLocationsDocsSig
   housinLocationsDocsSig = signal<DocumentSnapshot[]>([]);
-  queyOptions: Queryoptions | null = { page: 1, perPage: 5 };
+  queyOptions!: Queryoptions | null;
   firebase = inject(FirebaseService);
   sorterService = inject(SorterService);
 
@@ -41,6 +41,7 @@ export class HousingService implements OnInit {
   }
 
   async getLocations(queryoptions: Queryoptions | null = null) {
+    this.queyOptions = queryoptions;
     let q = query(this.firebase.HLCollection);
 
     if (queryoptions?.orderBy) {
