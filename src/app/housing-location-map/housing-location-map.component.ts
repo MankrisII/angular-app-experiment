@@ -4,6 +4,7 @@ import * as L from 'leaflet';
 import { NgFor } from '@angular/common';
 import { HousinglocationCardComponent } from '../housing-location-grid/housinglocation-card/housinglocation-card.component';
 import { HousingService } from '../housing.service';
+import { DocumentSnapshot } from 'firebase/firestore';
 
 
 @Component({
@@ -15,18 +16,18 @@ import { HousingService } from '../housing.service';
 })
 export class HousingLocationMapComponent implements OnInit, OnDestroy{
   @Input()
-  set housingList(value: HousingLocation[]) {
+  set housingList(value: DocumentSnapshot[]) {
     //console.log('set housingList');
     //console.log('this.map',this.map)
     this._housingList = value;
     if (this.map) { this.setMarker(); }
   }
   
-  get housingList(): HousingLocation[]{
+  get housingList(): DocumentSnapshot[]{
     return this._housingList;
   };
   
-  private _housingList!: HousingLocation[];
+  private _housingList!: DocumentSnapshot[];
 
   @ViewChild('map') mapElement!: ElementRef;
 
@@ -50,7 +51,7 @@ export class HousingLocationMapComponent implements OnInit, OnDestroy{
 
     effect(() => {
       console.log('effect');
-      this.housingList = this.housingService.housingListSig();
+      this.housingList = this.housingService.housinLocationsDocsSig();
     })
   }
 
@@ -90,17 +91,18 @@ export class HousingLocationMapComponent implements OnInit, OnDestroy{
     markerPane.innerHTML = ''
     shadowPane.innerHTML = '';
 
-    this._housingList.forEach((housing) => {
+    this._housingList.forEach((docSnap) => {
+      let housing = docSnap.data() as HousingLocation;
       if (housing.coords) {        // TODO: temp fix for missing coords
 
         let marker = L.marker([Number(housing.coords.lat), Number(housing.coords.lon)])
         marker.addTo(this.map)
 
         setTimeout(() => {
-          console.log(housing.id!);
-          console.log(document.getElementById(housing.id!));
+          console.log(docSnap.id!);
+          console.log(document.getElementById(docSnap.id!));
           
-          marker.bindPopup(document.getElementById(housing.id!) as HTMLElement);
+          marker.bindPopup(document.getElementById(docSnap.id!) as HTMLElement);
           marker.bindTooltip(housing.address!);
         }, 200);
       }

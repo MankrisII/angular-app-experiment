@@ -6,7 +6,7 @@ import { FirebaseService } from './firebase.service';
 import { HousingLocation } from './HousingLocation';
 import { SorterService } from './list-sorter-heading/sorter.service';
 import { Queryoptions } from './queryoptions';
-import { collection, deleteDoc, doc, getDocs, orderBy, OrderByDirection, query, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, DocumentSnapshot, getDocs, orderBy, OrderByDirection, query, where } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 
@@ -15,7 +15,8 @@ import { getStorage } from 'firebase/storage';
 })
 export class HousingService implements OnInit {
   housingListDb: HousingLocation[] = [];
-  housingListSig = signal<HousingLocation[]>([]);
+  housingListSig = signal<HousingLocation[]>([]); // TODO remove this to use housinLocationsDocsSig
+  housinLocationsDocsSig = signal<DocumentSnapshot[]>([]);
   queyOptions: Queryoptions | null = { page: 1, perPage: 5 };
   firebase = inject(FirebaseService);
   sorterService = inject(SorterService)
@@ -44,9 +45,9 @@ export class HousingService implements OnInit {
       return { id: doc.id, ...doc.data() } as HousingLocation;
     })
     console.log(locations);
-    this.housingListDb = locations;
-    this.housingListSig.set(locations);
-
+    this.housinLocationsDocsSig.set(querySnap.docs);
+    this.housingListDb = locations; // TODO remove this to use housinLocationsDocsSig
+    this.housingListSig.set(locations); // TODO remove this to use housinLocationsDocsSig
   }
 
   searchHousingLocationByName(search: string) {}

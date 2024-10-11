@@ -3,6 +3,7 @@ import { HousingLocation } from '../../../HousingLocation';
 import { RouterLink } from '@angular/router';
 import { HousingService } from '../../../housing.service';
 import { FirebaseAuthService } from '../../../firebase.auth.service';
+import { DocumentSnapshot } from 'firebase/firestore';
 
 @Component({
   selector: '[app-housing-location-row]',
@@ -16,18 +17,26 @@ import { FirebaseAuthService } from '../../../firebase.auth.service';
   },
 })
 
-  // TODO
-  // row actions button listen on
-  // firebaseAutComponent.user signal to display or hide
-  // that cause reload hoising list the number of the item
-  
+// TODO
+// row actions button listen on
+// firebaseAutComponent.user signal to display or hide
+// that cause reload hoising list the number of the item
 export class HousingLocationRowComponent implements OnInit {
-  @Input() housingLocation!: HousingLocation;
-  @Input() selected:boolean = false;
+  @Input()
+  set housingLocation(docSnap: DocumentSnapshot) {
+    this._housingLocationDoc = docSnap;
+    this._housingLocationData = { id: docSnap.id, ...docSnap.data() } as HousingLocation;
+  }
+  get housingLocation(): HousingLocation {
+    return this._housingLocationDoc;
+  }
+  _housingLocationDoc!: DocumentSnapshot;
+  _housingLocationData!: HousingLocation;
+
+  @Input() selected: boolean = false;
   housingService = inject(HousingService);
   elementRef = inject(ElementRef);
   fireaseAuth = inject(FirebaseAuthService);
-  
 
   constructor() {
     //console.log('cest parti');

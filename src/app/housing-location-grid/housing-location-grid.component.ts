@@ -25,7 +25,8 @@ import { HousinglocationCardComponent } from './housinglocation-card/housingloca
         </select>
       </div>
       <section class="grid">
-        @for(housingLocation of housingService.housingListSig(); track housingLocation.id){
+        @for(housingLocation of housingService.housinLocationsDocsSig(); track
+        housingLocation.id){
         <div app-housinglocation-card [housingLocation]="housingLocation"></div>
         }
       </section>

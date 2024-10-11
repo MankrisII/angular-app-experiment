@@ -38,7 +38,7 @@ import { HousingLocationRowComponent } from './housing-location-row/housing-loca
           }
         </tr>
         <tr
-          *ngFor="let housingLocation of housingService.housingListSig()"
+          *ngFor="let housingLocation of housingService.housinLocationsDocsSig()"
           class="housing-location-list-row"
           app-housing-location-row
           [housingLocation]="housingLocation"
