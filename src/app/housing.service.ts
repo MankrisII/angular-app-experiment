@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, OnInit, signal } from '@angular/core';
-import { collectionData } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { FirebaseService } from './firebase.service';
 import { HousingLocation } from './HousingLocation';
 import { SorterService } from './list-sorter-heading/sorter.service';
 import { Queryoptions } from './queryoptions';
 import {
+  addDoc,
   collection,
   deleteDoc,
   doc,
@@ -15,6 +15,7 @@ import {
   orderBy,
   OrderByDirection,
   query,
+  updateDoc,
   where,
 } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
@@ -155,9 +156,8 @@ export class HousingService implements OnInit {
   editHousingLocation(data: HousingLocation): Observable<boolean> {
     console.log(data);
     return new Observable((subscriber) => {
-      this.firebase.editLocation(data).subscribe(() => {
-        console.log('updated');
-
+      const docRef = doc(this.firebase.fireStore, 'locations', data.id!);
+      const promise = updateDoc(docRef, { ...data }).then((rep) => {
         subscriber.next(true);
         subscriber.complete();
       });
@@ -167,11 +167,7 @@ export class HousingService implements OnInit {
   addHousingLocation(data: HousingLocation) {
     console.log(data);
     return new Observable((subscriber) => {
-      this.firebase.addLocation(data).subscribe((newId) => {
-        console.log(newId);
-        // data.id = newId;
-        // this.housingListDb.push(data);
-
+      addDoc(this.firebase.HLCollection, data).then((rep) => {
         subscriber.next(true);
         subscriber.complete();
       });
@@ -182,11 +178,17 @@ export class HousingService implements OnInit {
     console.log(id);
     const docRef = doc(this.firebase.fireStore, 'locations', id);
     deleteDoc(docRef).then(() => {
+      // TODO remove this to use housinLocationsDocsSig
       this.housingListDb = this.housingListDb.filter(
         (housing) => housing.id != id,
       );
+      // TODO remove this to use housinLocationsDocsSig
       this.housingListSig.update((housings) =>
         housings.filter((housing) => housing.id != id),
+      );
+
+      this.housinLocationsDocsSig.update((docs) =>
+        this.housinLocationsDocsSig().filter((doc) => doc.id != id)
       );
     });
   }

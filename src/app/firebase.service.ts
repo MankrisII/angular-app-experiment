@@ -75,17 +75,6 @@ export class FirebaseService {
     });
   }
 
-  addLocation(location: HousingLocation): Observable<string> {
-    const promise = addDoc(this.HLCollection, location).then((rep) => rep.id);
-    return from(promise);
-  }
-
-  editLocation(location: any): Observable<void> {
-    const docRef = doc(this.fireStore, 'locations', location.id!);
-    const promise = updateDoc(docRef, location).then((rep) => rep);
-    return from(promise);
-  }
-
   async addphoto(file: File): Promise<string> {
     var imgRef = ref(this.storageRef, 'image/' + file.name);
 
@@ -101,22 +90,23 @@ export class FirebaseService {
     return promise;
   }
 
-  addMultipleLocations(locations: HousingLocation[], id: number = 0) {
-    console.log('addMultipleLocations', id);
-    this.addLocation(locations[id]).subscribe((rep) => {
-      console.log('housing added', rep);
-      console.log(locations.length, id + 1);
-      if (locations.length > id + 1) {
-        this.addMultipleLocations(locations, id + 1);
-      } else {
-        this.getLocations().subscribe((rep) => console.log(rep));
-      }
-    });
-  }
+  // addMultipleLocations(locations: HousingLocation[], id: number = 0) {
+  //   console.log('addMultipleLocations', id);
+  //   this.addLocation(locations[id]).subscribe((rep) => {
+  //     console.log('housing added', rep);
+  //     console.log(locations.length, id + 1);
+  //     if (locations.length > id + 1) {
+  //       this.addMultipleLocations(locations, id + 1);
+  //     } else {
+  //       this.getLocations().subscribe((rep) => console.log(rep));
+  //     }
+  //   });
+  // }
 
-  deleteLocation(id: String): Observable<void> {
-    const docRef = doc(this.fireStore, 'locations/' + id);
-    const promise = deleteDoc(docRef);
-    return from(promise);
-  }
+  // TODO: delete
+  // deleteLocation(id: String): Observable<void> {
+  //   const docRef = doc(this.fireStore, 'locations/' + id);
+  //   const promise = deleteDoc(docRef);
+  //   return from(promise);
+  // }
 }
