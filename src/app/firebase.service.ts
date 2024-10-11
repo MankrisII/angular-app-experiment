@@ -58,22 +58,22 @@ export class FirebaseService {
     });
   }
 
-  getLocations(): Observable<HousingLocation[]> {
-    return collectionData(this.HLCollection, {
-      idField: 'id',
-    }) as Observable<HousingLocation[]>;
-  }
+  // getLocations(): Observable<HousingLocation[]> {
+  //   return collectionData(this.HLCollection, {
+  //     idField: 'id',
+  //   }) as Observable<HousingLocation[]>;
+  // }
 
-  getLocationById(id: string): Observable<any> {
-    return new Observable((observer) => {
-      getDoc(doc(this.fireStore, 'locations', id)).then((reponse) => {
-        let snapshot: HousingLocation = reponse.data() as HousingLocation;
-        snapshot.id = id;
-        observer.next(snapshot);
-        observer.complete();
-      });
-    });
-  }
+  // getLocationById(id: string): Observable<any> {
+  //   return new Observable((observer) => {
+  //     getDoc(doc(this.fireStore, 'locations', id)).then((reponse) => {
+  //       let snapshot: HousingLocation = reponse.data() as HousingLocation;
+  //       snapshot.id = id;
+  //       observer.next(snapshot);
+  //       observer.complete();
+  //     });
+  //   });
+  // }
 
   async addphoto(file: File): Promise<string> {
     var imgRef = ref(this.storageRef, 'image/' + file.name);

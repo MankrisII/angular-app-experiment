@@ -11,6 +11,7 @@ import {
   deleteDoc,
   doc,
   DocumentSnapshot,
+  getDoc,
   getDocs,
   orderBy,
   OrderByDirection,
@@ -122,8 +123,10 @@ export class HousingService implements OnInit {
 
   getHousingLocationById(id: string): Observable<HousingLocation> {
     return new Observable((observer) => {
-      this.firebase.getLocationById(id).subscribe((data) => {
-        observer.next(data);
+      getDoc(doc(this.firebase.fireStore, 'locations', id)).then((reponse) => {
+        let snapshot: HousingLocation = reponse.data() as HousingLocation;
+        snapshot.id = id;
+        observer.next(snapshot);
         observer.complete();
       });
     });
