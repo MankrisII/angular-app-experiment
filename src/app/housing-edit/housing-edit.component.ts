@@ -133,14 +133,14 @@ export class HousingEditComponent implements OnInit {
     housingData.street_insensitive = housingData.street!.toLowerCase();
     housingData.address_insensitive = housingData.address!.toLowerCase();
 
-    var observer;
+    var obs;
     if (this.id) {
-      observer = this.housingService.editHousingLocation(housingData);
+      obs = this.housingService.editHousingLocation(housingData);
     } else {
-      observer = this.housingService.addHousingLocation(housingData);
+      obs = this.housingService.addHousingLocation(housingData);
     }
 
-    observer.subscribe({
+    obs.subscribe({
       next: (reponse) => {
         this.router.navigateByUrl('/');
       },
