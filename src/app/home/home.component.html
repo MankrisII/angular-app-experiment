@@ -1,15 +1,11 @@
 <div id="form-container">
-  <form
-    id="searchForm"
-    #searchForm="ngForm"
-    (ngSubmit)="this.housingService.search(searchInput)"
-  >
-    <input
-      type="text"
-      name="searchInput"
-      [(ngModel)]="searchInput"
-      placeholder="Search by housing name"
-    />
+  <form id="searchForm" [formGroup]="searchForm">
+    <app-address-input
+      placeholder="Search by address"
+      class="homeSearch"
+      [control]="searchForm.controls['search']"
+      #search
+    ></app-address-input>
     <!-- two way databindig example with formControl -->
     <!-- <p>{{searchInput}}</p> -->
     <button class="primary primary-rounded-right" type="submit">Search</button>
@@ -17,7 +13,10 @@
       id="clearSearchButton"
       class="actionLink"
       (click)="this.clearSearch()"
-      [ngStyle]="{ visibility: searchInput != '' ? 'visible' : 'hidden' }"
+      [ngStyle]="{
+        visibility:
+          searchForm.controls['search'].value != '' ? 'visible' : 'hidden'
+      }"
     ></app-close-button>
     <!-- <a class="actionLink clearSearchButton" (click)="clearSearch()" ></a> -->
   </form>
