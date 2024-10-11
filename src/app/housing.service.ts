@@ -52,13 +52,13 @@ export class HousingService implements OnInit {
 
     const querySnap = await getDocs(q);
     console.log(querySnap);
-    const locations = querySnap.docs.map((doc) => {
-      return { id: doc.id, ...doc.data() } as HousingLocation;
-    });
-    console.log(locations);
+    // const locations = querySnap.docs.map((doc) => {
+    //   return { id: doc.id, ...doc.data() } as HousingLocation;
+    // });
+    // console.log(locations);
     this.housinLocationsDocsSig.set(querySnap.docs);
-    this.housingListDb = locations; // TODO remove this to use housinLocationsDocsSig
-    this.housingListSig.set(locations); // TODO remove this to use housinLocationsDocsSig
+    // this.housingListDb = locations; // TODO remove this to use housinLocationsDocsSig
+    // this.housingListSig.set(locations); // TODO remove this to use housinLocationsDocsSig
   }
 
   searchHousingLocationByName(search: string) {}
