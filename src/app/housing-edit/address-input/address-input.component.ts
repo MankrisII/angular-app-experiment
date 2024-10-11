@@ -124,8 +124,8 @@ export class AddressInputComponent implements OnInit {
         .get(
           `https://api-adresse.data.gouv.fr/search/?q=${this.control.value.replace(
             / /g,
-            '+',
-          )}&type=&autocomplete=0`,
+            '+'
+          )}&type=&autocomplete=0`
         )
         .subscribe((response: any) => {
           //console.log('city keyup response = ', response);
