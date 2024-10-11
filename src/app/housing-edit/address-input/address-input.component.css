@@ -12,11 +12,11 @@
 }
 
 .list {
+  width: 100%;
   position: absolute;
   max-height: 200px;
   overflow: auto;
   background-color: #fff;
-  width: 250px;
   z-index: 100;
   border: 1px solid var(--tercery-color);
   background-color: var(--quartery-color);
@@ -32,6 +32,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  text-align: left;
 }
 
 .list li:hover {
