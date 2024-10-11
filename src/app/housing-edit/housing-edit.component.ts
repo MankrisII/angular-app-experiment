@@ -129,6 +129,10 @@ export class HousingEditComponent implements OnInit {
     this.editForm.disable();
 
     const housingData = this.editForm.value as HousingLocation;
+    housingData.city_insensitive = housingData.city!.toLowerCase();
+    housingData.street_insensitive = housingData.street!.toLowerCase();
+    housingData.address_insensitive = housingData.address!.toLowerCase();
+
     var observer;
     if (this.id) {
       observer = this.housingService.editHousingLocation(housingData);
