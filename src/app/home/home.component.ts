@@ -61,12 +61,22 @@ export class HomeComponent implements OnInit {
       console.log(address);
 
       if (!address.properties.housenumber) {
+        console.log('no N°');
         let queryOption: Queryoptions = { ...this.housingService.queyOptions };
         queryOption.street_insensitive =
           address.properties.street.toLocaleLowerCase();
-
+        delete queryOption.houseNumber;
         this.housingService.getLocations(queryOption);
         this.searchForm.patchValue({ search: address.properties.street });
+      } else {
+        console.log('N° = ' + address.properties.housenumber);
+        let queryOption: Queryoptions = { ...this.housingService.queyOptions };
+        queryOption.street_insensitive =
+          address.properties.street.toLocaleLowerCase();
+        queryOption.houseNumber = Number(address.properties.housenumber);
+
+        this.housingService.getLocations(queryOption);
+        this.searchForm.patchValue({ search: address.properties.label });
       }
     });
   }

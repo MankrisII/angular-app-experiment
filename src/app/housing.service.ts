@@ -42,6 +42,7 @@ export class HousingService implements OnInit {
 
   async getLocations(queryoptions: Queryoptions | null = null) {
     this.queyOptions = queryoptions;
+    console.log('queryoptions', queryoptions);
     let q = query(this.firebase.HLCollection);
 
     if (queryoptions?.orderBy) {
@@ -55,6 +56,10 @@ export class HousingService implements OnInit {
         q,
         where('street_insensitive', '==', queryoptions.street_insensitive)
       );
+    }
+
+    if (queryoptions?.houseNumber) {
+      q = query(q, where('houseNumber', '==', queryoptions.houseNumber));
     }
 
     const querySnap = await getDocs(q);
