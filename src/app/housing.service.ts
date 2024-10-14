@@ -88,8 +88,11 @@ export class HousingService implements OnInit {
   }
 
   clearSearch() {
-    this.housingListSig.set(this.housingListDb);
-    this.sort();
+    // this.housingListSig.set(this.housingListDb);
+    // this.sort();
+    delete this.queyOptions?.houseNumber;
+    delete this.queyOptions?.street_insensitive;
+    this.getLocations(this.queyOptions);
   }
 
   sort() {
