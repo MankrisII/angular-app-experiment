@@ -122,12 +122,13 @@ export class AddressInputComponent implements OnInit {
       this.previousAddressValue = this.control.value;
       // this.closeList()
 
+      //TODO : error handling
       this.http
         .get(
           `https://api-adresse.data.gouv.fr/search/?q=${this.control.value.replace(
             / /g,
             '+'
-          )}&type=&autocomplete=0`
+          )}+26220+Dieulefit&type=&autocomplete=0`
         )
         .subscribe((response: any) => {
           //console.log('city keyup response = ', response);
