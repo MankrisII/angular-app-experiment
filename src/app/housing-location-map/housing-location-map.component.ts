@@ -84,7 +84,7 @@ export class HousingLocationMapComponent implements OnInit, OnDestroy {
           minZoom: 3,
           attribution:
             '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-        },
+        }
       );
       tiles.addTo(this.map);
       //console.log('housingList', this.housingList);
@@ -96,6 +96,7 @@ export class HousingLocationMapComponent implements OnInit, OnDestroy {
 
   setMarker() {
     //console.log('setMarker');
+    L.Icon.Default.imagePath = 'assets/leaflet/';
     let markerPane: HTMLElement = this.map.getPane('markerPane');
     let shadowPane: HTMLElement = this.map.getPane('shadowPane');
     //console.log('markerPane', markerPane);
