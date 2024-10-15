@@ -17,7 +17,7 @@ import { SorterService } from './sorter.service';
           ? 'active'
           : '',
         this.options.sortable ? this.sorterService.sortSig().order : '',
-        this.options.sortable ? 'sortable' : '',
+        this.options.sortable ? 'sortable' : ''
       ]"
       >{{ this.options.label }}</a
     >
@@ -34,7 +34,7 @@ export class ListSorterHeadingComponent {
   sort() {
     this.sorterService.sortSig.update((query) => {
       return {
-        order: query.order == 'ASC' ? 'DESC' : 'ASC',
+        order: query.order == 'asc' ? 'desc' : 'asc',
         sortOn: this.options.sortOn,
       };
     });
