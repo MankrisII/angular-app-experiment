@@ -98,31 +98,15 @@ export class HousingService implements OnInit {
   sort() {
     let sortOn = this.sorterService.sortSig().sortOn;
     let order = this.sorterService.sortSig().order;
-
-    this.housingListSig.update((housings) =>
-      housings.sort((a, b) => {
-        let type = typeof this.getValueToSort(a, sortOn);
-        let aValue = this.getValueToSort(a, sortOn);
-        let bValue = this.getValueToSort(b, sortOn);
-
-        switch (type) {
-          case 'string':
-            if (aValue.toLowerCase() < bValue.toLowerCase()) {
-              return order == 'ASC' ? -1 : 1;
-            }
-            return order == 'ASC' ? 1 : -1;
-
-          case 'number':
-            return order == 'DESC' ? aValue - bValue : bValue - aValue;
-
-          case 'boolean':
-            if (aValue == true && bValue == true) return 0;
-            if (order == 'ASC') return aValue ? 1 : -1;
-            if (order == 'DESC') return aValue ? -1 : 1;
-        }
-        return 0;
-      })
-    );
+    if (sortOn == 'address') {
+      this.queyOptions!.orderBy = [
+        { order: order, by: 'street_insensitive' },
+        { order: order, by: 'houseNumber' },
+      ];
+    } else {
+      this.queyOptions!.orderBy = [{ order: order, by: sortOn }];
+    }
+    this.getLocations(this.queyOptions);
   }
 
   private getValueToSort(
