@@ -34,12 +34,12 @@ import { HousingLocationRowComponent } from './housing-location-row/housing-loca
             />
           </th>
           @for (col of columns; track col) {
-            <th class="{{ col.class }}">
-              <app-list-sorter-heading
-                [options]="col"
-                (onSort)="this.housingService.sort()"
-              />
-            </th>
+          <th class="{{ col.class }}">
+            <app-list-sorter-heading
+              [options]="col"
+              (onSort)="this.housingService.sort()"
+            />
+          </th>
           }
         </tr>
         <tr
@@ -63,22 +63,28 @@ export class HousingLocationListComponent implements OnInit {
 
   columns: SorterOptions[] = [
     { label: 'Photo', sortable: false, sortOn: '', class: 'photo' },
+    // {
+    //   label: 'N°',
+    //   sortable: true,
+    //   sortOn: 'houseNumber',
+    //   class: 'houseNumber',
+    // },
+    // { label: 'Street', sortable: true, sortOn: 'street', class: 'street' },
+    // { label: 'City', sortable: true, sortOn: 'city', class: 'city' },
+    // {
+    //   label: 'Unit Available',
+    //   sortable: true,
+    //   sortOn: 'availableUnits',
+    //   class: 'available-unit',
+    // },
+    // { label: 'Wifi', sortable: true, sortOn: 'wifi', class: 'wifi' },
+    // { label: 'Laundry', sortable: true, sortOn: 'laundry', class: 'laundry' },
     {
-      label: 'N°',
+      label: 'Addresse',
       sortable: true,
-      sortOn: 'houseNumber',
-      class: 'houseNumber',
+      sortOn: 'address',
+      class: 'address_th',
     },
-    { label: 'Street', sortable: true, sortOn: 'street', class: 'street' },
-    { label: 'City', sortable: true, sortOn: 'city', class: 'city' },
-    {
-      label: 'Unit Available',
-      sortable: true,
-      sortOn: 'availableUnits',
-      class: 'available-unit',
-    },
-    { label: 'Wifi', sortable: true, sortOn: 'wifi', class: 'wifi' },
-    { label: 'Laundry', sortable: true, sortOn: 'laundry', class: 'laundry' },
     { label: 'Actions', sortable: false, sortOn: '', class: 'actions' },
   ];
   constructor() {}
