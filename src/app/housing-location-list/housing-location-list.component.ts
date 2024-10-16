@@ -62,30 +62,60 @@ export class HousingLocationListComponent implements OnInit {
   allRowSelected = false;
 
   columns: SorterOptions[] = [
-    { label: 'Photo', sortable: false, sortOn: '', class: 'photo' },
-    // {
-    //   label: 'N°',
-    //   sortable: true,
-    //   sortOn: 'houseNumber',
-    //   class: 'houseNumber',
-    // },
-    // { label: 'Street', sortable: true, sortOn: 'street', class: 'street' },
-    // { label: 'City', sortable: true, sortOn: 'city', class: 'city' },
-    // {
-    //   label: 'Unit Available',
-    //   sortable: true,
-    //   sortOn: 'availableUnits',
-    //   class: 'available-unit',
-    // },
-    // { label: 'Wifi', sortable: true, sortOn: 'wifi', class: 'wifi' },
-    // { label: 'Laundry', sortable: true, sortOn: 'laundry', class: 'laundry' },
+    {
+      label: 'Photo',
+      sortable: false,
+      sortOn: '',
+      class: 'photo',
+    },
     {
       label: 'Addresse',
       sortable: true,
       sortOn: 'address',
       class: 'address_th',
     },
-    { label: 'Actions', sortable: false, sortOn: '', class: 'actions' },
+    {
+      label: 'Actions',
+      sortable: false,
+      sortOn: '',
+      class: 'actions',
+    },
+    // {
+    //   label: 'N°',
+    //   sortable: true,
+    //   sortOn: 'houseNumber',
+    //   class: 'houseNumber',
+    // },
+    // {
+    //   label: 'Street',
+    //   sortable: true,
+    //   sortOn: 'street',
+    //   class: 'street',
+    // },
+    // {
+    //   label: 'City',
+    //   sortable: true,
+    //   sortOn: 'city',
+    //   class: 'city',
+    // },
+    // {
+    //   label: 'Unit Available',
+    //   sortable: true,
+    //   sortOn: 'availableUnits',
+    //   class: 'available-unit',
+    // },
+    // {
+    //   label: 'Wifi',
+    //   sortable: true,
+    //   sortOn: 'wifi',
+    //   class: 'wifi',
+    // },
+    // {
+    //   label: 'Laundry',
+    //   sortable: true,
+    //   sortOn: 'laundry',
+    //   class: 'laundry',
+    // },
   ];
   constructor() {}
   ngOnInit() {
