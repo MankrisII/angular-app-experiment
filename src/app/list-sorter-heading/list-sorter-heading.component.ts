@@ -32,12 +32,7 @@ export class ListSorterHeadingComponent {
   constructor() {}
 
   sort() {
-    this.sorterService.sortSig.update((query) => {
-      return {
-        order: query.order == 'asc' ? 'desc' : 'asc',
-        sortOn: this.options.sortOn,
-      };
-    });
+    this.sorterService.sort(this.options.sortOn);
     this.onSort.emit(this.sorterService.sortSig());
   }
 }
