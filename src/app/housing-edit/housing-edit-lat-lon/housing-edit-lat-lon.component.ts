@@ -67,6 +67,8 @@ export class HousingEditLatLonComponent {
   }
 
   initMap() {
+    L.Icon.Default.imagePath = 'assets/leaflet/';
+
     this.map = L.map('map').setView([44.5258, 5.06604], 15);
     const tiles = L.tileLayer(
       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -75,13 +77,15 @@ export class HousingEditLatLonComponent {
         minZoom: 3,
         attribution:
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      },
+      }
     );
     tiles.addTo(this.map);
     return this.map;
   }
 
   setMarkerCoords(coords: HousingLocationCoords) {
+    console.log('setMarkerCoords', coords);
+    if (!coords.lat) return;
     if (!this.marker) {
       this.createMarker(coords);
       return;
